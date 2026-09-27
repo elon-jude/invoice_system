@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.env
+
+# SQLite runtime files
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

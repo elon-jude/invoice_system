@@ -1,0 +1,20 @@
+[project]
+name = "invoice-manager"
+version = "0.1.0"
+description = "WASHKING Invoice Management API"
+readme = "README.md"
+authors = [
+    { name = "jude", email = "yanksonjude92@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.141.1,<1",
+    "pydantic>=2.7,<3",
+]
+
+[tool.fastapi]
+entrypoint = "backend.main:app"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
