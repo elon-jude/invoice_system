@@ -36,3 +36,17 @@ def update_tier(conn,cid,p):
     conn.execute('''UPDATE customers SET tier=?,tier_reason=?,requested_deposit=?,first_deposit_amount=?,expected_payment_days=?,updated_at=? WHERE id=?''',
                  (p.tier,p.tier_reason,p.requested_deposit,p.first_deposit_amount,p.expected_payment_days,now_iso(),cid));conn.commit()
     return get_customer(conn,cid)
+
+# def delete_customer(conn, cid):
+#     existing = get_customer(conn, cid)
+
+#     if not existing:
+#         return None
+
+#     conn.execute(
+#         "DELETE FROM customers WHERE id=?",
+#         (cid,)
+#     )
+#     conn.commit()
+
+#     return existing
