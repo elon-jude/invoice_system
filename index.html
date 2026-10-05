@@ -160,7 +160,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
       <form id="customer-form">
         <div class="form-grid">
           <div class="field full"><label>CUSTOMER NAME</label><input name="name" required placeholder="Customer full name"></div>
-          <div class="field full"><label>PHONE</label><input name="phone" placeholder="024 XXX XXXX"></div>
+          <div class="field full"><label>PHONE</label><input name="phone" placeholder="024 XXX "></div>
           <div class="field full"><label>PAYMENT TIER</label>
             <div class="tier-choice">
               <label><input type="radio" name="tier" value="1" required><b>Tier 1</b><span>Can pay the first deposit upfront.</span></label>
@@ -187,6 +187,7 @@ const escapeHtml=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;"
 function toast(msg){const x=$("#toast");x.textContent=msg;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),2400)}
 function statusBadge(s){const map={FULLY_PAID:["paid","Fully paid"],PARTIALLY_PAID:["partial","Partially paid"],NO_PAYMENT:["unpaid","No payment"]};const [c,t]=map[s]||["blue",s];return `<span class="badge ${c}">${t}</span>`}
 function tierBadge(t){return t?`<span class="badge tier${t}">Tier ${t}</span>`:`<span style="color:var(--muted)">Unassigned</span>`}
+
 async function api(path, options = {}) {
   const res = await fetch(API_BASE + path, {
     ...options,
