@@ -7,8 +7,8 @@ router=APIRouter(tags=['Dashboard'])
 @router.get('/dashboard')
 def dashboard():
     with get_db() as conn:
-        customers=conn.execute('SELECT COUNT(*) n FROM customers').fetchone()['n']
-        tiers={i:conn.execute('SELECT COUNT(*) n FROM customers WHERE tier=?',(i,)).fetchone()['n'] for i in (1,2,3)}
+        customers=conn.execute('SELECT COUNT(*) AS n FROM customers').fetchone()['n']
+        tiers={i:conn.execute('SELECT COUNT(*) AS n FROM customers WHERE tier=?',(i,)).fetchone()['n'] for i in (1,2,3)}
         invoices=list_invoices(conn)
         return {
           'total_customers':customers,
