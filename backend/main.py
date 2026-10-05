@@ -1,10 +1,12 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .auth import ensure_admin, get_current_user
 from .config import APP_TITLE, APP_VERSION
-from .database import init_db
+from .database import DIALECT, init_db
+from .routes.auth import router as auth_router
 from .routes.customers import router as customers_router
 from .routes.invoices import router as invoices_router
 from .routes.dashboard import router as dashboard_router
@@ -13,6 +15,7 @@ from .routes.dashboard import router as dashboard_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    ensure_admin()
     yield
 
 
@@ -23,6 +26,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Auth uses bearer tokens (no cookies), so any origin may call the API but
+# every data endpoint still requires a valid token.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -39,9 +44,11 @@ def root():
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "database": "sqlite"}
+    return {"status": "ok", "database": DIALECT}
 
 
-app.include_router(customers_router)
-app.include_router(invoices_router)
-app.include_router(dashboard_router)
+protected = [Depends(get_current_user)]
+app.include_router(auth_router)
+app.include_router(customers_router, dependencies=protected)
+app.include_router(invoices_router, dependencies=protected)
+app.include_router(dashboard_router, dependencies=protected)

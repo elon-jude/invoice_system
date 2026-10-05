@@ -37,6 +37,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .tier-choice{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:7px}.tier-choice label{border:1px solid var(--line);padding:12px;border-radius:10px;cursor:pointer}.tier-choice input{display:none}.tier-choice label:has(input:checked){border-color:var(--brand);background:var(--brandSoft)}.tier-choice b{display:block;font-size:12px}.tier-choice span{font-size:10px;color:var(--muted);line-height:1.4}
 .toast{position:fixed;right:25px;bottom:25px;background:#17211b;color:#fff;padding:12px 15px;border-radius:9px;font-size:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:50}.toast.show{opacity:1;transform:none}
 .loader{display:none;color:var(--muted);font-size:12px}.loader.show{display:block}
+.btn:disabled{opacity:.6;cursor:wait}.login-note{font-size:11px;color:var(--muted);margin:0 0 15px}#login-modal{background:#123d2d;z-index:60}
 @media(max-width:1050px){.grid4{grid-template-columns:repeat(2,1fr)}.payment-layout{grid-template-columns:1fr}.sidebar{width:210px}.main{margin-left:210px;width:calc(100% - 210px)}}
 @media(max-width:720px){.sidebar{position:static;width:100%;height:auto;padding:12px}.app{display:block}.brand{padding:3px 5px 10px}.sidebar-foot,.nav-title{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}.main{margin:0;width:100%;padding:20px 14px}.topbar{display:none}.grid4,.grid3,.grid2,.form-grid{grid-template-columns:1fr}.tier-choice{grid-template-columns:1fr}.page-head{align-items:flex-start;gap:12px}.page-head .btn{white-space:nowrap}.searchbar input{min-width:0;width:100%}.searchbar{width:100%}.section{padding:15px}}
 </style>
@@ -55,6 +56,10 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   <div class="nav">
     <button data-page="create-invoice"><span class="icon">＋</span>New Invoice</button>
   </div>
+  <div class="nav-title">Account</div>
+  <div class="nav">
+    <button id="logout-btn" onclick="logout()"><span class="icon">⎋</span>Sign out <span id="current-user" style="opacity:.7"></span></button>
+  </div>
   <div class="sidebar-foot">Customer payment assessment<br>Tier 1 · Tier 2 · Tier 3</div>
 </aside>
 
@@ -62,7 +67,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   <div class="topbar"><div class="crumb" id="crumb">Workspace / Dashboard</div><div class="top-actions"><button class="btn secondary small" onclick="loadAll()">↻ Refresh</button></div></div>
 
   <section id="page-dashboard" class="page active">
-    <div class="page-head"><div><h1>Good evening.</h1><p>Here’s the current picture of your invoice portfolio.</p></div><button class="btn" onclick="go('create-invoice')">＋ Create invoice</button></div>
+    <div class="page-head"><div><h1 id="greeting">Welcome.</h1><p>Here’s the current picture of your invoice portfolio.</p></div><button class="btn" onclick="go('create-invoice')">＋ Create invoice</button></div>
     <div class="grid4">
       <div class="card stat"><div class="stat-top"><span class="stat-label">Customers</span><span class="stat-icon">♙</span></div><div class="stat-value" id="d-customers">—</div><div class="stat-note">Registered customers</div></div>
       <div class="card stat"><div class="stat-top"><span class="stat-label">Fully paid</span><span class="stat-icon">✓</span></div><div class="stat-value" id="d-fully">—</div><div class="stat-note">Invoices completed</div></div>
@@ -113,6 +118,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
           <div class="field"><label>INVOICE NUMBER</label><input name="invoice_number" required placeholder="INV-2026-0001"></div>
           <div class="field"><label>TOTAL AMOUNT (GHS)</label><input name="total_amount" required type="number" min="0.01" step="0.01" placeholder="5000.00"></div>
           <div class="field"><label>DUE DATE</label><input name="due_date" type="date"></div>
+          <div class="field"><label>INITIAL DEPOSIT (GHS)</label><input name="initial_deposit" type="number" min="0.01" step="0.01" placeholder="Optional — recorded as the first payment"></div>
+          <div class="field"><label>DEPOSIT METHOD</label><select name="deposit_method"><option value="">Select method</option><option>Mobile Money</option><option>Bank Transfer</option><option>Cash</option><option>Card</option></select></div>
         </div>
         <div class="form-actions"><button type="button" class="btn secondary" onclick="go('invoices')">Cancel</button><button class="btn">Create invoice</button></div>
       </form>
@@ -150,6 +157,43 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
       </div>
     </div>
   </section>
+
+  <section id="page-customer-detail" class="page">
+    <div class="detail-head"><button class="back" onclick="go('customers')">← Back to customers</button><button class="btn danger small" id="cd-remove">Remove customer</button></div>
+    <div class="detail-title"><div class="invoice-meta"><span id="cd-tier"></span></div><h1 id="cd-name">Customer</h1><p id="cd-sub">—</p></div>
+    <div class="grid4" style="margin-top:20px">
+      <div class="card stat"><span class="stat-label">Invoices</span><div class="stat-value" id="cd-count">—</div></div>
+      <div class="card stat"><span class="stat-label">Total invoiced</span><div class="stat-value" id="cd-invoiced">—</div></div>
+      <div class="card stat"><span class="stat-label">Total paid</span><div class="stat-value" id="cd-paid">—</div></div>
+      <div class="card stat"><span class="stat-label">Outstanding</span><div class="stat-value" id="cd-balance">—</div></div>
+    </div>
+    <div class="payment-layout" style="margin-top:17px">
+      <div class="card form-card">
+        <h2 style="font-size:14px;margin:0 0 4px">Payment tier</h2><p class="section-sub" style="margin-bottom:17px">Reassess the customer's initial deposit arrangement.</p>
+        <form id="tier-form">
+          <div class="form-grid">
+            <div class="field full"><div class="tier-choice">
+              <label><input type="radio" name="tier" value="1" required><b>Tier 1</b><span>Pays upfront.</span></label>
+              <label><input type="radio" name="tier" value="2"><b>Tier 2</b><span>Short wait.</span></label>
+              <label><input type="radio" name="tier" value="3"><b>Tier 3</b><span>Installments.</span></label>
+            </div></div>
+            <div class="field full"><label>ASSESSMENT NOTE</label><textarea name="tier_reason"></textarea></div>
+            <div class="field"><label>REQUESTED DEPOSIT (GHS)</label><input name="requested_deposit" type="number" min="0" step="0.01"></div>
+            <div class="field"><label>AGREED FIRST DEPOSIT (GHS)</label><input name="first_deposit_amount" type="number" min="0" step="0.01"></div>
+            <div class="field full"><label>DAYS UNTIL FIRST PAYMENT</label><input name="expected_payment_days" type="number" min="0" step="1"></div>
+          </div>
+          <div class="form-actions"><button class="btn">Update tier</button></div>
+        </form>
+      </div>
+      <div class="card section" style="margin-top:0">
+        <div class="section-head"><div><h2>Invoices</h2><div class="section-sub">Every invoice issued to this customer.</div></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th></tr></thead><tbody id="cd-invoices-body"></tbody></table><div class="empty" id="cd-invoices-empty">No invoices yet.</div></div>
+        <div style="height:18px"></div>
+        <div class="section-head"><div><h2>Payment history</h2><div class="section-sub">All payments across this customer's invoices.</div></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Date</th><th>Invoice</th><th>Amount</th><th>Method</th><th>Reference</th></tr></thead><tbody id="cd-payments-body"></tbody></table><div class="empty" id="cd-payments-empty">No payments recorded.</div></div>
+      </div>
+    </div>
+  </section>
 </main>
 </div>
 
@@ -169,8 +213,26 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
             </div>
           </div>
           <div class="field full"><label>ASSESSMENT NOTE</label><textarea name="tier_reason" placeholder="Briefly explain the customer's first deposit arrangement…"></textarea></div>
+          <div class="field"><label>REQUESTED DEPOSIT (GHS)</label><input name="requested_deposit" type="number" min="0" step="0.01" placeholder="Optional"></div>
+          <div class="field"><label>AGREED FIRST DEPOSIT (GHS)</label><input name="first_deposit_amount" type="number" min="0" step="0.01" placeholder="Optional"></div>
+          <div class="field full"><label>DAYS UNTIL FIRST PAYMENT</label><input name="expected_payment_days" type="number" min="0" step="1" placeholder="Optional — for Tier 2 customers"></div>
         </div>
         <div class="form-actions"><button type="button" class="btn secondary" onclick="closeCustomerModal()">Cancel</button><button class="btn">Save customer</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop" id="login-modal">
+  <div class="modal" style="width:min(400px,100%)">
+    <div class="modal-head"><h2>Sign in to WASHKING</h2></div>
+    <div class="modal-body">
+      <p class="login-note">Staff access only. Ask an administrator for an account.</p>
+      <form id="login-form">
+        <div class="form-grid">
+          <div class="field full"><label>USERNAME</label><input name="username" required autocomplete="username"></div>
+          <div class="field full"><label>PASSWORD</label><input name="password" type="password" required autocomplete="current-password"></div>
+        </div>
+        <div class="form-actions"><button class="btn">Sign in</button></div>
       </form>
     </div>
   </div>
@@ -179,42 +241,55 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 
 <script>
 const API_BASE="https://invoice-manager-5843d6a2.fastapicloud.dev";
-let customers=[], invoices=[], currentInvoiceId=null;
+let customers=[], invoices=[], currentInvoiceId=null, currentCustomerId=null;
 
 const $=s=>document.querySelector(s);
 const money=n=>"GHS "+Number(n||0).toLocaleString("en-GH",{minimumFractionDigits:2,maximumFractionDigits:2});
 const escapeHtml=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const num=v=>v===null||v===""?null:Number(v);
+const tokenStore={get(){try{return localStorage.getItem("washking_token")}catch{return null}},set(v){try{v?localStorage.setItem("washking_token",v):localStorage.removeItem("washking_token")}catch{}}};
+let token=tokenStore.get();
 function toast(msg){const x=$("#toast");x.textContent=msg;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),2400)}
 function statusBadge(s){const map={FULLY_PAID:["paid","Fully paid"],PARTIALLY_PAID:["partial","Partially paid"],NO_PAYMENT:["unpaid","No payment"]};const [c,t]=map[s]||["blue",s];return `<span class="badge ${c}">${t}</span>`}
 function tierBadge(t){return t?`<span class="badge tier${t}">Tier ${t}</span>`:`<span style="color:var(--muted)">Unassigned</span>`}
-
 async function api(path, options = {}) {
   const res = await fetch(API_BASE + path, {
     ...options,
-    headers: { "Content-Type": "application/json",  ...(options.headers || {})
+    headers: { "Content-Type": "application/json", ...(token ? { Authorization: "Bearer " + token } : {}), ...(options.headers || {})
     }});
+  if (res.status === 401 && path !== "/auth/login") { signedOut(); throw new Error("Please sign in"); }
   if (!res.ok) {
     let e = {};
     try { e = await res.json();} catch {}
-    throw new Error(e.detail || "Request failed");}
+    const detail = Array.isArray(e.detail) ? e.detail.map(d => d.msg).join("; ") : e.detail;
+    throw new Error(detail || "Request failed");}
   // DELETE requests returning 204 have no response body
   if (res.status === 204) { return null; }
     return res.json();
 }
+// Disables the form's submit button while a request runs, so a double click cannot submit twice.
+async function busy(form, fn){
+  const b=form.querySelector("button:not([type=button])");if(b.disabled)return;b.disabled=true;
+  try{await fn()}finally{b.disabled=false}
+}
+function signedOut(){token=null;tokenStore.set(null);customers=[];invoices=[];$("#current-user").textContent="";$("#login-modal").classList.add("show")}
+function logout(){signedOut();toast("Signed out")}
+$("#login-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{const r=await api("/auth/login",{method:"POST",body:JSON.stringify({username:f.get("username"),password:f.get("password")})});token=r.access_token;tokenStore.set(token);e.target.reset();$("#login-modal").classList.remove("show");await init()}catch(x){toast(x.message)}})};
 function go(page){
   document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
   $("#page-"+page).classList.add("active");
   document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===page));
-  const names={dashboard:"Dashboard",customers:"Customers",invoices:"Invoices","create-invoice":"New Invoice","invoice-detail":"Invoice Details"};
+  const names={dashboard:"Dashboard",customers:"Customers",invoices:"Invoices","create-invoice":"New Invoice","invoice-detail":"Invoice Details","customer-detail":"Customer Details"};
   $("#crumb").textContent="Workspace / "+(names[page]||page);
   if(page==="customers")renderCustomers();
   if(page==="invoices")renderInvoices();
   if(page==="create-invoice")populateInvoiceCustomers();
   if(page==="dashboard")loadDashboard();
 }
-document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>go(b.dataset.page));
+document.querySelectorAll(".nav button[data-page]").forEach(b=>b.onclick=()=>go(b.dataset.page));
 
 async function loadDashboard(){
+  const h=new Date().getHours();$("#greeting").textContent=h<12?"Good morning.":h<17?"Good afternoon.":"Good evening.";
   try{
     const d=await api("/dashboard");
     $("#d-customers").textContent=d.total_customers;$("#d-fully").textContent=d.fully_paid;$("#d-partial").textContent=d.partially_paid;$("#d-none").textContent=d.no_payment;
@@ -235,45 +310,72 @@ function renderRecentInvoices(){
 function renderCustomers(){
   const q=($("#customer-search")?.value||"").toLowerCase();const body=$("#customers-body");body.innerHTML="";
   const list=customers.filter(c=>(c.name+" "+(c.phone||"")).toLowerCase().includes(q));$("#customers-empty").style.display=list.length?"none":"block";
-  list.forEach(c=>{const tr=document.createElement("tr");tr.innerHTML=`<td><b>${escapeHtml(c.name)}</b></td><td>${escapeHtml(c.phone||"—")}</td><td>${tierBadge(c.tier)}</td><td>${escapeHtml(c.tier_reason||"—")}</td><td>${new Date(c.created_at).toLocaleDateString()}</td><td><button class="btn danger small" onclick="event.stopPropagation();removeCustomer(${c.id}, '${escapeHtml(c.name).replace(/'/g,"\\'")}')">Remove</button></td>`;body.appendChild(tr)})
+  list.forEach(c=>{const tr=document.createElement("tr");tr.className="clickable";tr.innerHTML=`<td><b>${escapeHtml(c.name)}</b></td><td>${escapeHtml(c.phone||"—")}</td><td>${tierBadge(c.tier)}</td><td>${escapeHtml(c.tier_reason||"—")}</td><td>${new Date(c.created_at).toLocaleDateString()}</td><td></td>`;
+    const btn=document.createElement("button");btn.className="btn danger small";btn.textContent="Remove";btn.onclick=ev=>{ev.stopPropagation();removeCustomer(c.id,c.name)};tr.lastElementChild.appendChild(btn);
+    tr.onclick=()=>openCustomer(c.id);body.appendChild(tr)})
 }
 function populateInvoiceCustomers(){
-  const s=$("#invoice-customer");s.innerHTML=customers.length?customers.map(c=>`<option value="${c.id}">${escapeHtml(c.name)}${c.tier?" · Tier "+c.tier:""}</option>`).join(""):`<option value="">No customers — add one first</option>`;
+  const s=$("#invoice-customer");const selected=s.value;s.innerHTML=customers.length?customers.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}${c.tier?" · Tier "+Number(c.tier):""}</option>`).join(""):`<option value="">No customers — add one first</option>`;
+  if(customers.some(c=>c.id===selected))s.value=selected;
+  prefillDeposit();
 }
+// Suggest the customer's agreed first deposit as the invoice's initial deposit.
+function prefillDeposit(){const c=customers.find(x=>x.id===$("#invoice-customer").value);$("#invoice-form").initial_deposit.value=c&&c.first_deposit_amount?c.first_deposit_amount:""}
+$("#invoice-customer").onchange=prefillDeposit;
 function renderInvoices(){
   const q=($("#invoice-search")?.value||"").toLowerCase();const body=$("#invoices-body");body.innerHTML="";
   const names=Object.fromEntries(customers.map(c=>[c.id,c.name]));
   const list=invoices.filter(i=>(i.invoice_number+" "+(names[i.customer_id]||"")).toLowerCase().includes(q));$("#invoices-empty").style.display=list.length?"none":"block";
-  list.forEach(i=>{const tr=document.createElement("tr");tr.className="clickable";tr.innerHTML=`<td><b>${escapeHtml(i.invoice_number)}</b></td><td>${escapeHtml(names[i.customer_id]||"Unknown")}</td><td>${money(i.total_amount)}</td><td>${money(i.total_paid)}</td><td>${money(i.outstanding_balance)}</td><td>${i.due_date||"—"}</td><td>${statusBadge(i.status)}</td>`;tr.onclick=()=>openInvoice(i.id);body.appendChild(tr)})
+  list.forEach(i=>{const tr=document.createElement("tr");tr.className="clickable";tr.innerHTML=`<td><b>${escapeHtml(i.invoice_number)}</b></td><td>${escapeHtml(names[i.customer_id]||"Unknown")}</td><td>${money(i.total_amount)}</td><td>${money(i.total_paid)}</td><td>${money(i.outstanding_balance)}</td><td>${escapeHtml(i.due_date||"—")}</td><td>${statusBadge(i.status)}</td>`;tr.onclick=()=>openInvoice(i.id);body.appendChild(tr)})
 }
 async function removeCustomer(id,name){
   if(!confirm(`Remove customer "${name}"? This should only be done if the customer has no invoices/payments.`)) return;
   try{
-    await api(`/customers/${id}`,{method:"DELETE"});
+    await api(`/customers/${encodeURIComponent(id)}`,{method:"DELETE"});
     await loadAll();
     go("customers");
     toast("Customer removed");
   }catch(e){toast(e.message)}
 }
+async function openCustomer(id){currentCustomerId=id;go("customer-detail");await refreshCustomer()}
+async function refreshCustomer(){
+  try{
+    const c=await api(`/customers/${encodeURIComponent(currentCustomerId)}`);
+    $("#cd-name").textContent=c.name;$("#cd-tier").innerHTML=tierBadge(c.tier);
+    $("#cd-sub").textContent=`${c.phone||"No phone"} · Registered ${new Date(c.created_at).toLocaleDateString()}`;
+    $("#cd-count").textContent=c.invoices.length;$("#cd-invoiced").textContent=money(c.total_invoiced);$("#cd-paid").textContent=money(c.total_paid);$("#cd-balance").textContent=money(c.outstanding_balance);
+    $("#cd-remove").onclick=()=>removeCustomer(c.id,c.name);
+    const f=$("#tier-form");f.querySelectorAll("input[name=tier]").forEach(r=>r.checked=Number(r.value)===c.tier);
+    f.tier_reason.value=c.tier_reason||"";f.requested_deposit.value=c.requested_deposit??"";f.first_deposit_amount.value=c.first_deposit_amount??"";f.expected_payment_days.value=c.expected_payment_days??"";
+    const ib=$("#cd-invoices-body");ib.innerHTML="";$("#cd-invoices-empty").style.display=c.invoices.length?"none":"block";
+    c.invoices.forEach(i=>{const tr=document.createElement("tr");tr.className="clickable";tr.innerHTML=`<td><b>${escapeHtml(i.invoice_number)}</b></td><td>${money(i.total_amount)}</td><td>${money(i.total_paid)}</td><td>${money(i.outstanding_balance)}</td><td>${statusBadge(i.status)}</td>`;tr.onclick=()=>openInvoice(i.id);ib.appendChild(tr)});
+    const pb=$("#cd-payments-body");pb.innerHTML="";$("#cd-payments-empty").style.display=c.payment_history.length?"none":"block";
+    c.payment_history.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${escapeHtml(x.payment_date)}</td><td>${escapeHtml(x.invoice_number)}</td><td><b>${money(x.amount)}</b></td><td>${escapeHtml(x.payment_method||"—")}</td><td>${escapeHtml(x.reference||"—")}</td>`;pb.appendChild(tr)});
+  }catch(e){toast(e.message)}
+}
+$("#tier-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{await api(`/customers/${encodeURIComponent(currentCustomerId)}/tier`,{method:"PATCH",body:JSON.stringify({tier:Number(f.get("tier")),tier_reason:f.get("tier_reason")||null,requested_deposit:num(f.get("requested_deposit")),first_deposit_amount:num(f.get("first_deposit_amount")),expected_payment_days:num(f.get("expected_payment_days"))})});await loadAll();await refreshCustomer();toast("Tier updated")}catch(x){toast(x.message)}})};
 function openCustomerModal(){$("#customer-modal").classList.add("show")}
 function closeCustomerModal(){$("#customer-modal").classList.remove("show");$("#customer-form").reset()}
-$("#customer-form").onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await api("/customers",{method:"POST",body:JSON.stringify({name:f.get("name"),phone:f.get("phone")||null,tier:Number(f.get("tier")),tier_reason:f.get("tier_reason")||null})});closeCustomerModal();await loadAll();go("customers");toast("Customer added successfully")}catch(x){toast(x.message)}};
-$("#invoice-form").onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);try{await api("/invoices",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),invoice_number:f.get("invoice_number"),total_amount:Number(f.get("total_amount")),due_date:f.get("due_date")||null})});e.target.reset();await loadAll();go("invoices");toast("Invoice created successfully")}catch(x){toast(x.message)}};
+$("#customer-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{await api("/customers",{method:"POST",body:JSON.stringify({name:f.get("name"),phone:f.get("phone")||null,tier:Number(f.get("tier")),tier_reason:f.get("tier_reason")||null,requested_deposit:num(f.get("requested_deposit")),first_deposit_amount:num(f.get("first_deposit_amount")),expected_payment_days:num(f.get("expected_payment_days"))})});closeCustomerModal();await loadAll();go("customers");toast("Customer added successfully")}catch(x){toast(x.message)}})};
+$("#invoice-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{await api("/invoices",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),invoice_number:f.get("invoice_number"),total_amount:Number(f.get("total_amount")),due_date:f.get("due_date")||null,initial_deposit:num(f.get("initial_deposit")),deposit_method:f.get("deposit_method")||null})});e.target.reset();await loadAll();go("invoices");toast("Invoice created successfully")}catch(x){toast(x.message)}})};
 async function openInvoice(id){currentInvoiceId=id;go("invoice-detail");await refreshInvoice()}
 async function refreshInvoice(){
   try{
-    const [i,p]=await Promise.all([api(`/invoices/${currentInvoiceId}`),api(`/invoices/${currentInvoiceId}/payments`)]);const c=customers.find(x=>x.id===i.customer_id);
+    const [i,p]=await Promise.all([api(`/invoices/${encodeURIComponent(currentInvoiceId)}`),api(`/invoices/${encodeURIComponent(currentInvoiceId)}/payments`)]);const c=customers.find(x=>x.id===i.customer_id);
     $("#detail-title").textContent="Invoice "+i.invoice_number;$("#detail-sub").textContent=`${c?.name||"Unknown customer"} · ${i.due_date?"Due "+i.due_date:"No due date"}`;$("#detail-status").innerHTML=statusBadge(i.status);
     $("#detail-total").textContent=money(i.total_amount);$("#detail-paid").textContent=money(i.total_paid);$("#detail-balance").textContent=money(i.outstanding_balance);
     const pct=i.total_amount?Math.min(100,(i.total_paid/i.total_amount)*100):0;$("#detail-progress").textContent=Math.round(pct)+"%";$("#detail-progress-bar").style.width=pct+"%";
     const b=$("#payments-body");b.innerHTML="";$("#payments-empty").style.display=p.length?"none":"block";
-    p.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${x.payment_date}</td><td><b>${money(x.amount)}</b></td><td>${escapeHtml(x.payment_method||"—")}</td><td>${escapeHtml(x.reference||"—")}</td>`;b.appendChild(tr)})
+    p.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${escapeHtml(x.payment_date)}</td><td><b>${money(x.amount)}</b></td><td>${escapeHtml(x.payment_method||"—")}</td><td>${escapeHtml(x.reference||"—")}</td>`;b.appendChild(tr)})
     const h=$("#history-body");h.innerHTML="";const history=i.history||[];$("#history-empty").style.display=history.length?"none":"block";
     history.forEach(x=>{const tr=document.createElement("tr");const d=new Date(x.created_at).toLocaleString();tr.innerHTML=`<td>${d}</td><td><span class="badge blue">${escapeHtml((x.event_type||"").replaceAll("_"," "))}</span></td><td>${escapeHtml(x.description||"—")}</td><td>${x.amount!=null?money(x.amount):"—"}</td>`;h.appendChild(tr)})
   }catch(e){toast(e.message)}
 }
-$("#payment-form").onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);const amount=Number(f.get("amount"));try{await api(`/invoices/${currentInvoiceId}/payments`,{method:"POST",body:JSON.stringify({amount,payment_date:f.get("payment_date")||null,payment_method:f.get("payment_method")||null,reference:f.get("reference")||null})});e.target.reset();await loadAll();await refreshInvoice();toast("Payment recorded")}catch(x){toast(x.message)}};
-async function init(){try{[customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);populateInvoiceCustomers();renderCustomers();renderInvoices();loadDashboard()}catch(e){toast("Could not connect to the WASHKING API")}}
+$("#payment-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);const amount=Number(f.get("amount"));try{await api(`/invoices/${encodeURIComponent(currentInvoiceId)}/payments`,{method:"POST",body:JSON.stringify({amount,payment_date:f.get("payment_date")||null,payment_method:f.get("payment_method")||null,reference:f.get("reference")||null})});e.target.reset();await loadAll();await refreshInvoice();toast("Payment recorded")}catch(x){toast(x.message)}})};
+async function init(){
+  if(!token){signedOut();return}
+  try{const me=await api("/auth/me");$("#current-user").textContent="("+me.username+")";[customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);populateInvoiceCustomers();renderCustomers();renderInvoices();loadDashboard()}catch(e){if(token)toast("Could not connect to the WASHKING API")}
+}
 init();
 </script>
 </body>
