@@ -62,11 +62,13 @@ $env:DATABASE_URL = "postgresql://washking:washking@127.0.0.1:5432/washking_invo
 $env:JWT_SECRET = "<generated secret>"
 $env:ADMIN_USERNAME = "admin"
 $env:ADMIN_PASSWORD = "<choose a password>"
-.\run_backend.ps1
+.\run_backend.ps1 -UsePostgres
 ```
 
-API: http://127.0.0.1:8000
-Docs: http://127.0.0.1:8000/docs (use **Authorize** and paste a token from `POST /auth/login`)
+For the normal local SQLite setup, skip the Docker and `DATABASE_URL` steps and run `./run_backend.ps1`. The launcher uses SQLite by default, even when a stale `DATABASE_URL` exists in the terminal environment.
+
+API: http://127.0.0.1:8001
+Docs: http://127.0.0.1:8001/docs (use **Authorize** and paste a token from `POST /auth/login`)
 
 Tables are created automatically on first startup. The SQLite file is intentionally ignored by Git.
 
@@ -77,7 +79,7 @@ Import `postman/WASHKING_Invoice_API.postman_collection.json`, set the collectio
 From the command line:
 
 ```powershell
-npx newman run postman/WASHKING_Invoice_API.postman_collection.json --env-var "baseUrl=http://127.0.0.1:8000" --env-var "username=admin" --env-var "password=<password>"
+npx newman run postman/WASHKING_Invoice_API.postman_collection.json --env-var "baseUrl=http://127.0.0.1:8001" --env-var "username=admin" --env-var "password=<password>"
 ```
 
 The collection creates real records, so run it against a local or test database, not production.
