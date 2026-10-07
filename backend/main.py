@@ -8,6 +8,7 @@ from .config import APP_TITLE, APP_VERSION
 from .database import DIALECT, init_db
 from .routes.auth import router as auth_router
 from .routes.customers import router as customers_router
+from .routes.customers import router as customers_router
 from .routes.invoices import router as invoices_router
 from .routes.dashboard import router as dashboard_router
 
@@ -49,6 +50,7 @@ def health():
 
 protected = [Depends(get_current_user)]
 app.include_router(auth_router)
+app.include_router(customers_router, dependencies=protected)
 app.include_router(customers_router, dependencies=protected)
 app.include_router(invoices_router, dependencies=protected)
 app.include_router(dashboard_router, dependencies=protected)
