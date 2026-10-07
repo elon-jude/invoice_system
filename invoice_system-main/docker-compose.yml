@@ -1,0 +1,16 @@
+# Local PostgreSQL for development. Start with: docker compose up -d
+# Then set DATABASE_URL=postgresql://washking:washking@127.0.0.1:5432/washking_invoices
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: washking
+      POSTGRES_PASSWORD: washking
+      POSTGRES_DB: washking_invoices
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
