@@ -5,17 +5,21 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .auth import ensure_admin, get_current_user
 from .config import APP_TITLE, APP_VERSION
-from .database import DIALECT, init_db
+from .database import DIALECT, get_db, init_db
 from .routes.auth import router as auth_router
-from .routes.customers import router as customers_router
 from .routes.customers import router as customers_router
 from .routes.invoices import router as invoices_router
 from .routes.dashboard import router as dashboard_router
+from .routes.calculator import router as calculator_router
+from .routes.catalog import router as catalog_router
+from .services.catalog_service import seed_catalog
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
+    with get_db() as conn:
+        seed_catalog(conn)
     ensure_admin()
     yield
 
@@ -51,6 +55,7 @@ def health():
 protected = [Depends(get_current_user)]
 app.include_router(auth_router)
 app.include_router(customers_router, dependencies=protected)
-app.include_router(customers_router, dependencies=protected)
 app.include_router(invoices_router, dependencies=protected)
 app.include_router(dashboard_router, dependencies=protected)
+app.include_router(calculator_router, dependencies=protected)
+app.include_router(catalog_router, dependencies=protected)

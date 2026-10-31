@@ -6,40 +6,46 @@
 <title>WASHKING Invoice Manager</title>
 <style>
 :root{
-  --bg:#f5f7f8;--surface:#fff;--surface2:#f8fafb;--ink:#17211b;--muted:#718078;
-  --line:#e3e9e5;--brand:#176b4d;--brand2:#0f513b;--brandSoft:#e7f3ed;
-  --gold:#b7791f;--goldSoft:#fff4dc;--red:#c24141;--redSoft:#fdecec;
-  --blue:#3267b1;--blueSoft:#eaf1fb;--shadow:0 10px 30px rgba(25,45,35,.07);
+  /* WashKing palette: blue #0088C8, orange #F36F3D, white */
+  --bg:#f3f8fb;--surface:#fff;--surface2:#f6fafc;--ink:#12222f;--muted:#5d7382;
+  --line:#dce7ee;--brand:#0088C8;--brand2:#006FA6;--brandInk:#00699E;--brandSoft:#e5f4fb;--navy:#073B57;
+  --gold:#F36F3D;--goldSoft:#ffefe7;--orangeInk:#B8420F;--red:#c24141;--redSoft:#fdecec;
+  --blue:#4b6475;--blueSoft:#edf2f6;--shadow:0 10px 30px rgba(7,59,87,.08);
 }
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-button,input,select,textarea{font:inherit}button{cursor:pointer}
-.app{min-height:100vh;display:flex}.sidebar{width:245px;background:#123d2d;color:#fff;padding:25px 17px;position:fixed;inset:0 auto 0 0;z-index:10}
-.brand{display:flex;align-items:center;gap:11px;padding:5px 10px 30px}.brand-mark{width:39px;height:39px;border-radius:11px;background:#fff;color:#176b4d;display:grid;place-items:center;font-weight:900;font-size:18px}.brand strong{display:block;font-size:17px}.brand span{font-size:11px;color:#b8d2c5}
-.nav-title{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#8eb2a2;padding:0 11px 8px;margin-top:10px}.nav{display:grid;gap:4px}.nav button{border:0;background:transparent;color:#dcebe4;text-align:left;padding:12px 13px;border-radius:10px;font-size:13px;display:flex;gap:11px;align-items:center}.nav button:hover{background:rgba(255,255,255,.08)}.nav button.active{background:#f3f7f5;color:#123d2d;font-weight:700}.icon{width:18px;text-align:center}
-.sidebar-foot{position:absolute;bottom:20px;left:22px;right:22px;color:#8eb2a2;font-size:11px;line-height:1.5}
+button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(--brand)}button{cursor:pointer}
+.app{min-height:100vh;display:flex}.sidebar{width:245px;background:var(--navy);color:#fff;padding:25px 17px;position:fixed;inset:0 auto 0 0;z-index:10}
+.brand{display:flex;align-items:center;gap:11px;padding:5px 10px 30px}.brand-mark{width:39px;height:39px;border-radius:11px;background:var(--gold);color:#fff;display:grid;place-items:center;font-weight:900;font-size:18px}.brand strong{display:block;font-size:17px}.brand span{font-size:11px;color:#a9d3ea}
+.nav-title{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#8fc4de;padding:0 11px 8px;margin-top:10px}.nav{display:grid;gap:4px}.nav button{border:0;background:transparent;color:#d6ebf6;text-align:left;padding:12px 13px;border-radius:10px;font-size:13px;display:flex;gap:11px;align-items:center}.nav button:hover{background:rgba(255,255,255,.08)}.nav button.active{background:#fff;color:var(--navy);font-weight:700;box-shadow:inset 4px 0 0 var(--gold)}.icon{width:18px;text-align:center}
+.sidebar-foot{position:absolute;bottom:20px;left:22px;right:22px;color:#8fc4de;font-size:11px;line-height:1.5}
 .main{margin-left:245px;width:calc(100% - 245px);padding:27px 35px 45px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.crumb{font-size:12px;color:var(--muted)}.top-actions{display:flex;gap:9px}
 .page{display:none;max-width:1260px;margin:auto}.page.active{display:block}.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}.page-head h1{font-size:27px;margin:0 0 5px;letter-spacing:-.03em}.page-head p{margin:0;color:var(--muted);font-size:13px}
-.btn{border:0;border-radius:9px;padding:10px 15px;font-weight:700;font-size:12px;background:var(--brand);color:#fff}.btn:hover{background:var(--brand2)}.btn.secondary{background:#fff;color:var(--brand);border:1px solid var(--line)}.btn.danger{background:var(--red)}.btn.small{padding:7px 11px;font-size:11px}
+.btn{border:0;border-radius:9px;padding:10px 15px;font-weight:700;font-size:12px;background:var(--brand);color:#fff}.btn:hover{background:var(--brand2)}.btn.secondary{background:#fff;color:var(--brandInk);border:1px solid var(--line)}.btn.danger{background:var(--red)}.btn.small{padding:7px 11px;font-size:11px}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.stat{padding:17px 18px}.stat-top{display:flex;justify-content:space-between;align-items:center}.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.stat-icon{width:30px;height:30px;border-radius:9px;background:var(--brandSoft);display:grid;place-items:center;color:var(--brand);font-size:13px}.stat-value{font-size:25px;font-weight:800;letter-spacing:-.03em;margin-top:10px}.stat-note{font-size:10px;color:var(--muted);margin-top:3px}
-.money{padding:20px}.money .stat-value{font-size:22px}.money.green{background:var(--brandSoft);color:var(--brand)}.money.gold{background:var(--goldSoft);color:#895c12}.money.red{background:var(--redSoft);color:#a62e2e}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.stat{padding:17px 18px}.stat-top{display:flex;justify-content:space-between;align-items:center}.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.stat-icon{width:30px;height:30px;border-radius:9px;background:var(--brandSoft);display:grid;place-items:center;color:var(--brandInk);font-size:13px}.stat-value{font-size:25px;font-weight:800;letter-spacing:-.03em;margin-top:10px}.stat-note{font-size:10px;color:var(--muted);margin-top:3px}
+.money{padding:20px}.money .stat-value{font-size:22px}.money.green{background:var(--brandSoft);color:var(--brandInk)}.money.gold{background:var(--goldSoft);color:var(--orangeInk)}.money.red{background:var(--redSoft);color:#a62e2e}
 .section{margin-top:17px;padding:20px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.section h2{font-size:14px;margin:0}.section-sub{font-size:11px;color:var(--muted)}
-.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;color:#829087;font-size:10px;text-transform:uppercase;letter-spacing:.06em;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}td{padding:12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}tbody tr:hover{background:#fafcfb}.clickable{cursor:pointer}
-.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800}.tier1,.paid{background:var(--brandSoft);color:var(--brand)}.tier2,.partial{background:var(--goldSoft);color:#8b5d12}.tier3,.unpaid{background:var(--redSoft);color:#a52d2d}.blue{background:var(--blueSoft);color:var(--blue)}
-.progress{height:7px;background:#e9eeeb;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--brand);border-radius:99px}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;color:#6f8797;font-size:10px;text-transform:uppercase;letter-spacing:.06em;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}td{padding:12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}tbody tr:hover{background:#f6fbfe}.clickable{cursor:pointer}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:800}.tier1,.paid{background:var(--brandSoft);color:var(--brandInk)}.tier2,.partial{background:var(--goldSoft);color:var(--orangeInk)}.tier3,.unpaid{background:var(--redSoft);color:#a52d2d}.blue{background:var(--blueSoft);color:var(--blue)}
+.progress{height:7px;background:#e4eef4;border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--brand);border-radius:99px}
 .tier-cards .tier-card{padding:18px;border:1px solid var(--line);border-radius:12px}.tier-card h3{margin:0 0 6px;font-size:13px}.tier-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.55}.tier-card .count{font-size:23px;font-weight:800;margin-top:13px}
 
-.form-card{padding:22px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:700;color:#536159}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 11px;outline:0;color:var(--ink);font-size:12px}.field textarea{min-height:85px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brandSoft)}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.form-card{padding:22px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:700;color:#475f70}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 11px;outline:0;color:var(--ink);font-size:12px}.field textarea{min-height:85px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brandSoft)}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
 .searchbar{display:flex;gap:9px;align-items:center}.searchbar input{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;min-width:230px;font-size:12px;outline:0}
 .empty{text-align:center;color:var(--muted);padding:30px;font-size:12px}.error{padding:13px;background:var(--redSoft);color:#9f2c2c;border-radius:9px;font-size:12px}
-.detail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.back{background:none;border:0;color:var(--brand);font-weight:700;font-size:12px;padding:0}.detail-title h1{margin:9px 0 4px;font-size:25px}.detail-title p{margin:0;color:var(--muted);font-size:12px}.invoice-meta{display:flex;gap:8px;flex-wrap:wrap}.payment-layout{display:grid;grid-template-columns:1fr 1.35fr;gap:15px}
-.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(12,30,21,.42);z-index:30;align-items:center;justify-content:center;padding:20px}.modal-backdrop.show{display:flex}.modal{background:#fff;width:min(570px,100%);border-radius:16px;box-shadow:0 25px 70px rgba(0,0,0,.2);overflow:hidden}.modal-head{padding:18px 21px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:20px;color:var(--muted)}.modal-body{padding:21px}
+.detail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.back{background:none;border:0;color:var(--brandInk);font-weight:700;font-size:12px;padding:0}.detail-title h1{margin:9px 0 4px;font-size:25px}.detail-title p{margin:0;color:var(--muted);font-size:12px}.invoice-meta{display:flex;gap:8px;flex-wrap:wrap}.payment-layout{display:grid;grid-template-columns:1fr 1.35fr;gap:15px}
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(7,30,45,.45);z-index:30;align-items:center;justify-content:center;padding:20px}.modal-backdrop.show{display:flex}.modal{background:#fff;width:min(570px,100%);border-radius:16px;box-shadow:0 25px 70px rgba(0,0,0,.2);overflow:hidden}.modal-head{padding:18px 21px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:20px;color:var(--muted)}.modal-body{padding:21px}
 .tier-choice{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:7px}.tier-choice label{border:1px solid var(--line);padding:12px;border-radius:10px;cursor:pointer}.tier-choice input{display:none}.tier-choice label:has(input:checked){border-color:var(--brand);background:var(--brandSoft)}.tier-choice b{display:block;font-size:12px}.tier-choice span{font-size:10px;color:var(--muted);line-height:1.4}
-.toast{position:fixed;right:25px;bottom:25px;background:#17211b;color:#fff;padding:12px 15px;border-radius:9px;font-size:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:50}.toast.show{opacity:1;transform:none}
+.toast{position:fixed;right:25px;bottom:25px;background:var(--ink);color:#fff;padding:12px 15px;border-radius:9px;font-size:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:50}.toast.show{opacity:1;transform:none}
 .loader{display:none;color:var(--muted);font-size:12px}.loader.show{display:block}
-.btn:disabled{opacity:.6;cursor:wait}.login-note{font-size:11px;color:var(--muted);margin:0 0 15px}#login-modal{background:#123d2d;z-index:60}
+.btn:disabled{opacity:.6;cursor:wait}.login-note{font-size:11px;color:var(--muted);margin:0 0 15px}#login-modal{background:var(--navy);z-index:60}
+.calc-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:13px}.calc-row strong{color:var(--brandInk)}.calc-final{margin-top:18px;padding:22px;background:var(--goldSoft);border:2px solid var(--gold);border-radius:12px;text-align:center}.calc-final.settled{background:var(--brandSoft);border-color:var(--brand)}.calc-final.settled h3{color:var(--brandInk)}.calc-final p{margin:0 0 6px;font-size:11px;font-weight:800;color:#475f70;letter-spacing:.05em}.calc-final h3{margin:0;font-size:30px;color:var(--orangeInk);letter-spacing:-.03em}.calc-note{text-align:center;color:var(--muted);font-size:12px;margin:14px 0 0}
+.calc-row.sub{font-size:12px;color:var(--muted)}.calc-row.sub strong{color:var(--ink);font-weight:600}.calc-row.warn strong{color:var(--orangeInk)}
+.equip-list{display:grid;gap:8px}.equip-row{display:grid;grid-template-columns:auto 1fr auto 74px;gap:10px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:12px;font-weight:400}.field .equip-row input[type=checkbox]{width:auto}.field .equip-row .equip-qty{width:74px;padding:6px 8px}.equip-price{color:var(--muted)}
+.calc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;justify-content:center}.calc-invoice{margin-top:16px;padding:16px;border:1px dashed var(--line);border-radius:12px}.calc-invoice h3{margin:0 0 12px;font-size:13px}.hint{font-size:11px;color:var(--muted);margin-top:2px}.price-input{width:110px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px}.print-only{display:none}
 @media(max-width:1050px){.grid4{grid-template-columns:repeat(2,1fr)}.payment-layout{grid-template-columns:1fr}.sidebar{width:210px}.main{margin-left:210px;width:calc(100% - 210px)}}
 @media(max-width:720px){.sidebar{position:static;width:100%;height:auto;padding:12px}.app{display:block}.brand{padding:3px 5px 10px}.sidebar-foot,.nav-title{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}.main{margin:0;width:100%;padding:20px 14px}.topbar{display:none}.grid4,.grid3,.grid2,.form-grid{grid-template-columns:1fr}.tier-choice{grid-template-columns:1fr}.page-head{align-items:flex-start;gap:12px}.page-head .btn{white-space:nowrap}.searchbar input{min-width:0;width:100%}.searchbar{width:100%}.section{padding:15px}}
+@media print{.sidebar,.topbar,.no-print,.page-head{display:none!important}.main{margin:0;width:100%;padding:0}.card{box-shadow:none}.print-only{display:block;font-weight:800;margin-bottom:12px}}
 </style>
 </head>
 <body>
@@ -55,6 +61,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   <div class="nav-title">Management</div>
   <div class="nav">
     <button data-page="create-invoice"><span class="icon">＋</span>New Invoice</button>
+    <button data-page="calculator"><span class="icon">▥</span>Payment Calculator</button>
+    <button data-page="price-list"><span class="icon">◈</span>Price List</button>
   </div>
   <div class="nav-title">Account</div>
   <div class="nav">
@@ -115,14 +123,86 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
       <form id="invoice-form">
         <div class="form-grid">
           <div class="field full"><label>CUSTOMER</label><select id="invoice-customer" name="customer_id" required></select></div>
+          <div class="field"><label>TOILET FACILITY</label><select id="inv-facility" name="facility_type"></select></div>
           <div class="field"><label>INVOICE NUMBER</label><input name="invoice_number" required placeholder="INV-2026-0001"></div>
-          <div class="field"><label>TOTAL AMOUNT (GHS)</label><input name="total_amount" required type="number" min="0.01" step="0.01" placeholder="5000.00"></div>
+          <div class="field full"><label>ADDITIONAL EQUIPMENT</label><div class="equip-list" id="inv-equipment"><div class="hint">Loading price list…</div></div></div>
+          <div class="field"><label>APPROVED SUBSIDY / DISCOUNT (GHS)</label><input name="discount" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field"><label>TOTAL AMOUNT (GHS)</label><input name="total_amount" required type="number" min="0.01" step="0.01" placeholder="5000.00"><div class="hint" id="inv-total-hint">Pick a facility to calculate this from the price list, or type an amount.</div></div>
           <div class="field"><label>DUE DATE</label><input name="due_date" type="date"></div>
           <div class="field"><label>INITIAL DEPOSIT (GHS)</label><input name="initial_deposit" type="number" min="0.01" step="0.01" placeholder="Optional — recorded as the first payment"></div>
           <div class="field"><label>DEPOSIT METHOD</label><select name="deposit_method"><option value="">Select method</option><option>Mobile Money</option><option>Bank Transfer</option><option>Cash</option><option>Card</option></select></div>
         </div>
         <div class="form-actions"><button type="button" class="btn secondary" onclick="go('invoices')">Cancel</button><button class="btn">Create invoice</button></div>
       </form>
+    </div>
+  </section>
+
+  <section id="page-calculator" class="page">
+    <div class="page-head"><div><h1>Payment calculator</h1><p>Price a toilet facility with its equipment and work out what the customer still has to pay.</p></div></div>
+    <div class="card form-card no-print">
+      <h2 style="font-size:14px;margin:0 0 4px">Customer &amp; facility details</h2><p class="section-sub" style="margin-bottom:17px">Prices come from the Price List. You can override the facility cost if needed.</p>
+      <form id="calc-form">
+        <div class="form-grid">
+          <div class="field"><label>CUSTOMER</label><select id="calc-customer" name="customer_id"></select><div class="hint" id="calc-customer-hint"></div></div>
+          <div class="field"><label>CUSTOMER NAME</label><input id="calc-name" name="customer_name" placeholder="Enter customer name"></div>
+          <div class="field"><label>TOILET FACILITY</label><select id="calc-facility" name="facility_type"></select></div>
+          <div class="field"><label>CONSTRUCTION COST (GH₵)</label><input id="calc-cost" name="construction_cost" type="number" min="0" step="0.01" placeholder="Price list amount"></div>
+          <div class="field full"><label>ADDITIONAL EQUIPMENT</label><div class="equip-list" id="calc-equipment"><div class="hint">Loading price list…</div></div></div>
+          <div class="field"><label>OTHER ADDITIONAL COSTS (GH₵)</label><input name="additional_cost" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field"><label>APPROVED SUBSIDY / DISCOUNT (GH₵)</label><input name="discount" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field"><label>AMOUNT ALREADY PAID (GH₵)</label><input name="amount_paid" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field"><label>INSTALLMENT PLAN (MONTHS)</label><input name="installment_months" type="number" min="1" max="60" step="1" placeholder="Optional"></div>
+        </div>
+        <div class="error" id="calc-error" style="display:none;margin-top:15px"></div>
+        <div class="form-actions"><button type="button" class="btn secondary" onclick="resetCalculator()">Reset</button><button class="btn">Calculate amount</button></div>
+      </form>
+    </div>
+    <div class="card section" id="calc-summary">
+      <div class="print-only">WASHKING · Payment breakdown</div>
+      <div class="section-head"><div><h2>Payment summary</h2><div class="section-sub" id="calc-meta">What the customer owes after subsidy and payments.</div></div></div>
+      <div id="calc-lines"></div>
+      <div class="calc-row"><span>Total Cost</span><strong id="calc-total">GH₵0.00</strong></div>
+      <div class="calc-row"><span>Less Subsidy / Discount</span><strong id="calc-discount">GH₵0.00</strong></div>
+      <div class="calc-row"><span>Net Customer Cost</span><strong id="calc-net">GH₵0.00</strong></div>
+      <div class="calc-row"><span>Amount Already Paid</span><strong id="calc-paid">GH₵0.00</strong></div>
+      <div class="calc-row warn" id="calc-over-row" style="display:none"><span>Overpaid</span><strong id="calc-over">GH₵0.00</strong></div>
+      <div class="calc-final"><p>CUSTOMER AMOUNT STILL TO PAY</p><h3 id="calc-remaining">GH₵0.00</h3></div>
+      <div class="calc-row" id="calc-inst-row" style="display:none;margin-top:6px"><span id="calc-inst-label">Installment plan</span><strong id="calc-inst">—</strong></div>
+      <p class="calc-note" id="calc-note">Enter the customer's details and calculate the payment.</p>
+      <div class="calc-actions no-print" id="calc-actions" style="display:none">
+        <button type="button" class="btn" onclick="calcToggleInvoice()">Create invoice from this</button>
+        <button type="button" class="btn secondary" onclick="calcCopy()">Copy breakdown</button>
+        <button type="button" class="btn secondary" onclick="window.print()">Print</button>
+      </div>
+      <div class="calc-invoice no-print" id="calc-invoice-box" style="display:none">
+        <h3>New invoice for the net customer cost</h3>
+        <div class="form-grid">
+          <div class="field"><label>INVOICE NUMBER</label><input id="calc-inv-number" placeholder="INV-2026-0001"></div>
+          <div class="field"><label>DUE DATE</label><input id="calc-inv-due" type="date"></div>
+          <div class="field full"><label>DEPOSIT METHOD (FOR AMOUNT ALREADY PAID)</label><select id="calc-inv-method"><option value="">Select method</option><option>Mobile Money</option><option>Bank Transfer</option><option>Cash</option><option>Card</option></select></div>
+        </div>
+        <div class="hint" style="margin-top:8px">Needs a customer selected above. The amount already paid is recorded as the first payment.</div>
+        <div class="form-actions"><button type="button" class="btn" id="calc-inv-btn" onclick="createCalcInvoice(this)">Create invoice</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-price-list" class="page">
+    <div class="page-head"><div><h1>Price list</h1><p>Facility and equipment prices used by the payment calculator. Starter prices are estimates; update them with your real prices.</p></div></div>
+    <div class="card form-card" style="margin-bottom:17px">
+      <h2 style="font-size:14px;margin:0 0 14px">Add item</h2>
+      <form id="catalog-form">
+        <div class="form-grid" style="grid-template-columns:1fr 2fr 1fr">
+          <div class="field"><label>TYPE</label><select name="kind"><option value="equipment">Equipment</option><option value="facility">Facility</option></select></div>
+          <div class="field"><label>NAME</label><input name="name" required placeholder="e.g. Urinal"></div>
+          <div class="field"><label>PRICE (GHS)</label><input name="price" required type="number" min="0" step="0.01"></div>
+        </div>
+        <div class="form-actions"><button class="btn">Add item</button></div>
+      </form>
+    </div>
+    <div class="card section" style="margin-top:0">
+      <div class="section-head"><h2>Items</h2></div>
+      <div class="table-wrap"><table><thead><tr><th>Item</th><th>Type</th><th>Price (GHS)</th><th>Status</th><th>Action</th></tr></thead><tbody id="catalog-body"></tbody></table><div class="empty" id="catalog-empty">No items yet.</div></div>
     </div>
   </section>
 
@@ -149,6 +229,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
         </form>
       </div>
       <div class="card section" style="margin-top:0">
+        <div id="items-section" style="display:none"><div class="section-head"><div><h2>Invoice items</h2><div class="section-sub">What this invoice was built from, at the prices used.</div></div></div>
+        <div class="table-wrap"><table><thead><tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Total</th></tr></thead><tbody id="items-body"></tbody></table></div><div style="height:18px"></div></div>
         <div class="section-head"><div><h2>Payment history</h2><div class="section-sub">Every payment recorded against this invoice.</div></div></div>
         <div class="table-wrap"><table><thead><tr><th>Date</th><th>Amount</th><th>Method</th><th>Reference</th></tr></thead><tbody id="payments-body"></tbody></table><div class="empty" id="payments-empty">No payments recorded.</div></div>
         <div style="height:18px"></div>
@@ -240,7 +322,11 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 <div class="toast" id="toast"></div>
 
 <script>
-const API_BASE="https://invoice-manager-e17110f9.fastapicloud.dev";
+// Set to true to skip the login screen while trying features. The backend must be started
+// with AUTH_DISABLED=1 (or run_backend.ps1 -NoAuth). While frozen, the app talks to your local backend.
+const AUTH_FROZEN=true;
+const LOCAL_API="http://127.0.0.1:8000";
+const API_BASE=AUTH_FROZEN?LOCAL_API:"https://invoice-manager-e17110f9.fastapicloud.dev";
 let customers=[], invoices=[], currentInvoiceId=null, currentCustomerId=null;
 
 const $=s=>document.querySelector(s);
@@ -272,19 +358,22 @@ async function busy(form, fn){
   const b=form.querySelector("button:not([type=button])");if(b.disabled)return;b.disabled=true;
   try{await fn()}finally{b.disabled=false}
 }
-function signedOut(){token=null;tokenStore.set(null);customers=[];invoices=[];$("#current-user").textContent="";$("#login-modal").classList.add("show")}
+function signedOut(){if(AUTH_FROZEN){toast("The backend still wants a login. Start it with AUTH_DISABLED=1 (run_backend.ps1 -NoAuth).");return}token=null;tokenStore.set(null);customers=[];invoices=[];$("#current-user").textContent="";$("#login-modal").classList.add("show")}
 function logout(){signedOut();toast("Signed out")}
 $("#login-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{const r=await api("/auth/login",{method:"POST",body:JSON.stringify({username:f.get("username"),password:f.get("password")})});token=r.access_token;tokenStore.set(token);e.target.reset();$("#login-modal").classList.remove("show");await init()}catch(x){toast(x.message)}})};
 function go(page){
   document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
   $("#page-"+page).classList.add("active");
   document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===page));
-  const names={dashboard:"Dashboard",customers:"Customers",invoices:"Invoices","create-invoice":"New Invoice","invoice-detail":"Invoice Details","customer-detail":"Customer Details"};
+  const names={dashboard:"Dashboard",customers:"Customers",invoices:"Invoices","create-invoice":"New Invoice",calculator:"Payment Calculator","price-list":"Price List","invoice-detail":"Invoice Details","customer-detail":"Customer Details"};
   $("#crumb").textContent="Workspace / "+(names[page]||page);
   if(page==="customers")renderCustomers();
   if(page==="invoices")renderInvoices();
   if(page==="create-invoice")populateInvoiceCustomers();
   if(page==="dashboard")loadDashboard();
+  if(page==="create-invoice")invPrepare();
+  if(page==="calculator"){populateCalcCustomers();if(!catalog.length)loadCatalog()}
+  if(page==="price-list"){renderPriceList();loadCatalog()}
 }
 document.querySelectorAll(".nav button[data-page]").forEach(b=>b.onclick=()=>go(b.dataset.page));
 
@@ -299,7 +388,7 @@ async function loadDashboard(){
   }catch(e){toast("Backend unavailable: "+e.message)}
 }
 async function loadAll(){
-  try{[customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);loadDashboard();renderCustomers();renderInvoices();populateInvoiceCustomers();toast("Data refreshed")}catch(e){toast("Could not refresh: "+e.message)}
+  try{[customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);loadDashboard();renderCustomers();renderInvoices();populateInvoiceCustomers();populateCalcCustomers();toast("Data refreshed")}catch(e){toast("Could not refresh: "+e.message)}
 }
 function renderRecentInvoices(){
   const body=$("#recent-invoices");body.innerHTML="";
@@ -357,7 +446,11 @@ $("#tier-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=
 function openCustomerModal(){$("#customer-modal").classList.add("show")}
 function closeCustomerModal(){$("#customer-modal").classList.remove("show");$("#customer-form").reset()}
 $("#customer-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{await api("/customers",{method:"POST",body:JSON.stringify({name:f.get("name"),phone:f.get("phone")||null,tier:Number(f.get("tier")),tier_reason:f.get("tier_reason")||null,requested_deposit:num(f.get("requested_deposit")),first_deposit_amount:num(f.get("first_deposit_amount")),expected_payment_days:num(f.get("expected_payment_days"))})});closeCustomerModal();await loadAll();go("customers");toast("Customer added successfully")}catch(x){toast(x.message)}})};
-$("#invoice-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{await api("/invoices",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),invoice_number:f.get("invoice_number"),total_amount:Number(f.get("total_amount")),due_date:f.get("due_date")||null,initial_deposit:num(f.get("initial_deposit")),deposit_method:f.get("deposit_method")||null})});e.target.reset();await loadAll();go("invoices");toast("Invoice created successfully")}catch(x){toast(x.message)}})};
+$("#invoice-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target),code=f.get("facility_type");try{
+  if(code){await api("/calculator/invoice",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),invoice_number:f.get("invoice_number"),facility_type:code,construction_cost:null,equipment:pickedEquipment($("#inv-equipment")),additional_cost:0,discount:Number(f.get("discount"))||0,amount_paid:Number(f.get("initial_deposit"))||0,due_date:f.get("due_date")||null,deposit_method:f.get("deposit_method")||null})})}
+  else{if(!Number(f.get("total_amount")))throw new Error("Select a facility from the price list or enter a total amount");
+    await api("/invoices",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),invoice_number:f.get("invoice_number"),total_amount:Number(f.get("total_amount")),due_date:f.get("due_date")||null,initial_deposit:num(f.get("initial_deposit")),deposit_method:f.get("deposit_method")||null})})}
+  resetInvoiceForm();await loadAll();go("invoices");toast("Invoice created successfully")}catch(x){toast(x.message)}})};
 async function openInvoice(id){currentInvoiceId=id;go("invoice-detail");await refreshInvoice()}
 async function refreshInvoice(){
   try{
@@ -365,6 +458,8 @@ async function refreshInvoice(){
     $("#detail-title").textContent="Invoice "+i.invoice_number;$("#detail-sub").textContent=`${c?.name||"Unknown customer"} · ${i.due_date?"Due "+i.due_date:"No due date"}`;$("#detail-status").innerHTML=statusBadge(i.status);
     $("#detail-total").textContent=money(i.total_amount);$("#detail-paid").textContent=money(i.total_paid);$("#detail-balance").textContent=money(i.outstanding_balance);
     const pct=i.total_amount?Math.min(100,(i.total_paid/i.total_amount)*100):0;$("#detail-progress").textContent=Math.round(pct)+"%";$("#detail-progress-bar").style.width=pct+"%";
+    const it=i.items||[];$("#items-section").style.display=it.length?"block":"none";const itb=$("#items-body");itb.innerHTML="";
+    it.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${escapeHtml(x.description)}</td><td>${Number(x.quantity)}</td><td>${money(x.unit_price)}</td><td><b>${money(x.line_total)}</b></td>`;itb.appendChild(tr)});
     const b=$("#payments-body");b.innerHTML="";$("#payments-empty").style.display=p.length?"none":"block";
     p.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${escapeHtml(x.payment_date)}</td><td><b>${money(x.amount)}</b></td><td>${escapeHtml(x.payment_method||"—")}</td><td>${escapeHtml(x.reference||"—")}</td>`;b.appendChild(tr)})
     const h=$("#history-body");h.innerHTML="";const history=i.history||[];$("#history-empty").style.display=history.length?"none":"block";
@@ -372,9 +467,133 @@ async function refreshInvoice(){
   }catch(e){toast(e.message)}
 }
 $("#payment-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);const amount=Number(f.get("amount"));try{await api(`/invoices/${encodeURIComponent(currentInvoiceId)}/payments`,{method:"POST",body:JSON.stringify({amount,payment_date:f.get("payment_date")||null,payment_method:f.get("payment_method")||null,reference:f.get("reference")||null})});e.target.reset();await loadAll();await refreshInvoice();toast("Payment recorded")}catch(x){toast(x.message)}})};
+const calcMoney=n=>"GH₵"+Number(n||0).toLocaleString("en-GH",{minimumFractionDigits:2,maximumFractionDigits:2});
+const CALC_NOTE="Enter the customer's details and calculate the payment.";
+let catalog=[], lastCalc=null;
+async function loadCatalog(){try{catalog=await api("/catalog?include_inactive=true");renderCalcCatalog();renderPriceList()}catch(e){if(token||AUTH_FROZEN)toast("Could not load price list: "+e.message)}}
+function calcError(m){const x=$("#calc-error");x.textContent=m||"";x.style.display=m?"block":"none"}
+function populateCalcCustomers(){
+  const s=$("#calc-customer");const sel=s.value;
+  s.innerHTML=`<option value="">Walk-in / type a name</option>`+customers.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}${c.tier?" · Tier "+Number(c.tier):""}</option>`).join("");
+  if(customers.some(c=>c.id===sel))s.value=sel;calcCustomerChanged();
+}
+function calcCustomerChanged(){
+  const c=customers.find(x=>x.id===$("#calc-customer").value),n=$("#calc-name"),h=$("#calc-customer-hint");
+  n.readOnly=!!c;if(c)n.value=c.name;h.innerHTML="";if(!c)return;
+  const bits=[c.tier?"Tier "+Number(c.tier):null,c.first_deposit_amount?"agreed first deposit "+calcMoney(c.first_deposit_amount):null].filter(Boolean);
+  h.textContent=bits.join(" · ")+(Number(c.tier)===3?" — consider an installment plan.":"");
+  if(c.first_deposit_amount){const b=document.createElement("button");b.type="button";b.className="btn secondary small";b.style.marginLeft="8px";b.textContent="Use as amount paid";b.onclick=()=>{$("#calc-form").elements.namedItem("amount_paid").value=c.first_deposit_amount};h.appendChild(b)}
+}
+function fillFacility(sel,fac){
+  const keep=sel.value;sel.innerHTML=`<option value="">Select facility type</option>`+fac.map(i=>`<option value="${escapeHtml(i.code)}">${escapeHtml(i.name)} — ${calcMoney(i.price)}</option>`).join("");
+  if(fac.some(i=>i.code===keep))sel.value=keep;
+}
+function equipmentRows(box,eq,onChange){
+  const old={};box.querySelectorAll(".equip-row").forEach(r=>old[r.dataset.code]=[r.querySelector("input[type=checkbox]").checked,r.querySelector(".equip-qty").value]);
+  box.innerHTML=eq.length?"":`<div class="hint">No equipment on the price list yet.</div>`;
+  eq.forEach(i=>{const [on,q]=old[i.code]||[false,"1"];const r=document.createElement("label");r.className="equip-row";r.dataset.code=i.code;
+    r.innerHTML=`<input type="checkbox"${on?" checked":""}><span>${escapeHtml(i.name)}</span><span class="equip-price">${calcMoney(i.price)}</span><input type="number" class="equip-qty" min="1" max="999" step="1" value="${escapeHtml(q)}"${on?"":" disabled"}>`;
+    const cb=r.querySelector("input[type=checkbox]"),qty=r.querySelector(".equip-qty");cb.onchange=()=>{qty.disabled=!cb.checked;if(onChange)onChange()};qty.oninput=()=>{if(onChange)onChange()};box.appendChild(r)});
+}
+function pickedEquipment(box){return [...box.querySelectorAll(".equip-row")].filter(r=>r.querySelector("input[type=checkbox]").checked).map(r=>({code:r.dataset.code,quantity:Math.max(1,parseInt(r.querySelector(".equip-qty").value)||1)}))}
+function renderCalcCatalog(){
+  const fac=catalog.filter(i=>i.kind==="facility"&&i.active),eq=catalog.filter(i=>i.kind==="equipment"&&i.active);
+  fillFacility($("#calc-facility"),fac);equipmentRows($("#calc-equipment"),eq);
+  fillFacility($("#inv-facility"),fac);equipmentRows($("#inv-equipment"),eq,invRecalc);invRecalc();
+}
+function invRecalc(){
+  const f=$("#invoice-form"),tot=f.elements.namedItem("total_amount"),hint=$("#inv-total-hint");
+  const fac=catalog.find(i=>i.kind==="facility"&&i.code===$("#inv-facility").value);
+  tot.readOnly=!!fac;tot.required=!fac;
+  if(!fac){hint.textContent="Pick a facility to calculate this from the price list, or type an amount.";return}
+  const eq=pickedEquipment($("#inv-equipment")).reduce((s,e)=>{const i=catalog.find(x=>x.kind==="equipment"&&x.code===e.code);return s+(i?i.price*e.quantity:0)},0);
+  const disc=Number(f.elements.namedItem("discount").value)||0;
+  tot.value=(Math.max(0,Math.round((fac.price+eq-disc)*100)/100)).toFixed(2);hint.textContent="Calculated from the price list. It updates as you select items.";
+}
+async function invPrepare(){
+  if(!catalog.length)loadCatalog();
+  const n=$("#invoice-form").elements.namedItem("invoice_number");
+  if(!n.value){try{n.value=(await api("/calculator/next-invoice-number")).invoice_number}catch{}}
+}
+function resetInvoiceForm(){
+  $("#invoice-form").reset();document.querySelectorAll("#inv-equipment .equip-qty").forEach(q=>q.disabled=true);invRecalc();
+}
+$("#inv-facility").onchange=invRecalc;
+$("#invoice-form").elements.namedItem("discount").oninput=invRecalc;
+$("#calc-facility").onchange=e=>{const i=catalog.find(x=>x.kind==="facility"&&x.code===e.target.value);$("#calc-cost").value=i?i.price:""};
+$("#calc-customer").onchange=calcCustomerChanged;
+function calcPayload(){
+  const f=new FormData($("#calc-form"));
+  const equipment=pickedEquipment($("#calc-equipment"));
+  const cost=f.get("construction_cost"),months=f.get("installment_months");
+  return {customer_id:f.get("customer_id")||null,customer_name:(f.get("customer_name")||"").trim()||null,facility_type:f.get("facility_type")||"",construction_cost:cost===""?null:Number(cost),equipment,
+    additional_cost:Number(f.get("additional_cost"))||0,discount:Number(f.get("discount"))||0,amount_paid:Number(f.get("amount_paid"))||0,installment_months:months?parseInt(months):null};
+}
+function calcShow(r){
+  lastCalc=r;
+  const lines=$("#calc-lines");lines.innerHTML="";
+  const add=(label,val,cls)=>{const d=document.createElement("div");d.className="calc-row "+(cls||"");d.innerHTML=`<span>${escapeHtml(label)}</span><strong>${calcMoney(val)}</strong>`;lines.appendChild(d)};
+  (r.lines||[]).forEach(l=>add(l.kind==="facility"?l.description:`${l.quantity} × ${l.description}`,l.line_total,"sub"));
+  if(r.additional_cost)add("Additional costs",r.additional_cost,"sub");
+  $("#calc-total").textContent=calcMoney(r.total_cost);$("#calc-discount").textContent=calcMoney(r.discount);$("#calc-net").textContent=calcMoney(r.net_cost);
+  $("#calc-paid").textContent=calcMoney(r.amount_paid);$("#calc-remaining").textContent=calcMoney(r.remaining_balance);document.querySelector(".calc-final").classList.toggle("settled",!(r.remaining_balance>0));
+  $("#calc-over-row").style.display=r.overpaid>0?"flex":"none";$("#calc-over").textContent=calcMoney(r.overpaid);
+  const ins=r.installments;$("#calc-inst-row").style.display=ins?"flex":"none";
+  if(ins){$("#calc-inst-label").textContent=`Installment plan (${ins.months} month${ins.months>1?"s":""})`;$("#calc-inst").textContent=ins.final_amount!==ins.monthly_amount?`${ins.months-1} × ${calcMoney(ins.monthly_amount)} + ${calcMoney(ins.final_amount)}`:`${ins.months} × ${calcMoney(ins.monthly_amount)}`}
+  $("#calc-note").textContent=r.overpaid>0?`The customer has overpaid by ${calcMoney(r.overpaid)}.`:r.fully_paid?"The customer has no outstanding balance.":"This is the remaining amount the customer needs to pay.";
+  $("#calc-meta").textContent=[r.customer_name,r.facility_name,new Date().toLocaleDateString()].filter(Boolean).join(" · ");
+  $("#calc-actions").style.display="flex";
+}
+$("#calc-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{calcError("");
+  try{calcShow(await api("/calculator/calculate",{method:"POST",body:JSON.stringify(calcPayload())}))}
+  catch(x){calcError(x.message)}})};
+function resetCalculator(){
+  $("#calc-form").reset();$("#calc-customer").value="";calcCustomerChanged();calcError("");lastCalc=null;
+  document.querySelectorAll("#calc-equipment .equip-row").forEach(r=>r.querySelector(".equip-qty").disabled=true);
+  $("#calc-lines").innerHTML="";["total","discount","net","paid","remaining"].forEach(k=>$("#calc-"+k).textContent="GH₵0.00");
+  $("#calc-over-row").style.display="none";$("#calc-inst-row").style.display="none";$("#calc-actions").style.display="none";$("#calc-invoice-box").style.display="none";
+  $("#calc-inv-number").value="";$("#calc-inv-due").value="";$("#calc-inv-method").value="";
+  $("#calc-meta").textContent="What the customer owes after subsidy and payments.";$("#calc-note").textContent=CALC_NOTE;
+}
+async function calcToggleInvoice(){
+  const box=$("#calc-invoice-box");box.style.display=box.style.display==="none"?"block":"none";
+  if(box.style.display==="block"&&!$("#calc-inv-number").value){try{$("#calc-inv-number").value=(await api("/calculator/next-invoice-number")).invoice_number}catch{}}
+}
+async function createCalcInvoice(btn){
+  const p=calcPayload();if(!p.customer_id){toast("Select a customer first");return}
+  const number=$("#calc-inv-number").value.trim();if(!number){toast("Enter an invoice number");return}
+  if(btn.disabled)return;btn.disabled=true;
+  try{const inv=await api("/calculator/invoice",{method:"POST",body:JSON.stringify({...p,invoice_number:number,due_date:$("#calc-inv-due").value||null,deposit_method:$("#calc-inv-method").value||null})});
+    resetCalculator();await loadAll();await openInvoice(inv.id);toast("Invoice created successfully")}
+  catch(x){calcError(x.message);toast(x.message)}finally{btn.disabled=false}
+}
+function calcText(r){
+  const L=["WASHKING - Payment breakdown",r.customer_name?"Customer: "+r.customer_name:null,"",...(r.lines||[]).map(l=>l.kind==="facility"?`${l.description}: ${calcMoney(l.line_total)}`:`${l.quantity} x ${l.description}: ${calcMoney(l.line_total)}`),
+    r.additional_cost?"Additional costs: "+calcMoney(r.additional_cost):null,"Total cost: "+calcMoney(r.total_cost),r.discount?"Less subsidy/discount: "+calcMoney(r.discount):null,"Net customer cost: "+calcMoney(r.net_cost),
+    "Already paid: "+calcMoney(r.amount_paid),r.overpaid>0?"Overpaid: "+calcMoney(r.overpaid):"Still to pay: "+calcMoney(r.remaining_balance)];
+  if(r.installments){const i=r.installments;L.push(i.final_amount!==i.monthly_amount?`Installments: ${i.months-1} x ${calcMoney(i.monthly_amount)} + ${calcMoney(i.final_amount)}`:`Installments: ${i.months} x ${calcMoney(i.monthly_amount)}`)}
+  return L.filter(x=>x!==null).join("\n");
+}
+async function calcCopy(){
+  if(!lastCalc)return;const text=calcText(lastCalc);
+  try{await navigator.clipboard.writeText(text)}catch{const a=document.createElement("textarea");a.value=text;document.body.appendChild(a);a.select();document.execCommand("copy");a.remove()}
+  toast("Breakdown copied");
+}
+function renderPriceList(){
+  const body=$("#catalog-body");if(!body)return;body.innerHTML="";$("#catalog-empty").style.display=catalog.length?"none":"block";
+  catalog.forEach(i=>{const tr=document.createElement("tr");
+    tr.innerHTML=`<td><b>${escapeHtml(i.name)}</b></td><td><span class="badge ${i.kind==="facility"?"tier1":"blue"}">${i.kind==="facility"?"Facility":"Equipment"}</span></td><td><input class="price-input" type="number" min="0" step="0.01" value="${Number(i.price)}"></td><td>${i.active?'<span class="badge paid">Active</span>':'<span class="badge unpaid">Hidden</span>'}</td><td></td>`;
+    const inp=tr.querySelector(".price-input"),cell=tr.lastElementChild;
+    const save=document.createElement("button");save.className="btn small";save.textContent="Save price";save.onclick=()=>updateCatalog(i.id,{price:Number(inp.value)},"Price saved");
+    const tog=document.createElement("button");tog.className="btn secondary small";tog.style.marginLeft="6px";tog.textContent=i.active?"Hide":"Show";tog.onclick=()=>updateCatalog(i.id,{active:!i.active},i.active?"Item hidden":"Item shown");
+    cell.append(save,tog);body.appendChild(tr)});
+}
+async function updateCatalog(id,data,msg){try{await api(`/catalog/${encodeURIComponent(id)}`,{method:"PATCH",body:JSON.stringify(data)});await loadCatalog();toast(msg)}catch(e){toast(e.message)}}
+$("#catalog-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{await api("/catalog",{method:"POST",body:JSON.stringify({kind:f.get("kind"),name:f.get("name"),price:Number(f.get("price"))})});e.target.reset();await loadCatalog();toast("Item added")}catch(x){toast(x.message)}})};
 async function init(){
-  if(!token){signedOut();return}
-  try{const me=await api("/auth/me");$("#current-user").textContent="("+me.username+")";[customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);populateInvoiceCustomers();renderCustomers();renderInvoices();loadDashboard()}catch(e){if(token)toast("Could not connect to the WASHKING API")}
+  if(AUTH_FROZEN)$("#logout-btn").style.display="none";
+  if(!token&&!AUTH_FROZEN){signedOut();return}
+  try{const me=await api("/auth/me");$("#current-user").textContent="("+me.username+")";[customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);populateInvoiceCustomers();renderCustomers();renderInvoices();loadDashboard();loadCatalog();populateCalcCustomers()}catch(e){if(token||AUTH_FROZEN)toast("Could not connect to the WASHKING API at "+API_BASE)}
 }
 init();
 </script>

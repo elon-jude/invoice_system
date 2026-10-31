@@ -100,6 +100,18 @@ CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY, username TEXT NOT NULL UNIQUE, password_hash TEXT NOT NULL,
     created_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS catalog_items (
+    id TEXT PRIMARY KEY, kind TEXT NOT NULL, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL,
+    price NUMERIC(12,2) NOT NULL CHECK(price >= 0), active INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS invoice_items (
+    id TEXT PRIMARY KEY, invoice_id TEXT NOT NULL, line_no INTEGER NOT NULL, kind TEXT NOT NULL,
+    description TEXT NOT NULL, quantity NUMERIC(12,2) NOT NULL, unit_price NUMERIC(12,2) NOT NULL,
+    line_total NUMERIC(12,2) NOT NULL,
+    FOREIGN KEY(invoice_id) REFERENCES invoices(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_items_invoice ON invoice_items(invoice_id);
 CREATE INDEX IF NOT EXISTS idx_invoices_customer ON invoices(customer_id);
 CREATE INDEX IF NOT EXISTS idx_payments_invoice ON payments(invoice_id);
 CREATE INDEX IF NOT EXISTS idx_history_invoice ON invoice_history(invoice_id);

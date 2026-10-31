@@ -9,7 +9,7 @@ import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from .config import ADMIN_PASSWORD, ADMIN_USERNAME, JWT_ALGORITHM, JWT_EXPIRE_MINUTES, JWT_SECRET
+from .config import ADMIN_PASSWORD, ADMIN_USERNAME, AUTH_DISABLED, JWT_ALGORITHM, JWT_EXPIRE_MINUTES, JWT_SECRET
 from .database import get_db, now_iso
 
 log = logging.getLogger(__name__)
@@ -19,6 +19,9 @@ if JWT_SECRET:
 else:
     SECRET = secrets.token_urlsafe(48)
     log.warning('JWT_SECRET is not set; using a random secret. Tokens will stop working on restart.')
+
+if AUTH_DISABLED:
+    log.warning('AUTH_DISABLED is on: login is skipped and ALL endpoints are open. Development only.')
 
 PBKDF2_ITERATIONS = 600_000
 bearer = HTTPBearer(auto_error=False)
@@ -64,6 +67,8 @@ def create_token(user: dict) -> str:
 
 
 def get_current_user(credentials: HTTPAuthorizationCredentials | None = Depends(bearer)) -> dict:
+    if AUTH_DISABLED:
+        return {'id': 'dev', 'username': 'dev', 'created_at': now_iso()}
     unauthorized = HTTPException(401, 'Not authenticated', headers={'WWW-Authenticate': 'Bearer'})
     if not credentials:
         raise unauthorized

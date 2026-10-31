@@ -24,7 +24,18 @@ def invoice_full(conn,invoice_id):
     inv['customer']=dict(customer) if customer else None
     inv['payments']=payments(conn,invoice_id)
     inv['history']=get_history(conn,invoice_id)
+    inv['items']=invoice_items(conn,invoice_id)
     return inv
+
+def invoice_items(conn,invoice_id):
+    rows=conn.execute('SELECT * FROM invoice_items WHERE invoice_id=? ORDER BY line_no',(invoice_id,)).fetchall()
+    return [{**dict(r),'quantity':float(r['quantity']),'unit_price':money(r['unit_price']),'line_total':money(r['line_total'])} for r in rows]
+
+def _insert_items(conn,invoice_id,items):
+    """Save the lines an invoice was built from, at the prices used at the time. Caller commits."""
+    for n,it in enumerate(items or [],1):
+        conn.execute('INSERT INTO invoice_items(id,invoice_id,line_no,kind,description,quantity,unit_price,line_total) VALUES(?,?,?,?,?,?,?,?)',
+          (str(uuid.uuid4()),invoice_id,n,it['kind'],it['description'],it['quantity'],money(it['unit_price']),money(it['line_total'])))
 
 def _insert_payment(conn,inv,amount,payment_date,payment_method,reference,label='Payment'):
     """Insert a payment, refresh the stored status and write history. Caller commits."""
@@ -36,7 +47,7 @@ def _insert_payment(conn,inv,amount,payment_date,payment_method,reference,label=
     add_history(conn,inv['id'],'PAYMENT_RECORDED',f'{label} of GHS {amount:,.2f} was recorded.',amount,pid)
     if new_status=='FULLY_PAID':add_history(conn,inv['id'],'INVOICE_PAID',f'Invoice {inv["invoice_number"]} was fully paid.',amount,pid)
 
-def create_invoice(conn,p):
+def create_invoice(conn,p,items=None):
     customer=conn.execute('SELECT id FROM customers WHERE id=?',(p.customer_id,)).fetchone()
     if not customer: raise HTTPException(404,'Customer not found')
     if conn.execute('SELECT id FROM invoices WHERE invoice_number=?',(p.invoice_number,)).fetchone(): raise HTTPException(409,'Invoice number already exists')
@@ -47,6 +58,7 @@ def create_invoice(conn,p):
     except IntegrityError:
         conn.rollback();raise HTTPException(409,'Invoice number already exists')
     add_history(conn,iid,'INVOICE_CREATED',f'Invoice {p.invoice_number} was created.',total,p.invoice_number)
+    _insert_items(conn,iid,items)
     if p.initial_deposit:
         inv={'id':iid,'invoice_number':p.invoice_number,'total_amount':total,'total_paid':0.0}
         _insert_payment(conn,inv,money(p.initial_deposit),now[:10],p.deposit_method,'Initial deposit','Initial deposit')

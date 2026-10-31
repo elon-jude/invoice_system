@@ -19,3 +19,7 @@ JWT_EXPIRE_MINUTES = int(os.getenv('JWT_EXPIRE_MINUTES', '720'))
 # First staff account, created on startup only when no users exist yet.
 ADMIN_USERNAME = os.getenv('ADMIN_USERNAME', '').strip()
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', '')
+
+# DEV ONLY: set AUTH_DISABLED=1 to skip login so features can be tried without signing in.
+# Every endpoint becomes open to anyone who can reach the server, so never use this in production.
+AUTH_DISABLED = os.getenv('AUTH_DISABLED', '').strip().lower() in ('1', 'true', 'yes', 'on')

@@ -1,11 +1,16 @@
 param(
     [switch]$Reload,
     [switch]$UsePostgres,
+    [switch]$NoAuth,
     [int]$Port = 8001
 )
 
 Set-Location "$PSScriptRoot"
 if (-not (Test-Path "backend\.venv\Scripts\python.exe")) { Write-Host "Run .\setup_backend.ps1 first"; exit 1 }
+if ($NoAuth) {
+    $env:AUTH_DISABLED = "1"
+    Write-Host "AUTH IS DISABLED (-NoAuth): no login needed. Development only."
+}
 if (-not $env:JWT_SECRET) { Write-Host "JWT_SECRET is not set: sign-ins will be lost whenever the server restarts." }
 if ($UsePostgres) {
     if (-not $env:DATABASE_URL) {
