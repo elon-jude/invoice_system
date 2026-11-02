@@ -9,7 +9,7 @@ import jwt
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from .config import ADMIN_PASSWORD, ADMIN_USERNAME, AUTH_DISABLED, JWT_ALGORITHM, JWT_EXPIRE_MINUTES, JWT_SECRET
+from .config import ADMIN_PASSWORD, ADMIN_PASSWORD_RESET, ADMIN_USERNAME, AUTH_DISABLED, JWT_ALGORITHM, JWT_EXPIRE_MINUTES, JWT_SECRET
 from .database import get_db, now_iso
 
 log = logging.getLogger(__name__)
@@ -84,13 +84,34 @@ def get_current_user(credentials: HTTPAuthorizationCredentials | None = Depends(
 
 
 def ensure_admin() -> None:
-    """Create the first staff account from ADMIN_USERNAME/ADMIN_PASSWORD if no users exist."""
+    """Create the first staff account or explicitly reset its password."""
+    username = ADMIN_USERNAME.lower()
+    if ADMIN_PASSWORD_RESET:
+        if not username or len(ADMIN_PASSWORD) < 8:
+            raise RuntimeError(
+                'ADMIN_PASSWORD_RESET requires ADMIN_USERNAME and an ADMIN_PASSWORD of at least 8 characters'
+            )
+
+        with get_db() as conn:
+            row = conn.execute('SELECT id FROM users WHERE username=?', (username,)).fetchone()
+            if not row:
+                raise RuntimeError(
+                    f'ADMIN_PASSWORD_RESET is enabled but admin user {username!r} does not exist'
+                )
+            conn.execute(
+                'UPDATE users SET password_hash=? WHERE id=?',
+                (hash_password(ADMIN_PASSWORD), row['id']),
+            )
+            conn.commit()
+        log.warning('Reset password for configured admin user %r', username)
+        return
+
     with get_db() as conn:
         count = conn.execute('SELECT COUNT(*) AS n FROM users').fetchone()['n']
         if count:
             return
         if ADMIN_USERNAME and len(ADMIN_PASSWORD) >= 8:
-            create_user(conn, ADMIN_USERNAME.lower(), ADMIN_PASSWORD)
-            log.warning('Created initial admin user %r', ADMIN_USERNAME.lower())
+            create_user(conn, username, ADMIN_PASSWORD)
+            log.warning('Created initial admin user %r', username)
         else:
             log.warning('No users exist. Set ADMIN_USERNAME and ADMIN_PASSWORD (8+ chars) and restart to create one.')
