@@ -324,9 +324,9 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
 <script>
 // Set to true to skip the login screen while trying features. The backend must be started
 // with AUTH_DISABLED=1 (or run_backend.ps1 -NoAuth). While frozen, the app talks to your local backend.
-const AUTH_FROZEN=true;
+const AUTH_FROZEN=false;
 const LOCAL_API="http://127.0.0.1:8000";
-const API_BASE=AUTH_FROZEN?LOCAL_API:"https://invoice-manager-e17110f9.fastapicloud.dev";
+const API_BASE=AUTH_FROZEN?LOCAL_API:"https://washkinggh.fastapicloud.dev";
 let customers=[], invoices=[], currentInvoiceId=null, currentCustomerId=null;
 
 const $=s=>document.querySelector(s);

@@ -129,10 +129,10 @@ The collection creates real records, so run it against a local or test database,
 ### Frontend
 Push the repository to GitHub and enable GitHub Pages for the repository root. `index.html` is already at the root. Staff sign in with their username and password; the token is kept in the browser's local storage.
 
-**Before publishing, set `AUTH_FROZEN` to `false` in `index.html`.** While it is `true` the page skips login and points at the local backend instead of the deployed API.
+The checked-in frontend is configured for production: `AUTH_FROZEN` is `false`, so staff must sign in and the page calls the WASHKING FastAPI Cloud API. For local feature exploration only, set it to `true`; that skips the login screen and points at `LOCAL_API`, so the backend must also be started with `AUTH_DISABLED=1`.
 
 ### Backend
-Deploy from the repository root with `uv run fastapi deploy`. The root `pyproject.toml` declares the `backend.main:app` entrypoint and all Cloud dependencies.
+This FastAPI Cloud app is configured with `backend/` as its runtime directory. Deploy from the repository root with `uv run --no-sync fastapi deploy --app-id <FASTAPI_CLOUD_APP_ID>` so the `backend` package is included. Its `cloud_app:app` entrypoint adds the repository root to the import path before loading the package-based app.
 
 Before going live, attach a managed PostgreSQL database (such as FastAPI Cloud's Neon or Supabase integration) and set `DATABASE_URL`, `JWT_SECRET`, `ADMIN_USERNAME` and `ADMIN_PASSWORD` in the deployment's environment. Do not run production on SQLite: cloud instances can restart or scale independently, so the file is not durable shared storage. Make sure `AUTH_DISABLED` is **not** set.
 
