@@ -10,7 +10,7 @@ from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from .config import ADMIN_PASSWORD, ADMIN_PASSWORD_RESET, ADMIN_USERNAME, AUTH_DISABLED, JWT_ALGORITHM, JWT_EXPIRE_MINUTES, JWT_SECRET
-from .database import get_db, now_iso
+from .database import IntegrityError, get_db, now_iso
 
 log = logging.getLogger(__name__)
 
@@ -95,15 +95,28 @@ def ensure_admin() -> None:
         with get_db() as conn:
             row = conn.execute('SELECT id FROM users WHERE username=?', (username,)).fetchone()
             if not row:
-                raise RuntimeError(
-                    f'ADMIN_PASSWORD_RESET is enabled but admin user {username!r} does not exist'
+                try:
+                    create_user(conn, username, ADMIN_PASSWORD)
+                except IntegrityError:
+                    conn.rollback()
+                    row = conn.execute(
+                        'SELECT id FROM users WHERE username=?', (username,)
+                    ).fetchone()
+                    if not row:
+                        raise
+                    conn.execute(
+                        'UPDATE users SET password_hash=? WHERE id=?',
+                        (hash_password(ADMIN_PASSWORD), row['id']),
+                    )
+                    conn.commit()
+                log.warning('Created configured admin user %r', username)
+            else:
+                conn.execute(
+                    'UPDATE users SET password_hash=? WHERE id=?',
+                    (hash_password(ADMIN_PASSWORD), row['id']),
                 )
-            conn.execute(
-                'UPDATE users SET password_hash=? WHERE id=?',
-                (hash_password(ADMIN_PASSWORD), row['id']),
-            )
-            conn.commit()
-        log.warning('Reset password for configured admin user %r', username)
+                conn.commit()
+                log.warning('Reset password for configured admin user %r', username)
         return
 
     with get_db() as conn:

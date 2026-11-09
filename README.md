@@ -61,7 +61,7 @@ The backend reads these environment variables:
 |---|---|---|
 | `JWT_SECRET` | Yes in production | Long random value used to sign login tokens. If unset, a random one is generated per process and everyone is signed out on restart. |
 | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | First run | Creates the first staff account when no users exist yet. Password must be 8+ characters. Ignored once a user exists unless `ADMIN_PASSWORD_RESET=1`. |
-| `ADMIN_PASSWORD_RESET` | No | Set to `1` temporarily to replace the password for the existing `ADMIN_USERNAME` account with `ADMIN_PASSWORD` at startup. After a successful deployment, unset it and redeploy. Requires an existing matching user and a password of at least 8 characters. |
+| `ADMIN_PASSWORD_RESET` | No | Set to `1` temporarily to create the configured admin if missing or replace the password of the matching `ADMIN_USERNAME` account with `ADMIN_PASSWORD` at startup. After a successful deployment, unset it and redeploy. Password must be at least 8 characters. |
 | `DATABASE_URL` | Yes in production | PostgreSQL connection string, e.g. `postgresql://user:pass@host:5432/db`. If unset, the local SQLite file `backend/invoices.db` is used. |
 | `JWT_EXPIRE_MINUTES` | No | Token lifetime, default 720 (12 hours). |
 | `AUTH_DISABLED` | No (development only) | Set to `1` to skip login so features can be tried without signing in. **Every endpoint becomes open to anyone who can reach the server.** Never set this in production. Off by default. |
@@ -137,7 +137,7 @@ This FastAPI Cloud app is configured with `backend/` as its runtime directory. D
 
 Before going live, attach a managed PostgreSQL database (such as FastAPI Cloud's Neon or Supabase integration) and set `DATABASE_URL`, `JWT_SECRET`, `ADMIN_USERNAME` and `ADMIN_PASSWORD` in the deployment's environment. Do not run production on SQLite: cloud instances can restart or scale independently, so the file is not durable shared storage. Make sure `AUTH_DISABLED` is **not** set.
 
-To reset an existing admin password, temporarily set `ADMIN_PASSWORD_RESET=1` in the deployment environment and deploy/restart. The app updates the password for the account matching `ADMIN_USERNAME` to `ADMIN_PASSWORD`; it does not expose either value. After verifying login, unset `ADMIN_PASSWORD_RESET` and redeploy so subsequent startups do not repeat the reset.
+To reset an existing admin password or create the configured admin if that username is missing, temporarily set `ADMIN_PASSWORD_RESET=1` in the deployment environment and deploy/restart. The app updates or creates the account matching `ADMIN_USERNAME` with `ADMIN_PASSWORD`; it does not expose either value or remove any other users. After verifying login, unset `ADMIN_PASSWORD_RESET` and redeploy so subsequent startups do not repeat the reset.
 
 After deployment, update `API_BASE` in `index.html` if the backend URL changes.
 
