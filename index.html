@@ -36,6 +36,435 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
 .detail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.back{background:none;border:0;color:var(--brandInk);font-weight:700;font-size:12px;padding:0}.detail-title h1{margin:9px 0 4px;font-size:25px}.detail-title p{margin:0;color:var(--muted);font-size:12px}.invoice-meta{display:flex;gap:8px;flex-wrap:wrap}.payment-layout{display:grid;grid-template-columns:1fr 1.35fr;gap:15px}
 .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(7,30,45,.45);z-index:30;align-items:center;justify-content:center;padding:20px}.modal-backdrop.show{display:flex}.modal{background:#fff;width:min(570px,100%);border-radius:16px;box-shadow:0 25px 70px rgba(0,0,0,.2);overflow:hidden}.modal-head{padding:18px 21px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:20px;color:var(--muted)}.modal-body{padding:21px}
 .tier-choice{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:7px}.tier-choice label{border:1px solid var(--line);padding:12px;border-radius:10px;cursor:pointer}.tier-choice input{display:none}.tier-choice label:has(input:checked){border-color:var(--brand);background:var(--brandSoft)}.tier-choice b{display:block;font-size:12px}.tier-choice span{font-size:10px;color:var(--muted);line-height:1.4}
+
+:root{--teal:#07556b;--dark-teal:#063d53;--peach:#f58c76;--peach-hover:#ed795f;--text:#173e55;--muted:#788b9b;--border:#dce6ed;--white:#ffffff;--login-shadow:0 20px 60px rgba(20,60,80,.10)}
+#login-modal{display:flex;align-items:center;justify-content:center;padding:30px;position:fixed;inset:0;background:rgba(9,29,37,.18);z-index:60}
+#login-modal .login-container{width:min(1270px,100%);min-height:760px;display:grid;grid-template-columns:1.45fr 1fr;position:relative;border-radius:0 0 0 0;overflow:hidden;background:#f4f7f9;box-shadow:0 30px 80px rgba(9,33,42,.22)}
+#login-modal .brand-section{position:relative;min-height:760px;overflow:hidden;color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:52px 56px 36px;isolation:isolate;background:linear-gradient(180deg,#0d455f,#0a3a51)}
+#login-modal .brand-section::before{content:"";position:absolute;inset:0;z-index:-2;background:url("https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1600&q=85") center/cover no-repeat;filter:saturate(1.1) brightness(.72)}
+#login-modal .brand-section::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(120deg,rgba(5,70,92,.90),rgba(6,62,83,.82))}
+#login-modal .brand-logo{display:flex;align-items:center;gap:20px;position:relative;z-index:1}
+#login-modal .logo-symbol{width:68px;height:72px}.logo-symbol svg{width:100%;height:100%}
+#login-modal .logo-text{font-size:52px;font-weight:800;letter-spacing:1px;color:#fff;line-height:1}.logo-text small{display:block;font-size:12px;letter-spacing:4px;margin-top:12px;font-weight:700;color:rgba(255,255,255,.8)}
+#login-modal .brand-content{max-width:470px;margin-top:35px;position:relative;z-index:1}
+#login-modal .eyebrow{color:#ffb4a2;font-size:11px;letter-spacing:4px;font-weight:700;margin-bottom:26px;text-transform:uppercase}
+#login-modal .brand-content h1{font-size:clamp(36px,3vw,64px);line-height:1.08;letter-spacing:-2px;font-weight:800;margin:0 0 10px}
+#login-modal .brand-content h1 span{color:var(--peach)}
+#login-modal .brand-description{margin-top:18px;max-width:420px;font-size:18px;line-height:1.5;color:rgba(255,255,255,.9)}
+#login-modal .features{list-style:none;margin-top:32px;display:grid;gap:18px;position:relative;z-index:1;padding:0}.features li{display:flex;align-items:center;gap:16px}.feature-icon{width:52px;height:52px;display:grid;place-items:center;border-radius:14px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);font-size:26px}.feature-text strong{display:block;font-size:17px;font-weight:700;color:#f4fbff}.feature-text small{display:block;margin-top:3px;color:rgba(255,255,255,.72);font-size:13px}.brand-footer{display:flex;align-items:center;gap:18px;color:rgba(255,255,255,.8);font-size:11px;letter-spacing:5px;font-weight:700;margin-top:38px;position:relative;z-index:1}.brand-footer span{height:1px;flex:1;background:rgba(255,255,255,.38)}
+#login-modal .login-section{min-height:760px;display:flex;justify-content:center;align-items:center;padding:50px 35px 65px;position:relative;background:linear-gradient(180deg,#f5f7f9,#eef5f7);overflow:hidden}
+#login-modal .login-section::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.7),rgba(200,220,234,.08));pointer-events:none}
+#login-modal .login-card{width:100%;max-width:460px;padding:40px 36px 28px;border-radius:24px;background:#fff;box-shadow:0 18px 40px rgba(31,54,68,.08);position:relative;z-index:1;animation:fadeIn .7s ease;border:1px solid rgba(197,214,224,.6)}
+#login-modal .card-logo{width:64px;height:74px;margin:0 auto 18px}.card-logo svg{width:100%;height:100%}
+#login-modal .login-card h2{text-align:center;color:#0d3b4f;font-size:52px;font-weight:800;letter-spacing:-1.5px;margin:0}.subtitle{text-align:center;color:#506b7b;font-size:18px;margin:12px 0 28px;line-height:1.5}.form-group{margin-bottom:20px}.form-group label{display:block;margin-bottom:10px;font-size:15px;font-weight:700;color:#24506a}.form-group input{width:100%;height:54px;padding:0 16px;border:1px solid #dae5ec;border-radius:12px;outline:none;font-size:16px;color:#18384d;transition:.2s;background:#f7fbfd}.form-group input:focus{border-color:#6ca6c4;box-shadow:0 0 0 4px rgba(108,166,196,.12)}.form-group input::placeholder{color:#a0b3c0}.password-wrapper{position:relative}.password-wrapper input{padding-right:54px}.password-toggle{position:absolute;right:16px;top:50%;transform:translateY(-50%);border:none;background:transparent;cursor:pointer;font-size:22px;color:#6d7f8c}.form-options{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:10px 0 20px;font-size:14px}.remember{display:flex;align-items:center;gap:10px;color:#4f6475;cursor:pointer;font-weight:500}.remember input{accent-color:#0a5a7a;width:17px;height:17px}.forgot-password{border:none;background:none;color:#f58c76;font-weight:700;cursor:pointer;font-size:14px}.forgot-password:hover{color:#eb7452}.login-button{width:100%;height:58px;border:none;border-radius:14px;background:linear-gradient(180deg,#f58c76,#ee7d60);color:#fff;font-size:22px;font-weight:800;cursor:pointer;transition:.25s;display:flex;justify-content:center;align-items:center;gap:10px;box-shadow:0 12px 22px rgba(245,140,118,.22)}.login-button:hover{background:linear-gradient(180deg,#ed7d60,#dc6a4a);transform:translateY(-1px)}.login-button:disabled{opacity:.7;cursor:wait;transform:none}.message{min-height:20px;margin:10px 0 16px;font-size:13px;color:#c0392b;line-height:1.5}.message.success{color:#24734d}.divider{display:flex;align-items:center;gap:16px;margin:24px 0 18px;color:#8ea0ad;font-size:13px;font-weight:600}.divider span{height:1px;flex:1;background:#d8e1e7}.security-note{background:#f3f8fb;padding:14px 16px;border-radius:12px;text-align:center;color:#4f6879;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #d7e3eb}.copyright{position:absolute;bottom:14px;color:#91a1af;font-size:10px}
+@media(max-width:900px){#login-modal{padding:18px}#login-modal .login-container{grid-template-columns:1fr}#login-modal .brand-section{min-height:360px;padding:38px 28px 24px}#login-modal .brand-content h1{font-size:42px}#login-modal .login-section{min-height:auto;padding:35px 20px 52px}}
+@keyframes fadeIn {from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.login-container{grid-template-columns:.85fr 1.15fr}.brand-section{padding:40px 30px}.login-section{padding:25px}.login-card{padding:32px 25px}.brand-content h1{font-size:34px}}
+@media(max-width:700px){.login-container{display:flex;flex-direction:column}.brand-section{min-height:auto;padding:30px 25px}.brand-content{margin-top:35px}.brand-content h1{font-size:32px}.features{margin-top:20px}.brand-footer{margin-top:25px}.login-section{min-height:auto;padding:35px 18px 55px}.login-card{padding:32px 23px}.copyright{bottom:15px}}
+@media(max-width:380px){.logo-text{font-size:23px}.brand-content h1{font-size:29px}.login-card h2{font-size:27px}.form-options{font-size:11px}}
+
+#login-modal{
+  padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  overflow-y:auto;
+  background:#eaf3f8;
+}
+#login-modal .login-container{
+  width:min(1440px,100%);
+  height:min(900px,calc(100dvh - max(16px,env(safe-area-inset-top) + env(safe-area-inset-bottom) + 16px)));
+  min-height:640px;
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  border-radius:24px;
+}
+#login-modal .brand-section{
+  min-height:0;
+  padding:clamp(28px,4.2vw,62px) clamp(28px,5.5vw,82px) 30px;
+}
+#login-modal .brand-logo{gap:16px}
+#login-modal .logo-symbol{width:58px;height:64px}
+#login-modal .logo-text{font-size:clamp(32px,3.8vw,48px)}
+#login-modal .logo-text small{font-size:10px;letter-spacing:clamp(2px,.3vw,4px);margin-top:9px}
+#login-modal .brand-content{margin-top:20px;max-width:450px}
+#login-modal .eyebrow{margin:0 0 16px;letter-spacing:3px}
+#login-modal .brand-content h1{font-size:clamp(32px,3.5vw,52px);letter-spacing:-1.6px}
+#login-modal .brand-description{margin:15px 0 0;font-size:clamp(14px,1.25vw,17px);line-height:1.45}
+#login-modal .features{margin:22px 0 0;gap:10px}
+#login-modal .features li{gap:12px}
+#login-modal .feature-icon{width:44px;height:44px;border-radius:12px;font-size:22px}
+#login-modal .feature-text strong{font-size:14px}
+#login-modal .feature-text small{font-size:12px}
+#login-modal .brand-footer{margin-top:20px;gap:12px;letter-spacing:3px}
+#login-modal .login-section{
+  min-height:0;
+  padding:clamp(22px,3.8vw,54px);
+  overflow:visible;
+}
+#login-modal .login-section::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:-8%;
+  bottom:-8%;
+  left:-86px;
+  width:172px;
+  border-radius:50%;
+  background:linear-gradient(180deg,#f5f7f9,#eef5f7);
+  pointer-events:none;
+}
+#login-modal .login-card{
+  max-width:440px;
+  padding:clamp(24px,3vw,36px) clamp(22px,2.7vw,34px) 24px;
+  border-radius:24px;
+}
+#login-modal .card-logo{width:48px;height:56px;margin-bottom:10px}
+#login-modal .login-card h2{font-size:clamp(30px,2.8vw,38px);letter-spacing:-1px}
+#login-modal .subtitle{font-size:15px;margin:6px 0 20px}
+#login-modal .form-group{margin-bottom:14px}
+#login-modal .form-group label{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:7px}
+#login-modal .form-group label svg{width:16px;height:16px;fill:#07556b;flex:none}
+#login-modal .form-group input{height:46px;font-size:15px;border-radius:11px}
+#login-modal .form-options{font-size:13px;margin:7px 0 14px}
+#login-modal .remember{gap:8px}
+#login-modal .login-button{height:52px;border-radius:12px;font-size:18px}
+#login-modal .login-button svg{width:20px;height:20px;fill:currentColor}
+#login-modal .message{min-height:16px;margin:7px 0 10px}
+#login-modal .divider{margin:16px 0 12px}
+#login-modal .security-note{padding:10px 12px;font-size:12px}
+#login-modal .security-note svg{width:18px;height:18px;fill:#07556b;flex:none}
+#login-modal .copyright{bottom:12px;font-size:10px}
+@media(max-width:900px){
+  #login-modal{align-items:flex-start}
+  #login-modal .login-container{height:auto;min-height:0;grid-template-columns:minmax(0,1fr);border-radius:20px}
+  #login-modal .brand-section{padding:28px clamp(24px,6vw,56px) 24px}
+  #login-modal .brand-content{margin-top:22px}
+  #login-modal .brand-content h1{font-size:clamp(30px,5.5vw,44px)}
+  #login-modal .features,#login-modal .brand-footer{display:none}
+  #login-modal .login-section{padding:20px 18px 40px}
+  #login-modal .login-section::after{display:none}
+  #login-modal .login-card{max-width:460px}
+}
+@media(max-width:600px){
+  #login-modal{padding:max(6px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))}
+  #login-modal .login-container{border-radius:16px}
+  #login-modal .brand-section{padding:22px 22px 18px}
+  #login-modal .brand-logo{gap:11px}
+  #login-modal .logo-symbol{width:38px;height:44px}
+  #login-modal .logo-text{font-size:clamp(25px,7vw,32px)}
+  #login-modal .logo-text small{font-size:8px;letter-spacing:2px;margin-top:6px}
+  #login-modal .brand-content{margin-top:18px}
+  #login-modal .eyebrow{font-size:9px;letter-spacing:2px;margin-bottom:9px}
+  #login-modal .brand-content h1{font-size:clamp(25px,7.3vw,34px);line-height:1.08;letter-spacing:-.8px}
+  #login-modal .brand-description{font-size:13px;line-height:1.4;margin-top:10px}
+  #login-modal .features,#login-modal .brand-footer{display:none}
+  #login-modal .login-section{padding:16px 12px 34px}
+  #login-modal .login-card{padding:18px 17px 14px;border-radius:18px}
+  #login-modal .card-logo{width:36px;height:42px;margin-bottom:6px}
+  #login-modal .login-card h2{font-size:clamp(28px,8vw,34px)}
+  #login-modal .subtitle{font-size:14px;margin:4px 0 12px}
+  #login-modal .form-group{margin-bottom:10px}
+  #login-modal .form-group label{margin-bottom:5px}
+  #login-modal .form-options{align-items:flex-start;font-size:12px;margin:4px 0 9px}
+  #login-modal .message{min-height:0;margin:4px 0 6px}
+  #login-modal .login-button{height:48px}
+  #login-modal .divider{margin:12px 0 9px}
+  #login-modal .security-note{padding:8px}
+  #login-modal .remember{gap:6px}
+  #login-modal .remember input{width:16px;height:16px;margin:0}
+  #login-modal .forgot-password{font-size:12px;white-space:nowrap}
+  #login-modal .security-note{font-size:11px;padding:9px 8px}
+}
+@media(max-width:360px){
+  #login-modal .form-options{flex-wrap:wrap}
+  #login-modal .brand-description{font-size:12px}
+  #login-modal .login-card{padding-right:15px;padding-left:15px}
+}
+@media(max-width:600px) and (max-height:760px){
+  #login-modal .brand-section{padding-top:16px;padding-bottom:14px}
+  #login-modal .brand-content{margin-top:12px}
+  #login-modal .brand-description{display:none}
+  #login-modal .login-section{padding-top:12px;padding-bottom:32px}
+  #login-modal .login-card{padding-top:15px;padding-bottom:13px}
+  #login-modal .card-logo{width:34px;height:40px;margin-bottom:5px}
+  #login-modal .subtitle{margin:3px 0 10px}
+  #login-modal .form-group{margin-bottom:9px}
+  #login-modal .form-group label{margin-bottom:4px}
+  #login-modal .form-group input{height:40px}
+  #login-modal .form-options{margin:4px 0 9px}
+  #login-modal .message{min-height:0;margin:3px 0 6px}
+  #login-modal .login-button{height:44px}
+  #login-modal .divider{margin:8px 0}
+  #login-modal .security-note{padding:7px 8px}
+}
+@media(max-width:500px) and (max-height:600px){
+  #login-modal .brand-section{padding:10px 18px}
+  #login-modal .brand-content{display:none}
+  #login-modal .login-section{padding:8px 10px 24px}
+  #login-modal .login-card{padding:10px 15px}
+  #login-modal .card-logo{width:28px;height:32px;margin-bottom:2px}
+  #login-modal .login-card h2{font-size:25px}
+  #login-modal .subtitle{font-size:11px;margin:2px 0 5px}
+  #login-modal .form-group{margin-bottom:5px}
+  #login-modal .form-group label{font-size:10px;margin-bottom:2px}
+  #login-modal .form-group input{height:32px;font-size:13px}
+  #login-modal .form-options{font-size:10px;margin:2px 0 4px}
+  #login-modal .login-button{height:34px;font-size:14px}
+  #login-modal .message{margin:1px 0 3px}
+  #login-modal .divider{margin:4px 0}
+  #login-modal .security-note{font-size:9px;padding:4px 6px}
+  #login-modal .copyright{bottom:4px}
+}
+@media(max-height:680px) and (min-width:901px){
+  #login-modal .login-container{min-height:0}
+  #login-modal .brand-section{padding-top:24px;padding-bottom:20px}
+  #login-modal .brand-content{margin-top:12px}
+  #login-modal .features{margin-top:14px;gap:7px}
+  #login-modal .feature-icon{width:38px;height:38px}
+  #login-modal .brand-footer{margin-top:12px}
+  #login-modal .login-section{padding-top:16px;padding-bottom:36px}
+  #login-modal .login-card{padding-top:20px;padding-bottom:16px}
+  #login-modal .card-logo{width:40px;height:46px;margin-bottom:6px}
+  #login-modal .subtitle{margin-bottom:14px}
+  #login-modal .form-group{margin-bottom:10px}
+  #login-modal .divider{margin:10px 0}
+}
+@media(max-height:520px) and (min-width:700px){
+  #login-modal{align-items:flex-start}
+  #login-modal .login-container{height:auto;min-height:0;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr)}
+  #login-modal .brand-section{padding:14px clamp(20px,4vw,48px)}
+  #login-modal .logo-symbol{width:36px;height:40px}
+  #login-modal .logo-text{font-size:27px}
+  #login-modal .logo-text small{font-size:8px;letter-spacing:2px;margin-top:5px}
+  #login-modal .brand-content{margin-top:10px}
+  #login-modal .eyebrow{font-size:8px;margin-bottom:6px}
+  #login-modal .brand-content h1{font-size:clamp(23px,3.4vw,32px)}
+  #login-modal .brand-description,#login-modal .features,#login-modal .brand-footer{display:none}
+  #login-modal .login-section{padding:8px 10px}
+  #login-modal .login-card{padding:8px 14px}
+  #login-modal .card-logo{display:none}
+  #login-modal .login-card h2{font-size:25px}
+  #login-modal .subtitle{font-size:12px;margin:1px 0 4px}
+  #login-modal .form-group{margin-bottom:4px}
+  #login-modal .form-group label{font-size:11px;margin-bottom:2px}
+  #login-modal .form-group input{height:34px;font-size:13px}
+  #login-modal .form-options{font-size:11px;margin:2px 0 4px}
+  #login-modal .message{min-height:0;margin:1px 0 3px}
+  #login-modal .login-button{height:38px;font-size:15px}
+  #login-modal .divider{margin:4px 0}
+  #login-modal .security-note{padding:5px 7px;font-size:10px}
+  #login-modal .copyright{bottom:4px}
+}
+@media(prefers-reduced-motion:reduce){
+  #login-modal .login-card{animation:none}
+  #login-modal .login-button{transition:none}
+}
+#login-modal .password-toggle{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  font-size:0;
+  border-radius:8px;
+}
+#login-modal .password-toggle:hover{background:#eaf3f8}
+#login-modal .password-toggle:focus-visible{outline:2px solid #6ca6c4;outline-offset:2px}
+#login-modal .password-toggle svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#login-modal .password-toggle .eye-slash{display:none}
+#login-modal .password-toggle[aria-pressed="true"] .eye-slash{display:block}
+
+#login-modal{
+  display:none;
+  align-items:stretch;
+  justify-content:stretch;
+  padding:0;
+  overflow:auto;
+  background:#f3f8fb;
+}
+#login-modal.show{display:flex}
+#login-modal .auth-shell{
+  align-self:stretch;
+  width:100%;
+  min-height:100vh;
+  min-height:100dvh;
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  background:#fff;
+  color:#12222f;
+  font-family:Inter,"Segoe UI",system-ui,Arial,sans-serif;
+}
+#login-modal .auth-brand-panel{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:100vh;
+  min-height:100dvh;
+  padding:clamp(34px,5vw,76px) clamp(30px,6.5vw,100px);
+  display:flex;
+  flex-direction:column;
+  color:#fff;
+  background:#073b57;
+}
+#login-modal .auth-brand-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:radial-gradient(ellipse at 76% 18%,#13789a 0,transparent 45%),linear-gradient(145deg,#07506b,#073b57 72%);
+}
+#login-modal .auth-brand-panel::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:460px;
+  height:460px;
+  right:-260px;
+  bottom:-210px;
+  border:1px solid #ffffff20;
+  border-radius:50%;
+  box-shadow:0 0 0 42px #ffffff08,0 0 0 84px #ffffff05;
+}
+#login-modal .auth-brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:max-content;
+  max-width:100%;
+  color:#fff;
+  text-decoration:none;
+}
+#login-modal .auth-brand-mark{width:55px;height:55px;flex:none;color:#fff}
+#login-modal .auth-brand-mark svg,#login-modal .auth-card-mark svg{width:100%;height:100%}
+#login-modal .auth-brand-mark svg path{fill:#ff9476}
+#login-modal .auth-brand-copy strong{display:block;font-size:25px;font-weight:850;letter-spacing:.025em}
+#login-modal .auth-brand-copy small{display:block;margin-top:3px;color:#b6dbea;font-size:10px;letter-spacing:.2em;font-weight:700}
+#login-modal .auth-brand-message{max-width:520px;margin:auto 0;padding:45px 0}
+#login-modal .auth-eyebrow{margin:0 0 17px;color:#ffb197;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+#login-modal .auth-brand-message h1{margin:0;font-size:clamp(40px,5vw,66px);line-height:1.02;letter-spacing:-.055em;font-weight:800}
+#login-modal .auth-brand-message h1 span{color:#ff9476}
+#login-modal .auth-intro{max-width:430px;color:#d0e5ee;line-height:1.7;margin:22px 0 30px;font-size:15px}
+#login-modal .auth-features{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+#login-modal .auth-features li{display:flex;align-items:center;gap:13px;color:#f4fbff;font-size:13px}
+#login-modal .auth-feature-icon{width:38px;height:38px;flex:none;border-radius:11px;display:grid;place-items:center;background:#ffffff12;border:1px solid #ffffff26;color:#ffc0aa;font-size:17px}
+#login-modal .auth-features strong,#login-modal .auth-features small{display:block}
+#login-modal .auth-features small{margin-top:1px;color:#b9d4e0}
+#login-modal .auth-brand-footer{padding-top:25px;color:#9cc6d7;font-size:10px;letter-spacing:.15em;font-weight:700}
+#login-modal .auth-login-panel{
+  position:relative;
+  min-height:100vh;
+  min-height:100dvh;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  padding:54px 36px;
+  background:linear-gradient(145deg,#f7fafc,#edf5f8);
+}
+#login-modal .auth-shape{position:absolute;border-radius:50%;pointer-events:none}
+#login-modal .auth-shape-one{width:280px;height:280px;right:-135px;top:-140px;border:35px solid #0088c80b}
+#login-modal .auth-shape-two{width:380px;height:380px;left:-265px;bottom:-240px;border:45px solid #f36f3d0b}
+#login-modal .auth-card{
+  position:relative;
+  z-index:1;
+  width:min(435px,100%);
+  padding:clamp(30px,4vw,48px);
+  border:1px solid #fff;
+  border-radius:22px;
+  background:#ffffffed;
+  box-shadow:0 24px 70px #073b5718;
+  backdrop-filter:blur(9px);
+}
+#login-modal .auth-card-mark{display:flex;justify-content:center;width:47px;height:54px;margin:0 auto 17px}
+#login-modal .auth-card h2{text-align:center;color:#073b57;font-size:34px;letter-spacing:-.045em;margin:0}
+#login-modal .auth-subtitle{text-align:center;color:#637887;font-size:13px;margin:8px 0 29px}
+#login-modal .auth-field{margin:17px 0}
+#login-modal .auth-field label{display:block;color:#304b5d;font-size:12px;font-weight:750;margin-bottom:8px}
+#login-modal .auth-field input{width:100%;height:50px;padding:0 14px;border:1px solid #dbe6ec;border-radius:10px;background:#fff;color:#12222f;font-size:14px;outline:none;transition:border-color .18s,box-shadow .18s}
+#login-modal .auth-field input::placeholder{color:#96a7b2}
+#login-modal .auth-field input:focus{border-color:#0088c8;box-shadow:0 0 0 3px #0088c81c}
+#login-modal .auth-input-wrap{position:relative}
+#login-modal .auth-input-wrap input{padding-right:60px}
+#login-modal .auth-toggle{position:absolute;right:9px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:#006fa6;border-radius:7px;padding:7px 8px;font-size:12px;font-weight:700;cursor:pointer}
+#login-modal .auth-toggle:focus-visible,#login-modal .auth-submit:focus-visible,#login-modal .auth-forgot:focus-visible{outline:3px solid #0088c84d;outline-offset:2px}
+#login-modal .auth-form-options{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:17px 0 22px;font-size:12px}
+#login-modal .auth-remember{display:flex;align-items:center;gap:8px;color:#526b7a;cursor:pointer}
+#login-modal .auth-remember input{accent-color:#0088c8;width:15px;height:15px;margin:0}
+#login-modal .auth-forgot{border:0;background:none;padding:4px 0;color:#006fa6;font-size:12px;font-weight:750;cursor:pointer}
+#login-modal .auth-notice{display:none;margin:0 0 14px;padding:10px 12px;border-radius:8px;background:#fff1ed;color:#a53e24;font-size:12px}
+#login-modal .auth-notice:not(:empty){display:block}
+#login-modal .auth-notice.success{background:#e9f7ef;color:#24734d}
+#login-modal .auth-submit{width:100%;height:51px;border:0;border-radius:10px;background:#f36f3d;color:#fff;font-weight:800;box-shadow:0 9px 20px #f36f3d30;cursor:pointer;transition:background .18s,transform .18s}
+#login-modal .auth-submit:hover{background:#e95e30;transform:translateY(-1px)}
+#login-modal .auth-submit:disabled{opacity:.7;cursor:wait;transform:none}
+#login-modal .auth-secure{margin:20px 0 0;display:flex;align-items:center;justify-content:center;gap:8px;color:#607887;font-size:11px}
+#login-modal .auth-secure span{color:#0088c8}
+#login-modal .auth-demo-note{margin:13px 0 0;text-align:center;color:#82939e;font-size:10px;line-height:1.5}
+#login-modal .auth-copyright{position:absolute;bottom:16px;margin:0;color:#8799a4;font-size:10px}
+@media(max-width:900px){
+  #login-modal .auth-shell{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+  #login-modal .auth-brand-panel{padding:38px 34px}
+  #login-modal .auth-brand-message h1{font-size:clamp(38px,5vw,47px)}
+  #login-modal .auth-login-panel{padding:35px 22px}
+}
+@media(max-width:700px){
+  #login-modal .auth-shell{align-self:flex-start;display:flex;flex-direction:column}
+  #login-modal .auth-brand-panel{flex:0 0 auto;min-height:0;padding:24px 24px 26px}
+  #login-modal .auth-brand-mark{width:45px;height:45px}
+  #login-modal .auth-brand-copy strong{font-size:21px}
+  #login-modal .auth-brand-copy small{font-size:8px}
+  #login-modal .auth-brand-message{margin:0;padding:30px 0 0}
+  #login-modal .auth-brand-message h1{font-size:36px}
+  #login-modal .auth-brand-message h1 br{display:none}
+  #login-modal .auth-intro{font-size:13px;margin:12px 0 16px;line-height:1.5}
+  #login-modal .auth-features,#login-modal .auth-brand-footer{display:none}
+  #login-modal .auth-login-panel{flex:0 0 auto;min-height:0;padding:25px 17px 54px}
+  #login-modal .auth-card{padding:30px 24px;border-radius:18px}
+  #login-modal .auth-card h2{font-size:30px}
+  #login-modal .auth-copyright{bottom:13px}
+}
+@media(max-width:380px){
+  #login-modal .auth-brand-message h1{font-size:31px}
+  #login-modal .auth-card{padding:25px 19px}
+  #login-modal .auth-form-options{font-size:11px}
+}
+@media(max-height:700px) and (min-width:701px){
+  #login-modal .auth-shell{min-height:0;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+  #login-modal .auth-brand-panel{min-height:0;padding:16px clamp(22px,4vw,48px)}
+  #login-modal .auth-brand-mark{width:38px;height:40px}
+  #login-modal .auth-brand-copy strong{font-size:21px}
+  #login-modal .auth-brand-copy small{font-size:8px;letter-spacing:.14em}
+  #login-modal .auth-brand-message{margin:auto 0;padding:14px 0}
+  #login-modal .auth-eyebrow{margin-bottom:8px;font-size:9px}
+  #login-modal .auth-brand-message h1{font-size:clamp(28px,3.8vw,40px)}
+  #login-modal .auth-intro,#login-modal .auth-features,#login-modal .auth-brand-footer{display:none}
+  #login-modal .auth-login-panel{min-height:0;padding:12px}
+  #login-modal .auth-card{padding:14px 20px}
+  #login-modal .auth-card-mark{width:32px;height:36px;margin-bottom:4px}
+  #login-modal .auth-card h2{font-size:27px}
+  #login-modal .auth-subtitle{font-size:12px;margin:3px 0 8px}
+  #login-modal .auth-field{margin:8px 0}
+  #login-modal .auth-field label{margin-bottom:4px}
+  #login-modal .auth-field input{height:40px}
+  #login-modal .auth-form-options{margin:8px 0 10px}
+  #login-modal .auth-notice:not(:empty){margin-bottom:8px;padding:7px 9px}
+  #login-modal .auth-submit{height:42px}
+  #login-modal .auth-secure{margin-top:11px}
+  #login-modal .auth-demo-note{display:none}
+  #login-modal .auth-copyright{bottom:4px}
+}
+@media(min-height:701px) and (max-height:820px) and (min-width:901px){
+  #login-modal .auth-brand-panel{padding:24px clamp(28px,5vw,68px)}
+  #login-modal .auth-brand-mark{width:44px;height:44px}
+  #login-modal .auth-brand-copy strong{font-size:22px}
+  #login-modal .auth-brand-message{padding:16px 0}
+  #login-modal .auth-eyebrow{margin-bottom:10px}
+  #login-modal .auth-brand-message h1{font-size:clamp(38px,4.2vw,54px)}
+  #login-modal .auth-intro{margin:13px 0 17px;line-height:1.5}
+  #login-modal .auth-features{gap:8px}
+  #login-modal .auth-feature-icon{width:34px;height:34px}
+  #login-modal .auth-brand-footer{padding-top:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  #login-modal .auth-field input,#login-modal .auth-submit{transition:none}
+}
+
 .toast{position:fixed;right:25px;bottom:25px;background:var(--ink);color:#fff;padding:12px 15px;border-radius:9px;font-size:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:50}.toast.show{opacity:1;transform:none}
 .loader{display:none;color:var(--muted);font-size:12px}.loader.show{display:block}
 .btn:disabled{opacity:.6;cursor:wait}.login-note{font-size:11px;color:var(--muted);margin:0 0 15px}#login-modal{background:var(--navy);z-index:60}
@@ -46,6 +475,91 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
 @media(max-width:1050px){.grid4{grid-template-columns:repeat(2,1fr)}.payment-layout{grid-template-columns:1fr}.sidebar{width:210px}.main{margin-left:210px;width:calc(100% - 210px)}}
 @media(max-width:720px){.sidebar{position:static;width:100%;height:auto;padding:12px}.app{display:block}.brand{padding:3px 5px 10px}.sidebar-foot,.nav-title{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}.main{margin:0;width:100%;padding:20px 14px}.topbar{display:none}.grid4,.grid3,.grid2,.form-grid{grid-template-columns:1fr}.tier-choice{grid-template-columns:1fr}.page-head{align-items:flex-start;gap:12px}.page-head .btn{white-space:nowrap}.searchbar input{min-width:0;width:100%}.searchbar{width:100%}.section{padding:15px}}
 @media print{.sidebar,.topbar,.no-print,.page-head{display:none!important}.main{margin:0;width:100%;padding:0}.card{box-shadow:none}.print-only{display:block;font-weight:800;margin-bottom:12px}}
+
+#login-modal .auth-shell{
+  grid-template-columns:minmax(0,1.08fr) minmax(390px,.92fr);
+  color:#142733;
+}
+#login-modal .auth-brand-panel{
+  padding:clamp(28px,4.5vw,64px) clamp(28px,5vw,76px);
+  background:#062f45;
+}
+#login-modal .auth-brand-panel::before{
+  background:
+    linear-gradient(110deg,rgba(3,28,44,.88),rgba(4,42,61,.68) 58%,rgba(4,35,51,.42)),
+    url("assets/washking-toilet-facility.jpg") center 55%/cover no-repeat;
+}
+#login-modal .auth-brand-panel::after{border-color:#ffffff30;box-shadow:0 0 0 42px #ffffff0a,0 0 0 84px #ffffff07}
+#login-modal .auth-brand-mark svg path{fill:#f36f3d}
+#login-modal .auth-brand-message{max-width:470px;padding:24px 0}
+#login-modal .auth-eyebrow{margin-bottom:13px;color:#ffad8a}
+#login-modal .auth-brand-message h1{font-size:clamp(34px,4.1vw,54px);line-height:1.08;letter-spacing:-.045em}
+#login-modal .auth-brand-message h1 br{display:block}
+#login-modal .auth-brand-message h1 span{color:#ff9a70}
+#login-modal .auth-intro{max-width:390px;margin:17px 0 0;color:#e0edf2;font-size:15px;line-height:1.55}
+#login-modal .auth-brand-footer{padding-top:14px;color:#d4e4eb;font-size:10px;letter-spacing:.13em}
+#login-modal .auth-photo-credit{margin-top:7px;color:#d4e4eb;font-size:10px;line-height:1.4;letter-spacing:normal}
+#login-modal .auth-photo-credit a{color:#fff;text-decoration:underline;text-underline-offset:2px}
+#login-modal .auth-login-panel{padding:42px 30px;background:#f2f5f6}
+#login-modal .auth-shape{display:none}
+#login-modal .auth-card{
+  width:min(420px,100%);
+  padding:clamp(26px,3vw,38px);
+  border:1px solid #e4eaed;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 18px 48px rgba(7,38,55,.12);
+  backdrop-filter:none;
+}
+#login-modal .auth-card-mark{width:40px;height:46px;margin-bottom:12px}
+#login-modal .auth-card-mark svg path{fill:#f36f3d}
+#login-modal .auth-card h2{color:#073b57;font-size:30px;letter-spacing:-.035em}
+#login-modal .auth-subtitle{margin:6px 0 22px;color:#687b86;font-size:13px}
+#login-modal .auth-field{margin:13px 0}
+#login-modal .auth-field label{margin-bottom:6px;color:#284353;font-size:12px}
+#login-modal .auth-field input{height:46px;border-color:#d6e0e5;border-radius:9px;background:#fbfcfd;font-size:14px}
+#login-modal .auth-field input:focus{border-color:#0088c8;box-shadow:0 0 0 3px rgba(0,136,200,.14)}
+#login-modal .auth-toggle,#login-modal .auth-forgot{color:#006fa6}
+#login-modal .auth-form-options{margin:13px 0 16px}
+#login-modal .auth-submit{
+  height:48px;
+  border-radius:9px;
+  background:#f36f3d;
+  box-shadow:0 7px 16px rgba(243,111,61,.22);
+}
+#login-modal .auth-submit:hover{background:#db5b2f}
+#login-modal .auth-secure{margin-top:15px;color:#687b86;font-size:10px}
+#login-modal .auth-secure span{color:#f36f3d}
+#login-modal .auth-demo-note{display:none}
+#login-modal .auth-copyright{color:#7b8b94}
+@media(max-width:760px){
+  #login-modal .auth-shell{grid-template-columns:minmax(0,1fr)}
+  #login-modal .auth-brand-panel{min-height:0;padding:27px clamp(24px,6vw,54px)}
+  #login-modal .auth-brand-message{margin:24px 0 0;padding:0}
+  #login-modal .auth-brand-message h1{font-size:clamp(31px,5vw,42px)}
+  #login-modal .auth-intro{margin-top:10px;font-size:14px}
+  #login-modal .auth-brand-footer{display:block;padding-top:15px}
+  #login-modal .auth-login-panel{min-height:0;padding:27px 20px 54px}
+  #login-modal .auth-card{width:min(440px,100%);padding:30px}
+}
+@media(max-width:600px){
+  #login-modal .auth-brand-panel{padding:23px 22px 20px}
+  #login-modal .auth-brand-mark{width:40px;height:42px}
+  #login-modal .auth-brand-copy strong{font-size:20px}
+  #login-modal .auth-brand-copy small{font-size:8px;letter-spacing:.14em}
+  #login-modal .auth-brand-message{margin-top:18px}
+  #login-modal .auth-eyebrow{font-size:9px;letter-spacing:.14em}
+  #login-modal .auth-brand-message h1{font-size:30px}
+  #login-modal .auth-intro{font-size:12px}
+  #login-modal .auth-brand-footer{padding-top:13px;font-size:9px}
+  #login-modal .auth-photo-credit{font-size:9px}
+  #login-modal .auth-login-panel{padding:18px 14px 52px}
+  #login-modal .auth-card{padding:23px 20px;border-radius:15px}
+  #login-modal .auth-card h2{font-size:27px}
+}
+@media(prefers-reduced-motion:reduce){
+  #login-modal .auth-submit{transition:none}
+}
 </style>
 </head>
 <body>
@@ -305,27 +819,79 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
   </div>
 </div>
 <div class="modal-backdrop" id="login-modal">
-  <div class="modal" style="width:min(400px,100%)">
-    <div class="modal-head"><h2>Sign in to WASHKING</h2></div>
-    <div class="modal-body">
-      <p class="login-note">Staff access only. Ask an administrator for an account.</p>
-      <form id="login-form">
-        <div class="form-grid">
-          <div class="field full"><label>USERNAME</label><input name="username" required autocomplete="username"></div>
-          <div class="field full"><label>PASSWORD</label><input name="password" type="password" required autocomplete="current-password"></div>
+  <main class="auth-shell">
+    <section class="auth-brand-panel" aria-label="WASHKING invoice management">
+      <a class="auth-brand" href="#" aria-label="WASHKING">
+        <span class="auth-brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 74">
+            <path fill="currentColor" d="M7 7 19 15 32 5 45 15 57 7 54 22 32 31 10 22Z"/>
+            <text x="32" y="66" text-anchor="middle" fill="currentColor" font-family="Arial, Helvetica, sans-serif" font-size="43" font-weight="700">W</text>
+          </svg>
+        </span>
+        <span class="auth-brand-copy"><strong>WASHKING</strong><small>YOUR BUSINESS, IN BALANCE</small></span>
+      </a>
+
+      <div class="auth-brand-message">
+        <p class="auth-eyebrow">INVOICE &amp; PAYMENT MANAGEMENT</p>
+        <h1>Every invoice.<br><span>Handled clearly.</span></h1>
+        <p class="auth-intro">Customers, invoices and payments. All in one place.</p>
+      </div>
+      <div class="auth-brand-footer">
+        <div>WASHKING · STAFF WORKSPACE</div>
+        <div class="auth-photo-credit">
+          Facility photo:
+          <a href="https://www.cr8washrooms.co.uk/blog/what-is-the-correct-workplace-toilet-ratio" target="_blank" rel="noopener noreferrer">CR8 Washrooms</a>
+          · used with permission · cropped and color-overlaid
         </div>
-        <div class="form-actions"><button class="btn">Sign in</button></div>
-      </form>
-    </div>
-  </div>
+      </div>
+    </section>
+
+    <section class="auth-login-panel" aria-label="Staff sign in">
+      <span class="auth-shape auth-shape-one" aria-hidden="true"></span>
+      <span class="auth-shape auth-shape-two" aria-hidden="true"></span>
+      <article class="auth-card">
+        <div class="auth-card-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 74">
+            <path fill="#0088c8" d="M7 7 19 15 32 5 45 15 57 7 54 22 32 31 10 22Z"/>
+            <text x="32" y="66" text-anchor="middle" fill="#073b57" font-family="Arial, Helvetica, sans-serif" font-size="43" font-weight="700">W</text>
+          </svg>
+        </div>
+        <h2>Welcome back</h2>
+        <p class="auth-subtitle">Sign in to your WASHKING account</p>
+        <form id="login-form">
+          <div class="auth-field">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" placeholder="Enter your username" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+          </div>
+          <div class="auth-field">
+            <label for="password">Password</label>
+            <div class="auth-input-wrap">
+              <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+              <button class="auth-toggle" id="togglePassword" type="button" aria-label="Show password">Show</button>
+            </div>
+          </div>
+          <div class="auth-form-options">
+            <label class="auth-remember"><input type="checkbox" id="rememberMe"><span>Remember me</span></label>
+            <button class="auth-forgot" type="button" id="forgotPassword">Forgot password?</button>
+          </div>
+          <p class="auth-notice" id="message" role="alert" aria-live="polite"></p>
+          <button class="auth-submit" type="submit" id="loginButton"><span id="buttonText">Sign in</span></button>
+        </form>
+
+        <p class="auth-secure"><span aria-hidden="true">◈</span>Protected access for authorized staff</p>
+        <p class="auth-demo-note">Authorized staff sign-in · Connected to WASHKING</p>
+      </article>
+      <p class="auth-copyright">© <span id="year"></span> WASHKING</p>
+    </section>
+  </main>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 // Set to true to skip the login screen while trying features. The backend must be started
 // with AUTH_DISABLED=1 (or run_backend.ps1 -NoAuth). While frozen, the app talks to your local backend.
-const AUTH_FROZEN=false;
-const LOCAL_API="http://127.0.0.1:8000";
+const AUTH_FROZEN=new URLSearchParams(window.location.search).get("sandbox")==="1";
+const LOCAL_API="http://127.0.0.1:8001";
 const API_BASE=AUTH_FROZEN?LOCAL_API:"https://washkinggh.fastapicloud.dev";
 let customers=[], invoices=[], currentInvoiceId=null, currentCustomerId=null;
 
@@ -368,9 +934,42 @@ table{width:100%;border-collapse:collapse;margin-top:18px}th,td{text-align:left;
   popup.focus();
 }
 const num=v=>v===null||v===""?null:Number(v);
-const tokenStore={get(){try{return localStorage.getItem("washking_token")}catch{return null}},set(v){try{v?localStorage.setItem("washking_token",v):localStorage.removeItem("washking_token")}catch{}}};
+const tokenStore={
+  get(){
+    try {
+      return localStorage.getItem("washking_token") || sessionStorage.getItem("washking_token") || null;
+    } catch { return null; }
+  },
+  set(v, remember=true){
+    try {
+      const target = remember ? localStorage : sessionStorage;
+      const other = remember ? sessionStorage : localStorage;
+      if (v) {
+        target.setItem("washking_token", v);
+        other.removeItem("washking_token");
+      } else {
+        localStorage.removeItem("washking_token");
+        sessionStorage.removeItem("washking_token");
+      }
+    } catch {}
+  }
+};
 let token=tokenStore.get();
+$("#year").textContent=new Date().getFullYear();
 function toast(msg){const x=$("#toast");x.textContent=msg;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),2400)}
+function showLoginMessage(text, type="error"){
+  const el=$("#message");
+  if(!el)return;
+  el.textContent=text;
+  el.className="auth-notice" + (type==="success"?" success":"");
+}
+function setLoginLoading(loading){
+  const btn=$("#loginButton");
+  const label=$("#buttonText");
+  if(!btn||!label)return;
+  btn.disabled=loading;
+  label.textContent=loading?"Signing in...":"Sign in";
+}
 function statusBadge(s){const map={FULLY_PAID:["paid","Fully paid"],PARTIALLY_PAID:["partial","Partially paid"],NO_PAYMENT:["unpaid","No payment"]};const [c,t]=map[s]||["blue",s];return `<span class="badge ${c}">${t}</span>`}
 function tierBadge(t){return t?`<span class="badge tier${t}">Tier ${t}</span>`:`<span style="color:var(--muted)">Unassigned</span>`}
 async function api(path, options = {}) {
@@ -395,7 +994,17 @@ async function busy(form, fn){
 }
 function signedOut(){if(AUTH_FROZEN){toast("The backend still wants a login. Start it with AUTH_DISABLED=1 (run_backend.ps1 -NoAuth).");return}token=null;tokenStore.set(null);customers=[];invoices=[];$("#current-user").textContent="";$("#login-modal").classList.add("show")}
 function logout(){signedOut();toast("Signed out")}
-$("#login-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{const r=await api("/auth/login",{method:"POST",body:JSON.stringify({username:f.get("username"),password:f.get("password")})});token=r.access_token;tokenStore.set(token);e.target.reset();$("#login-modal").classList.remove("show");await init()}catch(x){toast(x.message)}})};
+$("#togglePassword").addEventListener("click",()=>{
+  const input=$("#password");
+  const button=$("#togglePassword");
+  const isPassword=input.getAttribute("type")==="password";
+  input.setAttribute("type",isPassword?"text":"password");
+  button.textContent=isPassword?"Hide":"Show";
+  button.setAttribute("aria-pressed",String(isPassword));
+  button.setAttribute("aria-label",isPassword?"Hide password":"Show password");
+});
+$("#forgotPassword").addEventListener("click",()=>showLoginMessage("Please contact your WashKing administrator to reset your password."));
+$("#login-form").onsubmit=e=>{e.preventDefault();showLoginMessage("");busy(e.target,async()=>{const f=new FormData(e.target);const username=(f.get("username")||"").toString().trim();const password=(f.get("password")||"").toString();if(!username||!password){showLoginMessage("Please enter your username and password.");return;}setLoginLoading(true);try{const r=await api("/auth/login",{method:"POST",body:JSON.stringify({username,password})});token=r.access_token;tokenStore.set(token, $("#rememberMe").checked);e.target.reset();$("#login-modal").classList.remove("show");showLoginMessage("Login successful! Redirecting...","success");await init()}catch(x){console.error(x);showLoginMessage(x.message||"Invalid username or password.");toast(x.message||"Invalid username or password.")}finally{setLoginLoading(false)}})};
 function go(page){
   document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
   $("#page-"+page).classList.add("active");

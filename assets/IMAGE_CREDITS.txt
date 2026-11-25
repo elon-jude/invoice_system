@@ -1,0 +1,7 @@
+Login screen washroom photo
+
+Source page: https://www.cr8washrooms.co.uk/blog/what-is-the-correct-workplace-toilet-ratio
+Image: unisex-washroom-design-gender-neutral-toilets.jpg
+Rights: User confirmed they own or are authorized to use this image.
+
+The login screen crops the photo with CSS and places a dark color overlay over it.

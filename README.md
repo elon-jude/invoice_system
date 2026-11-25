@@ -71,16 +71,9 @@ Generate a secret with `python -c "import secrets; print(secrets.token_urlsafe(4
 ## Local backend
 
 ```powershell
+Sehttps://www.google.com/imgres?q=toilet%20facilities&imgurl=https%3A%2F%2Fimages.squarespace-cdn.com%2Fcontent%2Fv1%2F63db775848c7a40b642b93c2%2F70900d55-110a-4d0a-969f-c4052bb60d57%2Funisex-washroom-design-gender-neutral-toilets.jpg&imgrefurl=https%3A%2F%2Fwww.cr8washrooms.co.uk%2Fblog%2Fwhat-is-the-correct-workplace-toilet-ratio&docid=L7cU8GiaSxEZzM&tbnid=36WgmViCKC4OkM&vet=12ahUKEwjzk8mJgqSYAxVVU0EAHbF4OJkQnPAOegQIMRAA..i&w=1500&h=1000&hcb=2&ved=2ahUKEwjzk8mJgqSYAxVVU0EAHbF4OJkQnPAOegQIMRAAt-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\setup_backend.ps1
-
-# Optional: run PostgreSQL locally instead of SQLite
-docker compose up -d
-$env:DATABASE_URL = "postgresql://washking:washking@127.0.0.1:5432/washking_invoices"
-
-$env:JWT_SECRET = "<generated secret>"
-$env:ADMIN_USERNAME = "admin"
-$env:ADMIN_PASSWORD = "<choose a password>"
-.\run_backend.ps1 -UsePostgres
+.\run_backend.ps1
 ```
 
 For the normal local SQLite setup, skip the Docker and `DATABASE_URL` steps and run `./run_backend.ps1`. The launcher uses SQLite by default, even when a stale `DATABASE_URL` exists in the terminal environment.
@@ -89,6 +82,23 @@ API: http://127.0.0.1:8001
 Docs: http://127.0.0.1:8001/docs (use **Authorize** and paste a token from `POST /auth/login`)
 
 Tables are created automatically on first startup, including the price list tables. The starter price list is added the first time the backend starts. The SQLite file is intentionally ignored by Git.
+
+### Isolated sandbox
+
+Run both the backend and frontend in an authentication-disabled sandbox database:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\run_sandbox.ps1 -Reset
+```
+
+Open **http://127.0.0.1:8080/index.html?sandbox=1**. The sandbox API runs at `http://127.0.0.1:8001` and uses `backend\sandbox.db`, separate from the normal `backend\invoices.db`. Use `-Reset` to clear the sandbox database before starting.
+
+Run the automated API regression suite with:
+
+```powershell
+.\backend\.venv\Scripts\python.exe -m pytest -q
+```
 
 ### Trying features without logging in (development only)
 

@@ -36,9 +36,12 @@ def hash_password(password: str) -> str:
 def verify_password(password: str, stored: str) -> bool:
     try:
         _, iterations, salt, digest = stored.split('$')
-    except ValueError:
+        iterations = int(iterations)
+        salt_bytes = bytes.fromhex(salt)
+        bytes.fromhex(digest)
+    except (ValueError, TypeError):
         return False
-    candidate = hashlib.pbkdf2_hmac('sha256', password.encode(), bytes.fromhex(salt), int(iterations))
+    candidate = hashlib.pbkdf2_hmac('sha256', password.encode(), salt_bytes, iterations)
     return hmac.compare_digest(candidate.hex(), digest)
 
 
