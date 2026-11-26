@@ -12,6 +12,7 @@ from .routes.invoices import router as invoices_router
 from .routes.dashboard import router as dashboard_router
 from .routes.calculator import router as calculator_router
 from .routes.catalog import router as catalog_router
+from .routes.finance import router as finance_router
 from .services.catalog_service import seed_catalog
 
 
@@ -27,7 +28,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=APP_TITLE,
     version=APP_VERSION,
-    description="WASHKING customer tiers, invoices, payments and complete invoice history.",
+    description="WASHKING customer operations, invoice management, verified payments and financial reporting.",
     lifespan=lifespan,
 )
 
@@ -59,3 +60,4 @@ app.include_router(invoices_router, dependencies=protected)
 app.include_router(dashboard_router, dependencies=protected)
 app.include_router(calculator_router, dependencies=protected)
 app.include_router(catalog_router, dependencies=protected)
+app.include_router(finance_router, dependencies=protected)

@@ -8,6 +8,7 @@ param(
 )
 
 Set-Location "$PSScriptRoot"
+$env:APP_ENV = "development"
 if (-not (Test-Path "backend\.venv\Scripts\python.exe")) { Write-Host "Run .\setup_backend.ps1 first"; exit 1 }
 if ($Sandbox) {
     $env:AUTH_DISABLED = "1"
@@ -39,7 +40,7 @@ if ($UsePostgres) {
         Write-Host "Using the local SQLite file backend\invoices.db."
     }
 }
-if (-not $env:ADMIN_USERNAME) { Write-Host "First run? Set ADMIN_USERNAME and ADMIN_PASSWORD (8+ characters) so a staff account can be created." }
+if (-not $env:ADMIN_USERNAME) { Write-Host "First run? Set ADMIN_USERNAME and ADMIN_PASSWORD (8+ characters) so an administrator account can be created." }
 $uvicornArgs = @("-m", "uvicorn", "backend.main:app", "--host", "127.0.0.1", "--port", "$Port")
 if ($Reload) {
     $uvicornArgs += "--reload"

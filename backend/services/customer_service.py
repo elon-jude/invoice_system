@@ -2,11 +2,11 @@ import uuid
 from ..database import now_iso
 from .common import money
 
-def create_customer(conn, p):
+def create_customer(conn, p, created_by=None):
     cid = str(uuid.uuid4()); now = now_iso()
     conn.execute('''INSERT INTO customers
-      (id,name,phone,tier,tier_reason,requested_deposit,first_deposit_amount,expected_payment_days,created_at,updated_at)
-      VALUES (?,?,?,?,?,?,?,?,?,?)''', (cid,p.name.strip(),p.phone,p.tier,p.tier_reason,p.requested_deposit,p.first_deposit_amount,p.expected_payment_days,now,now))
+      (id,name,phone,tier,tier_reason,requested_deposit,first_deposit_amount,expected_payment_days,created_at,updated_at,created_by)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?)''', (cid,p.name.strip(),p.phone,p.tier,p.tier_reason,p.requested_deposit,p.first_deposit_amount,p.expected_payment_days,now,now,created_by))
     conn.commit()
     return get_customer(conn,cid)
 
@@ -32,11 +32,15 @@ def customer_view(conn,cid):
     customer['outstanding_balance']=money(sum(i['outstanding_balance'] for i in invoices))
     return customer
 
-def list_customers(conn,q=None):
+def list_customers(conn,q=None,created_by=None):
+    where = ' WHERE created_by=?' if created_by else ''
+    params = [created_by] if created_by else []
     if q:
         like=f'%{q.lower()}%'
-        rows=conn.execute('SELECT * FROM customers WHERE LOWER(name) LIKE ? OR LOWER(phone) LIKE ? ORDER BY created_at DESC',(like,like)).fetchall()
-    else: rows=conn.execute('SELECT * FROM customers ORDER BY created_at DESC').fetchall()
+        search='(LOWER(name) LIKE ? OR LOWER(phone) LIKE ?)'
+        where += (' AND ' if where else ' WHERE ') + search
+        params.extend((like,like))
+    rows=conn.execute('SELECT * FROM customers'+where+' ORDER BY created_at DESC',params).fetchall()
     return [dict(r) for r in rows]
 
 def _apply_update(conn,cid,data):

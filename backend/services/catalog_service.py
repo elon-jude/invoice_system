@@ -4,7 +4,7 @@ from fastapi import HTTPException
 from ..database import IntegrityError, now_iso
 from .common import money
 
-# ESTIMATED starter prices (GHS). Edit them on the Price List page with real figures.
+# Starter prices are unconfirmed until a staff member saves a real price.
 SEED = [
     ('facility', 'single', 'Eco Throne Toilet', 4500),
     ('facility', 'double', 'EcoFitron Toilet', 6500),
@@ -22,6 +22,7 @@ def _view(row):
     d = dict(row)
     d['price'] = money(d['price'])
     d['active'] = bool(d['active'])
+    d['price_confirmed'] = bool(d['price_confirmed'])
     return d
 
 def seed_catalog(conn):
@@ -29,8 +30,8 @@ def seed_catalog(conn):
         return
     now = now_iso()
     for kind, code, name, price in SEED:
-        conn.execute('INSERT INTO catalog_items(id,kind,code,name,price,active,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?)',
-                     (str(uuid.uuid4()), kind, code, name, price, 1, now, now))
+        conn.execute('INSERT INTO catalog_items(id,kind,code,name,price,active,price_confirmed,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?)',
+                     (str(uuid.uuid4()), kind, code, name, price, 1, 0, now, now))
     conn.commit()
 
 def list_items(conn, kind=None, include_inactive=False):
@@ -57,8 +58,8 @@ def _new_code(conn, name):
 def create_item(conn, p):
     iid, now = str(uuid.uuid4()), now_iso()
     try:
-        conn.execute('INSERT INTO catalog_items(id,kind,code,name,price,active,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?)',
-                     (iid, p.kind, _new_code(conn, p.name), p.name.strip(), money(p.price), 1, now, now))
+        conn.execute('INSERT INTO catalog_items(id,kind,code,name,price,active,price_confirmed,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?)',
+                     (iid, p.kind, _new_code(conn, p.name), p.name.strip(), money(p.price), 1, 1, now, now))
         conn.commit()
     except IntegrityError:
         conn.rollback()
@@ -71,8 +72,11 @@ def update_item(conn, item_id, p):
         raise HTTPException(404, 'Item not found')
     data = {k: v for k, v in p.model_dump(exclude_unset=True).items() if v is not None}
     if 'name' in data: data['name'] = data['name'].strip()
-    if 'price' in data: data['price'] = money(data['price'])
+    if 'price' in data:
+        data['price'] = money(data['price'])
+        data['price_confirmed'] = 1
     if 'active' in data: data['active'] = 1 if data['active'] else 0
+    if 'price_confirmed' in data: data['price_confirmed'] = 1 if data['price_confirmed'] else 0
     if data:
         fields = [f'{k}=?' for k in data] + ['updated_at=?']
         conn.execute(f'UPDATE catalog_items SET {", ".join(fields)} WHERE id=?', [*data.values(), now_iso(), item_id])

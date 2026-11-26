@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "WASHKING Invoice API",
-    "description": "Requests for every endpoint of the WASHKING Invoice Management API.\n\nSet the `baseUrl`, `username` and `password` collection variables, then run the whole collection in order (Runner, or `newman run`). \"Login\" stores the JWT in `token`, and later requests store the ids they create, so the run walks through the spec example: a Tier 2 customer, a GHS 5,000 invoice with a GHS 1,000 deposit, then payments until the invoice is fully paid.",
+    "description": "Requests for every endpoint of the WASHKING Invoice Management API.\n\nSet the `baseUrl`, `username` and `password` collection variables, then run the whole collection in order (Runner, or `newman run`). \"Login\" stores the JWT in `token`, and later requests store the ids they create, so the run walks through the spec example: a Tier 2 customer, a GH₵5,000 invoice with a GH₵1,000 deposit, then payments until the invoice is fully paid.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -512,7 +512,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"customer_id\": \"{{customerId}}\",\n  \"invoice_number\": \"INV-{{$timestamp}}\",\n  \"total_amount\": 5000,\n  \"due_date\": \"2026-12-31\",\n  \"initial_deposit\": 1000,\n  \"deposit_method\": \"Cash\"\n}",
+              "raw": "{\n  \"customer_id\": \"{{customerId}}\",\n  \"total_amount\": 5000,\n  \"due_date\": \"2026-12-31\",\n  \"initial_deposit\": 1000,\n  \"deposit_method\": \"Cash\"\n}",
               "options": {
                 "raw": {
                   "language": "json"

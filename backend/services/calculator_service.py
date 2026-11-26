@@ -1,7 +1,5 @@
-from datetime import date
 from decimal import Decimal, ROUND_FLOOR
 from fastapi import HTTPException
-from ..database import now_iso
 from ..schemas import InvoiceCreate
 from .catalog_service import get_by_code
 from .common import money
@@ -74,7 +72,7 @@ def calculate_payment(conn, p):
         'installments': _installments(remaining, p.installment_months),
     }
 
-def create_invoice_from_calculation(conn, p):
+def create_invoice_from_calculation(conn, p, created_by=None):
     """Issue a real invoice for the net customer cost, saving the calculation as its line items."""
     calc = calculate_payment(conn, p)
     net, paid = calc['net_cost'], calc['amount_paid']
@@ -91,13 +89,4 @@ def create_invoice_from_calculation(conn, p):
                       'unit_price': -calc['discount'], 'line_total': -calc['discount']})
     invoice = InvoiceCreate(customer_id=p.customer_id, invoice_number=p.invoice_number, total_amount=net,
                             due_date=p.due_date, initial_deposit=paid or None, deposit_method=p.deposit_method)
-    return create_invoice(conn, invoice, items)
-
-def next_invoice_number(conn):
-    prefix = f'INV-{now_iso()[:4]}-'
-    n = 0
-    for r in conn.execute('SELECT invoice_number FROM invoices WHERE invoice_number LIKE ?', (prefix + '%',)).fetchall():
-        suffix = r['invoice_number'][len(prefix):]
-        if suffix.isdigit():
-            n = max(n, int(suffix))
-    return f'{prefix}{n + 1:04d}'
+    return create_invoice(conn, invoice, items, created_by)

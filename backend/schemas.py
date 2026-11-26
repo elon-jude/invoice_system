@@ -1,6 +1,5 @@
 from datetime import date
-from typing import Literal
-from typing import Optional
+from typing import Literal, Optional
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 class CustomerCreate(BaseModel):
@@ -36,7 +35,7 @@ class TierUpdate(BaseModel):
 
 class InvoiceCreate(BaseModel):
     customer_id: str
-    invoice_number: str = Field(min_length=2, max_length=60)
+    invoice_number: Optional[str] = Field(default=None, min_length=2, max_length=60)
     total_amount: float = Field(gt=0)
     due_date: Optional[date] = None
     initial_deposit: Optional[float] = Field(default=None, gt=0)
@@ -44,8 +43,8 @@ class InvoiceCreate(BaseModel):
 
     @field_validator('invoice_number')
     @classmethod
-    def clean_number(cls, v: str) -> str:
-        return v.strip().upper()
+    def clean_number(cls, v: Optional[str]) -> Optional[str]:
+        return v.strip().upper() if v else None
 
     @model_validator(mode='after')
     def deposit_within_total(self):
@@ -59,18 +58,64 @@ class PaymentCreate(BaseModel):
     payment_method: Optional[str] = Field(default=None, max_length=40)
     reference: Optional[str] = Field(default=None, max_length=100)
 
+class ExpenseCreate(BaseModel):
+    expense_date: Optional[date] = None
+    category: str = Field(min_length=2, max_length=60)
+    description: str = Field(min_length=2, max_length=300)
+    amount: float = Field(gt=0)
+    reference: Optional[str] = Field(default=None, max_length=100)
+
+    @field_validator('category', 'description')
+    @classmethod
+    def clean_expense_text(cls, value: str) -> str:
+        cleaned = value.strip()
+        if not cleaned:
+            raise ValueError('value cannot be blank')
+        return cleaned
+
+class PaymentSubmissionReview(BaseModel):
+    reason: Optional[str] = Field(default=None, max_length=500)
+
+    @field_validator('reason')
+    @classmethod
+    def clean_reason(cls, value: Optional[str]) -> Optional[str]:
+        return value.strip() if value else value
+
 class LoginRequest(BaseModel):
     username: str = Field(min_length=1, max_length=60)
     password: str = Field(min_length=1, max_length=200)
 
+class PasswordChange(BaseModel):
+    current_password: str = Field(min_length=1, max_length=200)
+    new_password: str = Field(min_length=8, max_length=200)
+
+    @model_validator(mode='after')
+    def require_new_password(self):
+        if self.current_password == self.new_password:
+            raise ValueError('The new password must be different from the current password')
+        return self
+
+class PasswordResetRequest(BaseModel):
+    temporary_password: str = Field(min_length=8, max_length=200)
+
 class UserCreate(BaseModel):
     username: str = Field(min_length=3, max_length=60)
     password: str = Field(min_length=8, max_length=200)
+    role: Literal['ceo', 'administrator', 'field_officer', 'customer'] = 'field_officer'
+    customer_id: Optional[str] = None
 
     @field_validator('username')
     @classmethod
     def clean_username(cls, v: str) -> str:
         return v.strip().lower()
+
+    @model_validator(mode='after')
+    def customer_role_requires_profile(self):
+        if self.role == 'customer' and not self.customer_id:
+            raise ValueError('customer_id is required for customer accounts')
+        if self.role != 'customer' and self.customer_id:
+            raise ValueError('customer_id is only valid for customer accounts')
+        return self
 
 class EquipmentLine(BaseModel):
     code: str = Field(min_length=1, max_length=60)
@@ -90,14 +135,14 @@ class CalculatorRequest(BaseModel):
 
 class CalculatorInvoiceRequest(CalculatorRequest):
     customer_id: str
-    invoice_number: str = Field(min_length=2, max_length=60)
+    invoice_number: Optional[str] = Field(default=None, min_length=2, max_length=60)
     due_date: Optional[date] = None
     deposit_method: Optional[str] = Field(default=None, max_length=40)
 
     @field_validator('invoice_number')
     @classmethod
-    def clean_number(cls, v: str) -> str:
-        return v.strip().upper()
+    def clean_number(cls, v: Optional[str]) -> Optional[str]:
+        return v.strip().upper() if v else None
 
 class CatalogCreate(BaseModel):
     kind: Literal['facility', 'equipment']
@@ -108,3 +153,4 @@ class CatalogUpdate(BaseModel):
     name: Optional[str] = Field(default=None, min_length=2, max_length=80)
     price: Optional[float] = Field(default=None, ge=0)
     active: Optional[bool] = None
+    price_confirmed: Optional[bool] = None

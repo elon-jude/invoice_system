@@ -1,11 +1,11 @@
 import uuid
 from ..database import now_iso
 
-def add_history(conn, invoice_id, event_type, description, amount=None, reference_id=None):
+def add_history(conn, invoice_id, event_type, description, amount=None, reference_id=None, actor_id=None):
     conn.execute('''INSERT INTO invoice_history
-        (id, invoice_id, event_type, description, amount, reference_id, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?)''',
-        (str(uuid.uuid4()), invoice_id, event_type, description, amount, reference_id, now_iso()))
+        (id, invoice_id, event_type, description, amount, reference_id, created_at, actor_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)''',
+        (str(uuid.uuid4()), invoice_id, event_type, description, amount, reference_id, now_iso(), actor_id))
 
 def get_history(conn, invoice_id):
     rows = conn.execute('''SELECT * FROM invoice_history

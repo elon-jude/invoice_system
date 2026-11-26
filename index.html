@@ -14,11 +14,21 @@
 }
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
 button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(--brand)}button{cursor:pointer}
-.app{min-height:100vh;display:flex}.sidebar{width:245px;background:var(--navy);color:#fff;padding:25px 17px;position:fixed;inset:0 auto 0 0;z-index:10}
-.brand{display:flex;align-items:center;gap:11px;padding:5px 10px 30px}.brand-mark{width:39px;height:39px;border-radius:11px;background:var(--gold);color:#fff;display:grid;place-items:center;font-weight:900;font-size:18px}.brand strong{display:block;font-size:17px}.brand span{font-size:11px;color:#a9d3ea}
-.nav-title{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#8fc4de;padding:0 11px 8px;margin-top:10px}.nav{display:grid;gap:4px}.nav button{border:0;background:transparent;color:#d6ebf6;text-align:left;padding:12px 13px;border-radius:10px;font-size:13px;display:flex;gap:11px;align-items:center}.nav button:hover{background:rgba(255,255,255,.08)}.nav button.active{background:#fff;color:var(--navy);font-weight:700;box-shadow:inset 4px 0 0 var(--gold)}.icon{width:18px;text-align:center}
+.app{min-height:100vh;display:flex}.sidebar{width:245px;background:var(--navy);color:#fff;padding:25px 17px;position:fixed;inset:0 auto 0 0;z-index:10;transition:width .2s ease,padding .2s ease}
+.sidebar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.brand{display:flex;align-items:center;gap:11px;padding:5px 10px 10px}.brand-mark{width:39px;height:39px;border-radius:11px;background:var(--gold);color:#fff;display:grid;place-items:center;font-weight:900;font-size:18px;flex:none}.brand strong{display:block;font-size:17px}.brand span{font-size:11px;color:#a9d3ea}
+.sidebar-toggle{flex:none;width:30px;height:30px;border:1px solid rgba(255,255,255,.18);border-radius:8px;background:rgba(255,255,255,.08);color:#fff;font-size:18px;line-height:1}.sidebar-toggle:hover{background:rgba(255,255,255,.16)}
+.nav-title{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#8fc4de;padding:0 11px 8px;margin-top:10px}.nav{display:grid;gap:4px}.nav button{border:0;background:transparent;color:#d6ebf6;text-align:left;padding:12px 13px;border-radius:10px;font-size:13px;display:flex;gap:11px;align-items:center;min-width:0}.nav button:hover{background:rgba(255,255,255,.08)}.nav button.active{background:#fff;color:var(--navy);font-weight:700;box-shadow:inset 4px 0 0 var(--gold)}.nav-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.icon{width:18px;text-align:center;flex:none}
 .sidebar-foot{position:absolute;bottom:20px;left:22px;right:22px;color:#8fc4de;font-size:11px;line-height:1.5}
 .main{margin-left:245px;width:calc(100% - 245px);padding:27px 35px 45px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.crumb{font-size:12px;color:var(--muted)}.top-actions{display:flex;gap:9px}
+.app.sidebar-collapsed .sidebar{width:76px;padding:18px 10px}
+.app.sidebar-collapsed .sidebar-header{display:block;margin-bottom:16px}
+.app.sidebar-collapsed .sidebar-header .brand{justify-content:center;padding:5px 0 12px}
+.app.sidebar-collapsed .brand-copy,.app.sidebar-collapsed .nav-title,.app.sidebar-collapsed .sidebar-foot,.app.sidebar-collapsed #current-user{display:none}
+.app.sidebar-collapsed .sidebar-toggle{width:100%;height:32px}
+.app.sidebar-collapsed .nav{gap:8px}
+.app.sidebar-collapsed .nav button{justify-content:center;padding:12px 0}
+.app.sidebar-collapsed .nav-label{display:none}
+.app.sidebar-collapsed .main{margin-left:76px;width:calc(100% - 76px)}
 .page{display:none;max-width:1260px;margin:auto}.page.active{display:block}.page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:22px}.page-head h1{font-size:27px;margin:0 0 5px;letter-spacing:-.03em}.page-head p{margin:0;color:var(--muted);font-size:13px}
 .btn{border:0;border-radius:9px;padding:10px 15px;font-weight:700;font-size:12px;background:var(--brand);color:#fff}.btn:hover{background:var(--brand2)}.btn.secondary{background:#fff;color:var(--brandInk);border:1px solid var(--line)}.btn.danger{background:var(--red)}.btn.small{padding:7px 11px;font-size:11px}
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
@@ -33,15 +43,24 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
 .form-card{padding:22px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:700;color:#475f70}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:9px;padding:10px 11px;outline:0;color:var(--ink);font-size:12px}.field textarea{min-height:85px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brandSoft)}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
 .searchbar{display:flex;gap:9px;align-items:center}.searchbar input{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px;min-width:230px;font-size:12px;outline:0}
 .empty{text-align:center;color:var(--muted);padding:30px;font-size:12px}.error{padding:13px;background:var(--redSoft);color:#9f2c2c;border-radius:9px;font-size:12px}
-.detail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.back{background:none;border:0;color:var(--brandInk);font-weight:700;font-size:12px;padding:0}.detail-title h1{margin:9px 0 4px;font-size:25px}.detail-title p{margin:0;color:var(--muted);font-size:12px}.invoice-meta{display:flex;gap:8px;flex-wrap:wrap}.payment-layout{display:grid;grid-template-columns:1fr 1.35fr;gap:15px}
+.detail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.detail-actions{display:flex;gap:8px}.back{background:none;border:0;color:var(--brandInk);font-weight:700;font-size:12px;padding:0}.detail-title h1{margin:9px 0 4px;font-size:25px}.detail-title p{margin:0;color:var(--muted);font-size:12px}.invoice-meta{display:flex;gap:8px;flex-wrap:wrap}.payment-layout{display:grid;grid-template-columns:1fr 1.35fr;gap:15px}
+.financial-alert{margin:0 0 17px;border-color:#efc7c0;background:#fff2ef;color:#8f2d25}.report-summary{margin:0 0 17px}
 .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(7,30,45,.45);z-index:30;align-items:center;justify-content:center;padding:20px}.modal-backdrop.show{display:flex}.modal{background:#fff;width:min(570px,100%);border-radius:16px;box-shadow:0 25px 70px rgba(0,0,0,.2);overflow:hidden}.modal-head{padding:18px 21px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:20px;color:var(--muted)}.modal-body{padding:21px}
+.danger-zone{border:1px solid #efc7c0;background:#fff9f7}.danger-zone .section-sub{max-width:680px}.notice{padding:12px 14px;border:1px solid #f2d39b;background:#fff8e8;color:#78551a;border-radius:9px;font-size:12px;line-height:1.5}.notice[hidden],[hidden]{display:none!important}
 .tier-choice{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:7px}.tier-choice label{border:1px solid var(--line);padding:12px;border-radius:10px;cursor:pointer}.tier-choice input{display:none}.tier-choice label:has(input:checked){border-color:var(--brand);background:var(--brandSoft)}.tier-choice b{display:block;font-size:12px}.tier-choice span{font-size:10px;color:var(--muted);line-height:1.4}
+.ceo-periodbar{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:16px 19px;margin-bottom:13px}.ceo-periodbar h2{font-size:14px;margin:0 0 4px}.ceo-periodbar p{font-size:11px;color:var(--muted);margin:0}.ceo-controls{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}.ceo-period-field{min-width:130px}.ceo-period-field label{font-size:10px}.ceo-period-field select,.ceo-period-field input{border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--ink);background:#fff;font-size:12px;width:100%}
+.ceo-kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px;margin-bottom:14px}.ceo-kpi{padding:15px;min-width:0}.ceo-kpi-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.045em}.ceo-kpi-value{display:block;font-size:clamp(17px,1.8vw,23px);font-weight:800;letter-spacing:-.03em;margin-top:10px;overflow-wrap:anywhere}.ceo-kpi-note{display:block;font-size:10px;color:var(--muted);margin-top:4px}
+.ceo-layout{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-bottom:14px}.ceo-span-8{grid-column:span 8}.ceo-span-6{grid-column:span 6}.ceo-span-4{grid-column:span 4}.ceo-panel{padding:18px;min-width:0}.ceo-panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:13px}.ceo-panel-head h2{font-size:13px;margin:0}.ceo-panel-note{font-size:10px;color:var(--muted);margin-top:4px}.ceo-legend{display:flex;gap:15px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin-top:10px}.ceo-legend span{display:inline-flex;align-items:center;gap:6px}.ceo-legend i{width:8px;height:8px;border-radius:50%;background:var(--brand)}.ceo-legend .expense-dot{background:var(--gold)}.ceo-chart-scroll{overflow-x:auto}.ceo-chart-svg{display:block;width:100%;min-width:480px;height:auto}.ceo-chart-grid{stroke:var(--line);stroke-width:1}.ceo-chart-axis{fill:var(--muted);font:10px system-ui,sans-serif}.ceo-revenue-line{fill:none;stroke:var(--brand);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.ceo-expense-line{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}.ceo-revenue-point{fill:var(--brand);stroke:#fff;stroke-width:2}.ceo-expense-point{fill:var(--gold);stroke:#fff;stroke-width:2}
+.ceo-bars{display:grid;gap:12px}.ceo-bar-row{display:grid;grid-template-columns:minmax(74px,1fr) minmax(70px,2fr) auto;gap:9px;align-items:center;font-size:10px}.ceo-bar-label{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ceo-bar-track{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden}.ceo-bar-fill{height:100%;border-radius:inherit;background:var(--brand)}.ceo-bar-fill.expense{background:var(--gold)}.ceo-bar-value{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}.ceo-status-row{display:grid;grid-template-columns:100px 1fr auto;align-items:center;gap:9px;margin:13px 0;font-size:11px}.ceo-summary-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}.ceo-summary-value{display:block;font-size:16px;font-weight:800;margin-top:6px}.ceo-alerts{display:grid;gap:10px}.ceo-alert{display:flex;gap:10px;align-items:flex-start;padding:11px;border:1px solid var(--line);border-radius:10px;font-size:11px;line-height:1.5}.ceo-alert-mark{width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:4px;flex:none}.ceo-alert-mark.ok{background:var(--brand)}.ceo-empty{padding:22px 10px;text-align:center;color:var(--muted);font-size:11px}
+@media(max-width:1120px){.ceo-kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px){.ceo-span-8,.ceo-span-6,.ceo-span-4{grid-column:span 12}}
+@media(max-width:720px){.ceo-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ceo-periodbar{align-items:flex-start;flex-direction:column}.ceo-controls{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.ceo-period-field{width:100%;min-width:0}.ceo-controls .btn{grid-column:1/-1}.ceo-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){.ceo-kpi-grid{grid-template-columns:1fr}.ceo-panel{padding:15px}.ceo-status-row{grid-template-columns:85px 1fr auto;gap:6px}.ceo-bar-row{grid-template-columns:80px minmax(50px,1fr) auto;gap:6px}}
 
 :root{--teal:#07556b;--dark-teal:#063d53;--peach:#f58c76;--peach-hover:#ed795f;--text:#173e55;--muted:#788b9b;--border:#dce6ed;--white:#ffffff;--login-shadow:0 20px 60px rgba(20,60,80,.10)}
 #login-modal{display:flex;align-items:center;justify-content:center;padding:30px;position:fixed;inset:0;background:rgba(9,29,37,.18);z-index:60}
 #login-modal .login-container{width:min(1270px,100%);min-height:760px;display:grid;grid-template-columns:1.45fr 1fr;position:relative;border-radius:0 0 0 0;overflow:hidden;background:#f4f7f9;box-shadow:0 30px 80px rgba(9,33,42,.22)}
 #login-modal .brand-section{position:relative;min-height:760px;overflow:hidden;color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:52px 56px 36px;isolation:isolate;background:linear-gradient(180deg,#0d455f,#0a3a51)}
-#login-modal .brand-section::before{content:"";position:absolute;inset:0;z-index:-2;background:url("https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1600&q=85") center/cover no-repeat;filter:saturate(1.1) brightness(.72)}
 #login-modal .brand-section::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(120deg,rgba(5,70,92,.90),rgba(6,62,83,.82))}
 #login-modal .brand-logo{display:flex;align-items:center;gap:20px;position:relative;z-index:1}
 #login-modal .logo-symbol{width:68px;height:72px}.logo-symbol svg{width:100%;height:100%}
@@ -473,7 +492,7 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
 .equip-list{display:grid;gap:8px}.equip-row{display:grid;grid-template-columns:auto 1fr auto 74px;gap:10px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:8px 11px;font-size:12px;font-weight:400}.field .equip-row input[type=checkbox]{width:auto}.field .equip-row .equip-qty{width:74px;padding:6px 8px}.equip-price{color:var(--muted)}
 .calc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;justify-content:center}.calc-invoice{margin-top:16px;padding:16px;border:1px dashed var(--line);border-radius:12px}.calc-invoice h3{margin:0 0 12px;font-size:13px}.hint{font-size:11px;color:var(--muted);margin-top:2px}.price-input{width:110px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12px}.print-only{display:none}
 @media(max-width:1050px){.grid4{grid-template-columns:repeat(2,1fr)}.payment-layout{grid-template-columns:1fr}.sidebar{width:210px}.main{margin-left:210px;width:calc(100% - 210px)}}
-@media(max-width:720px){.sidebar{position:static;width:100%;height:auto;padding:12px}.app{display:block}.brand{padding:3px 5px 10px}.sidebar-foot,.nav-title{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}.main{margin:0;width:100%;padding:20px 14px}.topbar{display:none}.grid4,.grid3,.grid2,.form-grid{grid-template-columns:1fr}.tier-choice{grid-template-columns:1fr}.page-head{align-items:flex-start;gap:12px}.page-head .btn{white-space:nowrap}.searchbar input{min-width:0;width:100%}.searchbar{width:100%}.section{padding:15px}}
+@media(max-width:720px){.sidebar,.app.sidebar-collapsed .sidebar{position:static;width:100%;height:auto;padding:12px}.app{display:block}.sidebar-header,.app.sidebar-collapsed .sidebar-header{display:block;margin:0}.brand,.app.sidebar-collapsed .sidebar-header .brand{padding:3px 5px 10px;justify-content:flex-start}.brand-copy,.app.sidebar-collapsed .brand-copy{display:block}.sidebar-toggle,.app.sidebar-collapsed .sidebar-toggle{display:none}.sidebar-foot,.nav-title,.app.sidebar-collapsed .sidebar-foot,.app.sidebar-collapsed .nav-title{display:none}.nav,.app.sidebar-collapsed .nav{display:flex;overflow:auto;gap:4px}.nav button,.app.sidebar-collapsed .nav button{justify-content:flex-start;padding:12px 13px;white-space:nowrap}.nav-label,.app.sidebar-collapsed .nav-label{display:inline}.main,.app.sidebar-collapsed .main{margin:0;width:100%;padding:20px 14px}.topbar{display:none}.grid4,.grid3,.grid2,.form-grid{grid-template-columns:1fr}.tier-choice{grid-template-columns:1fr}.page-head{align-items:flex-start;gap:12px}.page-head .btn{white-space:nowrap}.searchbar input{min-width:0;width:100%}.searchbar{width:100%}.section{padding:15px}}
 @media print{.sidebar,.topbar,.no-print,.page-head{display:none!important}.main{margin:0;width:100%;padding:0}.card{box-shadow:none}.print-only{display:block;font-weight:800;margin-bottom:12px}}
 
 #login-modal .auth-shell{
@@ -565,22 +584,33 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
 <body>
 <div class="app">
 <aside class="sidebar">
-  <div class="brand"><div class="brand-mark">W</div><div><strong>WASHKING</strong><span>Invoice Manager</span></div></div>
+  <div class="sidebar-header">
+    <div class="brand"><div class="brand-mark">W</div><div class="brand-copy"><strong>WASHKING</strong><span>Invoice Manager</span></div></div>
+    <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar">‹</button>
+  </div>
   <div class="nav-title">Workspace</div>
   <div class="nav">
-    <button class="active" data-page="dashboard"><span class="icon">▦</span>Dashboard</button>
-    <button data-page="customers"><span class="icon">♙</span>Customers</button>
-    <button data-page="invoices"><span class="icon">▤</span>Invoices</button>
+    <button class="active" data-page="dashboard" aria-label="Dashboard" title="Dashboard"><span class="icon">▦</span><span class="nav-label">Dashboard</span></button>
+    <button data-page="customers" data-roles="administrator,field_officer" aria-label="Customers" title="Customers"><span class="icon">♙</span><span class="nav-label">Customers</span></button>
+    <button data-page="invoices" data-roles="administrator,field_officer,customer" aria-label="Invoices" title="Invoices"><span class="icon">▤</span><span class="nav-label">Invoices</span></button>
   </div>
-  <div class="nav-title">Management</div>
-  <div class="nav">
-    <button data-page="create-invoice"><span class="icon">＋</span>New Invoice</button>
-    <button data-page="calculator"><span class="icon">▥</span>Payment Calculator</button>
-    <button data-page="price-list"><span class="icon">◈</span>Price List</button>
+  <div class="nav-title" data-roles="administrator,field_officer">Management</div>
+  <div class="nav" data-roles="administrator,field_officer">
+    <button data-page="create-invoice" data-roles="administrator" aria-label="New invoice" title="New invoice"><span class="icon">＋</span><span class="nav-label">New Invoice</span></button>
+    <button data-page="calculator" data-roles="administrator,field_officer" aria-label="Payment calculator" title="Payment calculator"><span class="icon">▥</span><span class="nav-label">Payment Calculator</span></button>
+    <button data-page="payments" data-roles="administrator,field_officer" aria-label="Payments" title="Payments"><span class="icon">₵</span><span class="nav-label">Payments</span></button>
+    <button data-page="price-list" data-roles="administrator" aria-label="Price list" title="Price list"><span class="icon">◈</span><span class="nav-label">Price List</span></button>
+    <button data-page="staff" data-roles="administrator" aria-label="Staff management" title="Staff management"><span class="icon">♙</span><span class="nav-label">Staff Management</span></button>
+  </div>
+  <div class="nav-title" data-roles="administrator,ceo">Finance</div>
+  <div class="nav" data-roles="administrator,ceo">
+    <button data-page="expenses" data-roles="administrator,ceo" aria-label="Expenses" title="Expenses"><span class="icon">↗</span><span class="nav-label">Expenses</span></button>
+    <button data-page="reports" data-roles="administrator,ceo" aria-label="Reports" title="Reports"><span class="icon">▥</span><span class="nav-label">Reports</span></button>
   </div>
   <div class="nav-title">Account</div>
   <div class="nav">
-    <button id="logout-btn" onclick="logout()"><span class="icon">⎋</span>Sign out <span id="current-user" style="opacity:.7"></span></button>
+    <button id="password-change-btn" type="button" onclick="openPasswordChange()" data-roles="administrator,ceo,field_officer,customer" aria-label="Change password" title="Change password"><span class="icon">◇</span><span class="nav-label">Change password</span></button>
+    <button id="logout-btn" onclick="logout()" aria-label="Sign out" title="Sign out"><span class="icon">⎋</span><span class="nav-label">Sign out</span><span id="current-user" style="opacity:.7"></span></button>
   </div>
   <div class="sidebar-foot">Customer payment assessment<br>Tier 1 · Tier 2 · Tier 3</div>
 </aside>
@@ -589,17 +619,24 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
   <div class="topbar"><div class="crumb" id="crumb">Workspace / Dashboard</div><div class="top-actions"><button class="btn secondary small" onclick="loadAll()">↻ Refresh</button></div></div>
 
   <section id="page-dashboard" class="page active">
-    <div class="page-head"><div><h1 id="greeting">Welcome.</h1><p>Here’s the current picture of your invoice portfolio.</p></div><button class="btn" onclick="go('create-invoice')">＋ Create invoice</button></div>
+    <div class="page-head"><div><h1 id="greeting">Welcome.</h1><p id="dashboard-description">Here’s the current picture of your invoice portfolio.</p></div><button class="btn" data-roles="administrator" onclick="go('create-invoice')">＋ Create invoice</button></div>
+    <div class="notice financial-alert" id="overdue-alert" hidden><strong>Overdue invoices:</strong> <span id="overdue-message"></span> <button class="btn danger small" onclick="go('invoices')">Review invoices</button></div>
+    <div id="dashboard-staff">
     <div class="grid4">
       <div class="card stat"><div class="stat-top"><span class="stat-label">Customers</span><span class="stat-icon">♙</span></div><div class="stat-value" id="d-customers">—</div><div class="stat-note">Registered customers</div></div>
       <div class="card stat"><div class="stat-top"><span class="stat-label">Fully paid</span><span class="stat-icon">✓</span></div><div class="stat-value" id="d-fully">—</div><div class="stat-note">Invoices completed</div></div>
       <div class="card stat"><div class="stat-top"><span class="stat-label">Partially paid</span><span class="stat-icon">◐</span></div><div class="stat-value" id="d-partial">—</div><div class="stat-note">Invoices with balance</div></div>
-      <div class="card stat"><div class="stat-top"><span class="stat-label">No payment</span><span class="stat-icon">!</span></div><div class="stat-value" id="d-none">—</div><div class="stat-note">Awaiting first payment</div></div>
+      <div class="card stat"><div class="stat-top"><span class="stat-label">No payment yet</span><span class="stat-icon">!</span></div><div class="stat-value" id="d-none">—</div><div class="stat-note">Awaiting first payment</div></div>
     </div>
     <div class="grid3" style="margin-top:13px">
       <div class="card money green"><div class="stat-label">Total invoiced</div><div class="stat-value" id="d-invoiced">—</div><div class="stat-note">Value of all invoices</div></div>
       <div class="card money gold"><div class="stat-label">Total received</div><div class="stat-value" id="d-received">—</div><div class="stat-note">Payments recorded</div></div>
       <div class="card money red"><div class="stat-label">Outstanding</div><div class="stat-value" id="d-outstanding">—</div><div class="stat-note">Still to be collected</div></div>
+    </div>
+    <div class="grid3" style="margin-top:13px" data-roles="administrator,ceo">
+      <div class="card money"><div class="stat-label">Recorded expenses</div><div class="stat-value" id="d-expenses">—</div><div class="stat-note">Expenses entered by administrators</div></div>
+      <div class="card money green"><div class="stat-label">Net cash</div><div class="stat-value" id="d-net-cash">—</div><div class="stat-note">Verified payments less recorded expenses</div></div>
+      <div class="card money red"><div class="stat-label">Overdue invoices</div><div class="stat-value" id="d-overdue-count">—</div><div class="stat-note" id="d-overdue-balance">—</div></div>
     </div>
     <div class="card section">
       <div class="section-head"><div><h2>Customer payment tiers</h2><div class="section-sub">Based on the customer’s first deposit arrangement.</div></div><button class="btn secondary small" onclick="go('customers')">View customers</button></div>
@@ -609,9 +646,81 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
         <div class="tier-card"><span class="badge tier3">TIER 3</span><h3 style="margin-top:12px">Installment arrangement</h3><p>Customer needs a structured installment payment arrangement.</p><div class="count" id="d-t3">—</div></div>
       </div>
     </div>
-    <div class="card section">
-      <div class="section-head"><div><h2>Recent invoices</h2><div class="section-sub">Latest invoice activity.</div></div><button class="btn secondary small" onclick="go('invoices')">View all</button></div>
+    <div class="card section" id="dashboard-recent">
+      <div class="section-head"><div><h2>Recent invoices</h2><div class="section-sub">Latest invoice activity.</div></div><button class="btn secondary small" data-roles="administrator" onclick="go('invoices')">View all</button></div>
       <div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Customer</th><th>Total</th><th>Balance</th><th>Status</th></tr></thead><tbody id="recent-invoices"></tbody></table></div>
+    </div>
+    </div>
+    <div id="dashboard-ceo" class="ceo-dashboard" hidden>
+      <div class="card ceo-periodbar">
+        <div><h2>Executive overview</h2><p>Verified collections, expense outflow, customer growth and invoice trends. Date ranges are limited to 366 days.</p></div>
+        <div class="ceo-controls">
+          <div class="field ceo-period-field"><label for="ceo-period">GROUP BY</label><select id="ceo-period"><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="daily">Daily</option></select></div>
+          <div class="field ceo-period-field"><label for="ceo-start">FROM</label><input id="ceo-start" type="date"></div>
+          <div class="field ceo-period-field"><label for="ceo-end">TO</label><input id="ceo-end" type="date"></div>
+          <button class="btn small" type="button" onclick="loadExecutiveDashboard()">Apply range</button>
+        </div>
+      </div>
+      <div class="ceo-kpi-grid" aria-label="Executive key metrics">
+        <div class="card ceo-kpi"><span class="ceo-kpi-label">Verified revenue</span><strong class="ceo-kpi-value" id="ceo-revenue">—</strong><small class="ceo-kpi-note" id="ceo-period-range">Selected period</small></div>
+        <div class="card ceo-kpi"><span class="ceo-kpi-label">Recorded expenses</span><strong class="ceo-kpi-value" id="ceo-expenses">—</strong><small class="ceo-kpi-note">Selected period</small></div>
+        <div class="card ceo-kpi"><span class="ceo-kpi-label">Net cash</span><strong class="ceo-kpi-value" id="ceo-net-cash">—</strong><small class="ceo-kpi-note">Revenue less expenses</small></div>
+        <div class="card ceo-kpi"><span class="ceo-kpi-label">Total customers</span><strong class="ceo-kpi-value" id="ceo-total-customers">—</strong><small class="ceo-kpi-note">Registered profiles</small></div>
+        <div class="card ceo-kpi"><span class="ceo-kpi-label">Invoices issued</span><strong class="ceo-kpi-value" id="ceo-invoices-issued">—</strong><small class="ceo-kpi-note">Selected period</small></div>
+        <div class="card ceo-kpi"><span class="ceo-kpi-label">Outstanding balance</span><strong class="ceo-kpi-value" id="ceo-outstanding">—</strong><small class="ceo-kpi-note">Current invoice portfolio</small></div>
+      </div>
+      <div class="ceo-layout">
+        <section class="card ceo-panel ceo-span-8">
+          <div class="ceo-panel-head"><div><h2>Revenue and expenses</h2><div class="ceo-panel-note" id="ceo-revenue-range">Verified payments and recorded expenses</div></div></div>
+          <div class="ceo-chart-scroll" id="ceo-revenue-chart"></div>
+          <div class="ceo-legend"><span><i></i>Verified revenue</span><span><i class="expense-dot"></i>Recorded expenses</span></div>
+        </section>
+        <section class="card ceo-panel ceo-span-4">
+          <div class="ceo-panel-head"><div><h2>Customer acquisition</h2><div class="ceo-panel-note">New customer profiles by interval</div></div></div>
+          <div id="ceo-acquisition-chart" class="ceo-bars"></div>
+        </section>
+      </div>
+      <div class="ceo-layout">
+        <section class="card ceo-panel ceo-span-4">
+          <div class="ceo-panel-head"><div><h2>Invoice portfolio</h2><div class="ceo-panel-note">Current status · <span id="ceo-total-invoices">—</span> invoices</div></div></div>
+          <div id="ceo-invoice-status" class="ceo-bars"></div>
+        </section>
+        <section class="card ceo-panel ceo-span-4">
+          <div class="ceo-panel-head"><div><h2>Customer payment tiers</h2><div class="ceo-panel-note">Customer counts by recorded payment arrangement</div></div></div>
+          <div id="ceo-customer-tiers" class="ceo-bars"></div>
+        </section>
+        <section class="card ceo-panel ceo-span-4">
+          <div class="ceo-panel-head"><div><h2>Top itemized invoice lines</h2><div class="ceo-panel-note">By invoiced value in the selected period</div></div></div>
+          <div id="ceo-top-lines" class="ceo-bars"></div>
+        </section>
+      </div>
+      <div class="ceo-layout">
+        <section class="card ceo-panel ceo-span-8">
+          <div class="ceo-panel-head"><div><h2>Financial summary</h2><div class="ceo-panel-note">Current company-wide invoice and cash position</div></div><button class="btn secondary small" type="button" onclick="go('reports')">Financial reports</button></div>
+          <div class="ceo-summary-grid">
+            <div><span class="ceo-kpi-label">Total invoiced</span><strong class="ceo-summary-value" id="ceo-total-invoiced">—</strong></div>
+            <div><span class="ceo-kpi-label">Verified received</span><strong class="ceo-summary-value" id="ceo-total-received">—</strong></div>
+            <div><span class="ceo-kpi-label">Recorded expenses</span><strong class="ceo-summary-value" id="ceo-total-expenses">—</strong></div>
+            <div><span class="ceo-kpi-label">Net cash to date</span><strong class="ceo-summary-value" id="ceo-net-cash-to-date">—</strong></div>
+            <div><span class="ceo-kpi-label">Overdue balance</span><strong class="ceo-summary-value" id="ceo-overdue-balance">—</strong></div>
+          </div>
+        </section>
+        <section class="card ceo-panel ceo-span-4">
+          <div class="ceo-panel-head"><div><h2>Alerts and notifications</h2><div class="ceo-panel-note">Items needing management attention</div></div></div>
+          <div id="ceo-alerts" class="ceo-alerts"></div>
+        </section>
+      </div>
+    </div>
+    <div id="dashboard-field" hidden>
+      <div class="card stat"><span class="stat-label">Customers registered by you</span><div class="stat-value" id="field-customers">—</div><div class="stat-note">Your field registrations</div><button class="btn secondary small" onclick="go('customers')">View your customers</button> <button class="btn secondary small" onclick="go('invoices')">View their invoices</button></div>
+    </div>
+    <div id="dashboard-customer" hidden>
+      <div class="grid3">
+        <div class="card stat"><span class="stat-label">Your invoices</span><div class="stat-value" id="portal-invoices">—</div></div>
+        <div class="card money green"><span class="stat-label">Paid to date</span><div class="stat-value" id="portal-paid">—</div></div>
+        <div class="card money red"><span class="stat-label">Outstanding balance</span><div class="stat-value" id="portal-balance">—</div></div>
+      </div>
+      <div class="card section" style="margin-top:17px"><div class="section-head"><div><h2>Your payment history</h2><div class="section-sub">Open an invoice to review payments recorded against it.</div></div><button class="btn secondary small" onclick="go('invoices')">View invoices</button></div><div id="portal-name"></div></div>
     </div>
   </section>
 
@@ -624,7 +733,7 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
   </section>
 
   <section id="page-invoices" class="page">
-    <div class="page-head"><div><h1>Invoices</h1><p>Create, monitor and collect customer payments.</p></div><button class="btn" onclick="go('create-invoice')">＋ New invoice</button></div>
+    <div class="page-head"><div><h1>Invoices</h1><p>Create, monitor and collect customer payments.</p></div><button class="btn" data-roles="administrator" onclick="go('create-invoice')">＋ New invoice</button></div>
     <div class="card section">
       <div class="section-head"><h2>Invoice register</h2><div class="searchbar"><input id="invoice-search" placeholder="Search invoice…" oninput="renderInvoices()"></div></div>
       <div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance</th><th>Due</th><th>Status</th></tr></thead><tbody id="invoices-body"></tbody></table><div class="empty" id="invoices-empty">No invoices found.</div></div>
@@ -638,12 +747,14 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
         <div class="form-grid">
           <div class="field full"><label>CUSTOMER</label><select id="invoice-customer" name="customer_id" required></select></div>
           <div class="field"><label>TOILET FACILITY</label><select id="inv-facility" name="facility_type"></select></div>
-          <div class="field"><label>INVOICE NUMBER</label><input name="invoice_number" required placeholder="INV-2026-0001"></div>
+          <div class="field"><label>INVOICE NUMBER</label><input id="invoice-number-preview" readonly placeholder="Assigned automatically on save"><div class="hint">Generated automatically when you create the invoice.</div></div>
           <div class="field full"><label>ADDITIONAL EQUIPMENT</label><div class="equip-list" id="inv-equipment"><div class="hint">Loading price list…</div></div></div>
-          <div class="field"><label>APPROVED SUBSIDY / DISCOUNT (GHS)</label><input name="discount" type="number" min="0" step="0.01" value="0"></div>
-          <div class="field"><label>TOTAL AMOUNT (GHS)</label><input name="total_amount" required type="number" min="0.01" step="0.01" placeholder="5000.00"><div class="hint" id="inv-total-hint">Pick a facility to calculate this from the price list, or type an amount.</div></div>
+          <div class="field"><label>CONSTRUCTION COST (GH₵)</label><input name="construction_cost" type="number" min="0" step="0.01" placeholder="Price list amount"></div>
+          <div class="field"><label>OTHER ADDITIONAL COSTS (GH₵)</label><input name="additional_cost" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field"><label>APPROVED SUBSIDY / DISCOUNT (GH₵)</label><input name="discount" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field"><label>TOTAL AMOUNT (GH₵)</label><input name="total_amount" required type="number" min="0.01" step="0.01" placeholder="5000.00"><div class="hint" id="inv-total-hint">Pick a facility to calculate this from the price list, or type an amount.</div></div>
           <div class="field"><label>DUE DATE</label><input name="due_date" type="date"></div>
-          <div class="field"><label>INITIAL DEPOSIT (GHS)</label><input name="initial_deposit" type="number" min="0.01" step="0.01" placeholder="Optional — recorded as the first payment"></div>
+          <div class="field"><label>INITIAL DEPOSIT (GH₵)</label><input name="initial_deposit" type="number" min="0.01" step="0.01" placeholder="Optional — recorded as the first payment"></div>
           <div class="field"><label>DEPOSIT METHOD</label><select name="deposit_method"><option value="">Select method</option><option>Mobile Money</option><option>Bank Transfer</option><option>Cash</option><option>Card</option></select></div>
         </div>
         <div class="form-actions"><button type="button" class="btn secondary" onclick="go('invoices')">Cancel</button><button class="btn">Create invoice</button></div>
@@ -689,39 +800,94 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
         <button type="button" class="btn secondary" onclick="window.print()">Print</button>
       </div>
       <div class="calc-invoice no-print" id="calc-invoice-box" style="display:none">
-        <h3>New invoice for the net customer cost</h3>
+        <h3>Invoice details</h3>
         <div class="form-grid">
-          <div class="field"><label>INVOICE NUMBER</label><input id="calc-inv-number" placeholder="INV-2026-0001"></div>
           <div class="field"><label>DUE DATE</label><input id="calc-inv-due" type="date"></div>
-          <div class="field full"><label>DEPOSIT METHOD (FOR AMOUNT ALREADY PAID)</label><select id="calc-inv-method"><option value="">Select method</option><option>Mobile Money</option><option>Bank Transfer</option><option>Cash</option><option>Card</option></select></div>
+          <div class="field"><label>DEPOSIT METHOD (FOR AMOUNT ALREADY PAID)</label><select id="calc-inv-method"><option value="">Select method</option><option>Mobile Money</option><option>Bank Transfer</option><option>Cash</option><option>Card</option></select></div>
         </div>
-        <div class="hint" style="margin-top:8px">Needs a customer selected above. The amount already paid is recorded as the first payment.</div>
-        <div class="form-actions"><button type="button" class="btn" id="calc-inv-btn" onclick="createCalcInvoice(this)">Create invoice</button></div>
+        <div class="hint" id="calc-invoice-note" style="margin-top:8px">Customer, facility, equipment, costs, discount and amount already paid will be carried into the standard invoice form.</div>
+        <div class="form-actions"><button type="button" class="btn" id="calc-inv-btn" onclick="createCalcInvoice(this)">Continue to invoice form</button></div>
       </div>
     </div>
   </section>
 
   <section id="page-price-list" class="page">
-    <div class="page-head"><div><h1>Price list</h1><p>Facility and equipment prices used by the payment calculator. Starter prices are estimates; update them with your real prices.</p></div></div>
+    <div class="page-head"><div><h1>Price list</h1><p>Facility and equipment prices used by the payment calculator.</p></div></div>
+    <div class="notice" id="price-warning" hidden></div>
     <div class="card form-card" style="margin-bottom:17px">
       <h2 style="font-size:14px;margin:0 0 14px">Add item</h2>
       <form id="catalog-form">
         <div class="form-grid" style="grid-template-columns:1fr 2fr 1fr">
           <div class="field"><label>TYPE</label><select name="kind"><option value="equipment">Equipment</option><option value="facility">Facility</option></select></div>
           <div class="field"><label>NAME</label><input name="name" required placeholder="e.g. Urinal"></div>
-          <div class="field"><label>PRICE (GHS)</label><input name="price" required type="number" min="0" step="0.01"></div>
+          <div class="field"><label>PRICE (GH₵)</label><input name="price" required type="number" min="0" step="0.01"></div>
         </div>
         <div class="form-actions"><button class="btn">Add item</button></div>
       </form>
     </div>
     <div class="card section" style="margin-top:0">
       <div class="section-head"><h2>Items</h2></div>
-      <div class="table-wrap"><table><thead><tr><th>Item</th><th>Type</th><th>Price (GHS)</th><th>Status</th><th>Action</th></tr></thead><tbody id="catalog-body"></tbody></table><div class="empty" id="catalog-empty">No items yet.</div></div>
+      <div class="table-wrap"><table><thead><tr><th>Item</th><th>Type</th><th>Price (GH₵)</th><th>Status</th><th>Action</th></tr></thead><tbody id="catalog-body"></tbody></table><div class="empty" id="catalog-empty">No items yet.</div></div>
     </div>
   </section>
 
+  <section id="page-staff" class="page">
+    <div class="page-head"><div><h1>Staff management</h1><p>Create role-based accounts. Customer logins must link to an existing customer profile.</p></div></div>
+    <div class="card form-card" style="margin-bottom:17px">
+      <h2 style="font-size:14px;margin:0 0 14px">Create account</h2>
+      <form id="user-form"><div class="form-grid">
+        <div class="field"><label>USERNAME</label><input name="username" required minlength="3" maxlength="60"></div>
+        <div class="field"><label>INITIAL PASSWORD</label><input name="password" type="password" required minlength="8" autocomplete="new-password"></div>
+        <div class="field"><label>ROLE</label><select name="role" required><option value="field_officer">Field Officer</option><option value="administrator">Administrator</option><option value="ceo">CEO</option><option value="customer">Customer</option></select></div>
+        <div class="field" id="user-customer-field" hidden><label>LINK TO CUSTOMER</label><select name="customer_id"><option value="">Select customer profile</option></select></div>
+      </div><div class="hint" style="margin-top:10px">Share initial credentials securely. Each account must change its initial password at first sign-in. Customer accounts can only view the linked profile.</div><div class="form-actions"><button class="btn">Create account</button></div></form>
+    </div>
+    <div class="card section"><div class="section-head"><h2>Accounts</h2></div><div class="table-wrap"><table><thead><tr><th>Username</th><th>Role</th><th>Customer profile</th><th>Password status</th><th>Created</th><th>Action</th></tr></thead><tbody id="users-body"></tbody></table><div class="empty" id="users-empty">No accounts.</div></div></div>
+  </section>
+
+  <section id="page-payments" class="page">
+    <div class="page-head"><div><h1>Payments</h1><p>Field submissions remain pending until an administrator verifies them.</p></div></div>
+    <div class="card section">
+      <div class="section-head"><div><h2 id="payment-list-title">Payment submissions</h2><div class="section-sub">Only verified payments change invoice balances or appear on receipts.</div></div><div class="searchbar" data-roles="administrator"><select id="payment-status" aria-label="Submission status" onchange="loadPaymentSubmissions()"><option value="pending">Awaiting verification</option><option value="verified">Verified</option><option value="rejected">Rejected</option></select></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Invoice</th><th>Customer</th><th>Amount</th><th>Payment date</th><th>Method / reference</th><th>Submitted by</th><th>Status</th><th data-roles="administrator">Action</th></tr></thead><tbody id="submission-body"></tbody></table><div class="empty" id="submission-empty">No payment submissions found.</div></div>
+    </div>
+  </section>
+
+  <section id="page-expenses" class="page">
+    <div class="page-head"><div><h1>Expenses</h1><p>Record operating costs for management reporting. Entries are retained for accountability.</p></div></div>
+    <div class="card form-card" style="margin-bottom:17px" data-roles="administrator">
+      <h2 style="font-size:14px;margin:0 0 14px">Record an expense</h2>
+      <form id="expense-form"><div class="form-grid">
+        <div class="field"><label>DATE</label><input name="expense_date" type="date"></div>
+        <div class="field"><label>CATEGORY</label><input name="category" required minlength="2" maxlength="60" placeholder="e.g. Transport"></div>
+        <div class="field"><label>AMOUNT (GH₵)</label><input name="amount" required type="number" min="0.01" step="0.01"></div>
+        <div class="field"><label>REFERENCE</label><input name="reference" maxlength="100" placeholder="Optional receipt or reference"></div>
+        <div class="field full"><label>DESCRIPTION</label><input name="description" required minlength="2" maxlength="300"></div>
+      </div><div class="form-actions"><button class="btn">Save expense</button></div></form>
+    </div>
+    <div class="card section"><div class="section-head"><h2>Expense ledger</h2></div><div class="table-wrap"><table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th><th>Reference</th><th>Recorded by</th></tr></thead><tbody id="expenses-body"></tbody></table><div class="empty" id="expenses-empty">No expenses recorded.</div></div></div>
+  </section>
+
+  <section id="page-reports" class="page">
+    <div class="page-head"><div><h1>Financial reports</h1><p>Revenue includes administrator-recorded payments and verified field submissions only.</p></div></div>
+    <div class="card form-card no-print" style="margin-bottom:17px">
+      <form id="report-form"><div class="form-grid">
+        <div class="field"><label>GROUP BY</label><select name="period"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly">Monthly</option></select></div>
+        <div class="field"><label>FROM</label><input name="start_date" type="date"></div>
+        <div class="field"><label>TO</label><input name="end_date" type="date"></div>
+        <div class="field" style="justify-content:flex-end"><button class="btn" type="submit">Run report</button></div>
+      </div></form>
+    </div>
+    <div class="grid3 report-summary">
+      <div class="card money green"><div class="stat-label">Verified revenue</div><div class="stat-value" id="report-revenue">—</div><div class="stat-note" id="report-period-label">Selected period</div></div>
+      <div class="card money gold"><div class="stat-label">Expenses</div><div class="stat-value" id="report-expenses">—</div></div>
+      <div class="card money"><div class="stat-label">Net cash</div><div class="stat-value" id="report-net">—</div></div>
+    </div>
+    <div class="card section" style="margin-top:0"><div class="section-head"><div><h2>Revenue and expenses</h2><div class="section-sub" id="report-overdue">Overdue balances —</div></div></div><div class="table-wrap"><table><thead><tr><th>Period</th><th>Revenue</th><th>Payments</th><th>Expenses</th><th>Expense entries</th><th>Net cash</th></tr></thead><tbody id="report-body"></tbody></table><div class="empty" id="report-empty">Run a report to see financial activity.</div></div></div>
+  </section>
+
   <section id="page-invoice-detail" class="page">
-    <div class="detail-head"><button class="back" onclick="go('invoices')">← Back to invoices</button></div>
+    <div class="detail-head"><button class="back" onclick="go('invoices')">← Back to invoices</button><div class="detail-actions"><button class="btn secondary small" onclick="printCurrentInvoice()">Print / Save invoice PDF</button></div></div>
     <div class="detail-title"><div class="invoice-meta"><span id="detail-status"></span></div><h1 id="detail-title">Invoice</h1><p id="detail-sub">—</p></div>
     <div class="grid4" style="margin-top:20px">
       <div class="card stat"><span class="stat-label">Invoice total</span><div class="stat-value" id="detail-total">—</div></div>
@@ -734,12 +900,24 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
         <h2 style="font-size:14px;margin:0 0 4px">Record payment</h2><p class="section-sub" style="margin-bottom:17px">Add a payment against this invoice.</p>
         <form id="payment-form">
           <div class="form-grid">
-            <div class="field full"><label>AMOUNT (GHS)</label><input name="amount" required type="number" min="0.01" step="0.01"></div>
+            <div class="field full"><label>AMOUNT (GH₵)</label><input name="amount" required type="number" min="0.01" step="0.01"></div>
             <div class="field"><label>DATE</label><input name="payment_date" type="date"></div>
             <div class="field"><label>METHOD</label><select name="payment_method"><option value="">Select method</option><option>Mobile Money</option><option>Bank Transfer</option><option>Cash</option><option>Card</option></select></div>
             <div class="field full"><label>REFERENCE</label><input name="reference" placeholder="Transaction/reference number"></div>
           </div>
           <div class="form-actions"><button class="btn">Record payment</button></div>
+        </form>
+      </div>
+      <div class="card form-card" id="payment-submission-card">
+        <h2 style="font-size:14px;margin:0 0 4px">Submit payment for verification</h2><p class="section-sub" style="margin-bottom:17px">This is a field report, not an official payment receipt. The balance changes only after administrator verification.</p>
+        <form id="payment-submission-form">
+          <div class="form-grid">
+            <div class="field full"><label>AMOUNT (GH₵)</label><input name="amount" required type="number" min="0.01" step="0.01"></div>
+            <div class="field"><label>DATE RECEIVED</label><input name="payment_date" type="date"></div>
+            <div class="field"><label>METHOD</label><select name="payment_method"><option value="">Select method</option><option>Mobile Money</option><option>Bank Transfer</option><option>Cash</option><option>Card</option></select></div>
+            <div class="field full"><label>REFERENCE</label><input name="reference" maxlength="100" placeholder="Transaction/reference number"></div>
+          </div>
+          <div class="form-actions"><button class="btn">Submit for verification</button></div>
         </form>
       </div>
       <div class="card section" style="margin-top:0">
@@ -755,7 +933,7 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
   </section>
 
   <section id="page-customer-detail" class="page">
-    <div class="detail-head"><button class="back" onclick="go('customers')">← Back to customers</button><button class="btn danger small" id="cd-remove">Remove customer</button></div>
+    <div class="detail-head"><button class="back" onclick="go('customers')">← Back to customers</button></div>
     <div class="detail-title"><div class="invoice-meta"><span id="cd-tier"></span></div><h1 id="cd-name">Customer</h1><p id="cd-sub">—</p></div>
     <div class="grid4" style="margin-top:20px">
       <div class="card stat"><span class="stat-label">Invoices</span><div class="stat-value" id="cd-count">—</div></div>
@@ -774,8 +952,8 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
               <label><input type="radio" name="tier" value="3"><b>Tier 3</b><span>Installments.</span></label>
             </div></div>
             <div class="field full"><label>ASSESSMENT NOTE</label><textarea name="tier_reason"></textarea></div>
-            <div class="field"><label>REQUESTED DEPOSIT (GHS)</label><input name="requested_deposit" type="number" min="0" step="0.01"></div>
-            <div class="field"><label>AGREED FIRST DEPOSIT (GHS)</label><input name="first_deposit_amount" type="number" min="0" step="0.01"></div>
+            <div class="field"><label>REQUESTED DEPOSIT (GH₵)</label><input name="requested_deposit" type="number" min="0" step="0.01"></div>
+            <div class="field"><label>AGREED FIRST DEPOSIT (GH₵)</label><input name="first_deposit_amount" type="number" min="0" step="0.01"></div>
             <div class="field full"><label>DAYS UNTIL FIRST PAYMENT</label><input name="expected_payment_days" type="number" min="0" step="1"></div>
           </div>
           <div class="form-actions"><button class="btn">Update tier</button></div>
@@ -788,6 +966,9 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
         <div class="section-head"><div><h2>Payment history</h2><div class="section-sub">All payments across this customer's invoices.</div></div></div>
         <div class="table-wrap"><table><thead><tr><th>Date</th><th>Invoice</th><th>Amount</th><th>Method</th><th>Reference</th></tr></thead><tbody id="cd-payments-body"></tbody></table><div class="empty" id="cd-payments-empty">No payments recorded.</div></div>
       </div>
+    </div>
+    <div class="card section danger-zone" style="margin-top:17px">
+      <div class="section-head"><div><h2>Danger zone</h2><div class="section-sub">Remove this customer only if they have no linked invoices or payments. The action cannot be undone.</div></div><button class="btn danger small" id="cd-remove">Remove customer</button></div>
     </div>
   </section>
 </main>
@@ -809,14 +990,50 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
             </div>
           </div>
           <div class="field full"><label>ASSESSMENT NOTE</label><textarea name="tier_reason" placeholder="Briefly explain the customer's first deposit arrangement…"></textarea></div>
-          <div class="field"><label>REQUESTED DEPOSIT (GHS)</label><input name="requested_deposit" type="number" min="0" step="0.01" placeholder="Optional"></div>
-          <div class="field"><label>AGREED FIRST DEPOSIT (GHS)</label><input name="first_deposit_amount" type="number" min="0" step="0.01" placeholder="Optional"></div>
+          <div class="field"><label>REQUESTED DEPOSIT (GH₵)</label><input name="requested_deposit" type="number" min="0" step="0.01" placeholder="Optional"></div>
+          <div class="field"><label>AGREED FIRST DEPOSIT (GH₵)</label><input name="first_deposit_amount" type="number" min="0" step="0.01" placeholder="Optional"></div>
           <div class="field full"><label>DAYS UNTIL FIRST PAYMENT</label><input name="expected_payment_days" type="number" min="0" step="1" placeholder="Optional — for Tier 2 customers"></div>
         </div>
         <div class="form-actions"><button type="button" class="btn secondary" onclick="closeCustomerModal()">Cancel</button><button class="btn">Save customer</button></div>
       </form>
     </div>
   </div>
+</div>
+<div class="modal-backdrop" id="customer-remove-modal">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="customer-remove-title" aria-describedby="customer-remove-description">
+    <div class="modal-head"><h2 id="customer-remove-title">Remove customer?</h2></div>
+    <div class="modal-body">
+      <p id="customer-remove-description">You are about to remove <strong id="customer-remove-name"></strong>. Customers with linked invoices cannot be removed.</p>
+      <div class="form-actions"><button type="button" class="btn secondary" id="customer-remove-cancel">Cancel</button><button type="button" class="btn danger" id="customer-remove-confirm">Remove customer</button></div>
+    </div>
+  </section>
+</div>
+<div class="modal-backdrop" id="password-change-modal">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="password-change-title" aria-describedby="password-change-description">
+    <div class="modal-head"><h2 id="password-change-title">Change password</h2><button class="close" id="password-change-close" type="button" aria-label="Close">×</button></div>
+    <div class="modal-body">
+      <p id="password-change-description">Use a unique password with at least 8 characters.</p>
+      <form id="password-change-form">
+        <div class="field"><label for="current-password">CURRENT PASSWORD</label><input id="current-password" name="current_password" type="password" autocomplete="current-password" required></div>
+        <div class="field" style="margin-top:14px"><label for="new-password">NEW PASSWORD</label><input id="new-password" name="new_password" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div>
+        <div class="field" style="margin-top:14px"><label for="confirm-password">CONFIRM NEW PASSWORD</label><input id="confirm-password" name="confirm_password" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div>
+        <div class="form-actions"><button class="btn" type="submit">Update password</button></div>
+      </form>
+    </div>
+  </section>
+</div>
+<div class="modal-backdrop" id="password-reset-modal">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="password-reset-title" aria-describedby="password-reset-description">
+    <div class="modal-head"><h2 id="password-reset-title">Set a temporary password</h2><button class="close" id="password-reset-close" type="button" aria-label="Close">×</button></div>
+    <div class="modal-body">
+      <p id="password-reset-description">Set a temporary password for <strong id="password-reset-target"></strong>. This signs them out and requires a change at next sign-in.</p>
+      <form id="password-reset-form">
+        <div class="field"><label for="temporary-password">TEMPORARY PASSWORD</label><input id="temporary-password" name="temporary_password" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div>
+        <div class="field" style="margin-top:14px"><label for="confirm-temporary-password">CONFIRM TEMPORARY PASSWORD</label><input id="confirm-temporary-password" name="confirm_password" type="password" minlength="8" maxlength="200" autocomplete="new-password" required></div>
+        <div class="form-actions"><button class="btn secondary" id="password-reset-cancel" type="button">Cancel</button><button class="btn" type="submit">Reset password</button></div>
+      </form>
+    </div>
+  </section>
 </div>
 <div class="modal-backdrop" id="login-modal">
   <main class="auth-shell">
@@ -888,22 +1105,40 @@ button,input,select,textarea{font:inherit}input[type=checkbox]{accent-color:var(
 <div class="toast" id="toast"></div>
 
 <script>
-// Set to true to skip the login screen while trying features. The backend must be started
-// with AUTH_DISABLED=1 (or run_backend.ps1 -NoAuth). While frozen, the app talks to your local backend.
+// Add ?sandbox=1 only for local UI testing. The local backend must run with AUTH_DISABLED=1
+// in APP_ENV=development; production ignores the auth bypass. Sandbox mode uses LOCAL_API.
 const AUTH_FROZEN=new URLSearchParams(window.location.search).get("sandbox")==="1";
 const LOCAL_API="http://127.0.0.1:8001";
 const API_BASE=AUTH_FROZEN?LOCAL_API:"https://washkinggh.fastapicloud.dev";
-let customers=[], invoices=[], currentInvoiceId=null, currentCustomerId=null;
+let customers=[], invoices=[], currentInvoiceId=null, currentInvoice=null, currentCustomerId=null, currentUser=null, currentCustomer=null;
+let customerRemoval=null, customerRemovalFocus=null, executiveRequestId=0;
 
 const $=s=>document.querySelector(s);
-const money=n=>"GHS "+Number(n||0).toLocaleString("en-GH",{minimumFractionDigits:2,maximumFractionDigits:2});
+const money=n=>"GH₵"+Number(n||0).toLocaleString("en-GH",{minimumFractionDigits:2,maximumFractionDigits:2});
 const escapeHtml=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const appRoot=document.querySelector(".app");
+const sidebarToggle=$("#sidebar-toggle");
+function setSidebarCollapsed(collapsed){
+  appRoot.classList.toggle("sidebar-collapsed",collapsed);
+  sidebarToggle.setAttribute("aria-expanded",String(!collapsed));
+  sidebarToggle.setAttribute("aria-label",collapsed?"Expand sidebar":"Collapse sidebar");
+  sidebarToggle.title=collapsed?"Expand sidebar":"Collapse sidebar";
+  sidebarToggle.textContent=collapsed?"›":"‹";
+  try{localStorage.setItem("washking_sidebar_collapsed",String(collapsed))}catch{}
+}
+let sidebarCollapsed=false;
+try{sidebarCollapsed=localStorage.getItem("washking_sidebar_collapsed")==="true"}catch{}
+setSidebarCollapsed(sidebarCollapsed);
+sidebarToggle.addEventListener("click",()=>setSidebarCollapsed(!appRoot.classList.contains("sidebar-collapsed")));
 function printPaymentReceipt(invoice,payment){
   if(!invoice||!payment)throw new Error("Invoice and payment are required.");
   const receiptMoney=value=>"GH₵"+Number(value||0).toLocaleString("en-GH",{minimumFractionDigits:2,maximumFractionDigits:2});
   const customer=invoice.customer||{};
-  const paidBefore=Math.max(0,Number(invoice.total_paid||0)-Number(payment.amount||0));
-  const balanceAfter=Math.max(0,Number(invoice.total_amount||0)-Number(invoice.total_paid||0));
+  const history=[...(invoice.payments||[])].sort((a,b)=>String(a.created_at||a.payment_date).localeCompare(String(b.created_at||b.payment_date)));
+  const paymentIndex=history.findIndex(item=>item.id===payment.id);
+  const paidBefore=paymentIndex>=0?history.slice(0,paymentIndex).reduce((sum,item)=>sum+Number(item.amount||0),0):Math.max(0,Number(invoice.total_paid||0)-Number(payment.amount||0));
+  const paidAfter=paidBefore+Number(payment.amount||0);
+  const balanceAfter=Math.max(0,Number(invoice.total_amount||0)-paidAfter);
   const receiptNumber=payment.id?`RCPT-${String(payment.id).slice(0,8).toUpperCase()}`:"PAYMENT RECEIPT";
   const issuedAt=new Date().toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"});
   const popup=window.open("","_blank","width=760,height=820");
@@ -927,9 +1162,34 @@ table{width:100%;border-collapse:collapse;margin-top:18px}th,td{text-align:left;
 <div><div class="label">Invoice</div><div class="value">${escapeHtml(invoice.invoice_number||"—")}</div><div class="muted">Invoice total: ${receiptMoney(invoice.total_amount)}</div></div></div>
 <table><thead><tr><th>Payment date</th><th>Method / reference</th><th>Amount</th></tr></thead><tbody><tr><td>${escapeHtml(payment.payment_date||"—")}</td><td>${escapeHtml([payment.payment_method,payment.reference].filter(Boolean).join(" · ")||"—")}</td><td class="amount">${receiptMoney(payment.amount)}</td></tr></tbody></table>
 <div class="balance"><span>Balance after this payment</span><span>${receiptMoney(balanceAfter)}</span></div>
-<div class="grid"><div><div class="label">Paid before this payment</div><div class="value">${receiptMoney(paidBefore)}</div></div><div><div class="label">Paid to date</div><div class="value">${receiptMoney(invoice.total_paid)}</div></div></div>
+<div class="grid"><div><div class="label">Paid before this payment</div><div class="value">${receiptMoney(paidBefore)}</div></div><div><div class="label">Paid to date</div><div class="value">${receiptMoney(paidAfter)}</div></div></div>
 <div class="foot">WASHKING · Keep this receipt for your records.</div>
 </main><div class="actions"><button onclick="window.print()">Print / Save as PDF</button></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),250));<\/script></body></html>`);
+  popup.document.close();
+  popup.focus();
+}
+function printCurrentInvoice(){
+  const invoice=currentInvoice;
+  if(!invoice){toast("Invoice details are not loaded yet.");return}
+  const popup=window.open("","_blank","width=820,height=900");
+  if(!popup){toast("The invoice window was blocked. Allow pop-ups and try again.");return}
+  const customer=invoice.customer||{};
+  const lines=invoice.items?.length?invoice.items:[{description:"Invoice charges",quantity:1,unit_price:invoice.total_amount,line_total:invoice.total_amount}];
+  const itemRows=lines.map(item=>`<tr><td>${escapeHtml(item.description)}</td><td>${Number(item.quantity||1)}</td><td>${money(item.unit_price)}</td><td>${money(item.line_total)}</td></tr>`).join("");
+  const paymentRows=(invoice.payments||[]).map(payment=>`<tr><td>${escapeHtml(payment.payment_date||"—")}</td><td>${escapeHtml(payment.payment_method||"—")}</td><td>${escapeHtml(payment.reference||"—")}</td><td>${money(payment.amount)}</td></tr>`).join("");
+  popup.document.open();
+  popup.document.write(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Invoice ${escapeHtml(invoice.invoice_number)}</title><style>
+*{box-sizing:border-box}body{margin:0;padding:36px;background:#f3f8fb;color:#12222f;font:14px/1.5 system-ui,-apple-system,Segoe UI,Arial,sans-serif}.sheet{max-width:780px;margin:auto;background:#fff;border:1px solid #dce7ee;border-radius:14px;padding:38px;box-shadow:0 10px 30px rgba(7,59,87,.08)}
+header{display:flex;justify-content:space-between;gap:20px;border-bottom:3px solid #0088c8;padding-bottom:20px}.brand{font-size:23px;font-weight:800;color:#073b57}.brand small{display:block;font-size:12px;font-weight:500;color:#5d7382}.tag{text-align:right;color:#5d7382;font-size:12px}.tag strong{display:block;color:#12222f;font-size:18px}
+h1{font-size:25px;margin:26px 0 4px}.muted{color:#5d7382;font-size:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}.label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#5d7382;font-weight:700}.value{font-weight:650;margin-top:3px}
+table{width:100%;border-collapse:collapse;margin-top:16px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #dce7ee}th{font-size:10px;color:#5d7382;text-transform:uppercase}td:last-child,th:last-child{text-align:right}.summary{max-width:330px;margin:20px 0 0 auto}.summary div{display:flex;justify-content:space-between;padding:6px 0}.balance{margin-top:12px;padding:14px;background:#e5f4fb;border-radius:9px;display:flex;justify-content:space-between;font-weight:800}
+.actions{text-align:center;margin:18px}.actions button{background:#0088c8;border:0;color:white;padding:10px 18px;border-radius:8px;font-weight:700;cursor:pointer}@media print{body{padding:0;background:#fff}.sheet{border:0;box-shadow:none;max-width:none;padding:18px}.actions{display:none}}@media(max-width:560px){body{padding:12px}.sheet{padding:22px}.grid{grid-template-columns:1fr}header{flex-direction:column}.tag{text-align:left}}
+</style></head><body><main class="sheet"><header><div class="brand">WASHKING<small>Customer invoice</small></div><div class="tag"><strong>${escapeHtml(invoice.invoice_number)}</strong>${invoice.due_date?`Due ${escapeHtml(invoice.due_date)}`:"No due date"}</div></header>
+<h1>Invoice</h1><div class="muted">Issued ${escapeHtml(String(invoice.created_at||"").slice(0,10)||"—")}</div>
+<div class="grid"><div><div class="label">Bill to</div><div class="value">${escapeHtml(customer.name||"Customer")}</div><div class="muted">${escapeHtml(customer.phone||"")}</div></div><div><div class="label">Payment status</div><div class="value">${escapeHtml(String(invoice.status||"").replaceAll("_"," "))}</div><div class="muted">All amounts in Ghana cedis (GH₵).</div></div></div>
+<table><thead><tr><th>Description</th><th>Qty</th><th>Unit price</th><th>Total</th></tr></thead><tbody>${itemRows}</tbody></table>
+<div class="summary"><div><span>Invoice total</span><strong>${money(invoice.total_amount)}</strong></div><div><span>Payments received</span><strong>${money(invoice.total_paid)}</strong></div><div class="balance"><span>Outstanding balance</span><span>${money(invoice.outstanding_balance)}</span></div></div>
+<h2 style="font-size:15px;margin:30px 0 0">Verified payment history</h2><table><thead><tr><th>Date</th><th>Method</th><th>Reference</th><th>Amount</th></tr></thead><tbody>${paymentRows||'<tr><td colspan="4">No verified payments recorded.</td></tr>'}</tbody></table></main><div class="actions"><button onclick="window.print()">Print / Save as PDF</button></div><script>window.addEventListener('load',()=>setTimeout(()=>window.print(),250));<\/script></body></html>`);
   popup.document.close();
   popup.focus();
 }
@@ -955,6 +1215,9 @@ const tokenStore={
   }
 };
 let token=tokenStore.get();
+let rememberLogin=false;
+try{rememberLogin=!!token&&localStorage.getItem("washking_token")===token}catch{}
+let passwordChangeForced=false,passwordResetTarget=null;
 $("#year").textContent=new Date().getFullYear();
 function toast(msg){const x=$("#toast");x.textContent=msg;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),2400)}
 function showLoginMessage(text, type="error"){
@@ -970,7 +1233,7 @@ function setLoginLoading(loading){
   btn.disabled=loading;
   label.textContent=loading?"Signing in...":"Sign in";
 }
-function statusBadge(s){const map={FULLY_PAID:["paid","Fully paid"],PARTIALLY_PAID:["partial","Partially paid"],NO_PAYMENT:["unpaid","No payment"]};const [c,t]=map[s]||["blue",s];return `<span class="badge ${c}">${t}</span>`}
+function statusBadge(s){const map={FULLY_PAID:["paid","Fully paid"],PARTIALLY_PAID:["partial","Partially paid"],NO_PAYMENT:["unpaid","No payment yet"]};const [c,t]=map[s]||["blue",s];return `<span class="badge ${c}">${t}</span>`}
 function tierBadge(t){return t?`<span class="badge tier${t}">Tier ${t}</span>`:`<span style="color:var(--muted)">Unassigned</span>`}
 async function api(path, options = {}) {
   const res = await fetch(API_BASE + path, {
@@ -992,7 +1255,7 @@ async function busy(form, fn){
   const b=form.querySelector("button:not([type=button])");if(b.disabled)return;b.disabled=true;
   try{await fn()}finally{b.disabled=false}
 }
-function signedOut(){if(AUTH_FROZEN){toast("The backend still wants a login. Start it with AUTH_DISABLED=1 (run_backend.ps1 -NoAuth).");return}token=null;tokenStore.set(null);customers=[];invoices=[];$("#current-user").textContent="";$("#login-modal").classList.add("show")}
+function signedOut(){if(AUTH_FROZEN){toast("The backend still wants a login. Start it with AUTH_DISABLED=1 (run_backend.ps1 -NoAuth).");return}token=null;currentUser=null;currentCustomer=null;tokenStore.set(null);customers=[];invoices=[];$("#current-user").textContent="";$("#login-modal").classList.add("show")}
 function logout(){signedOut();toast("Signed out")}
 $("#togglePassword").addEventListener("click",()=>{
   const input=$("#password");
@@ -1003,13 +1266,69 @@ $("#togglePassword").addEventListener("click",()=>{
   button.setAttribute("aria-pressed",String(isPassword));
   button.setAttribute("aria-label",isPassword?"Hide password":"Show password");
 });
-$("#forgotPassword").addEventListener("click",()=>showLoginMessage("Please contact your WashKing administrator to reset your password."));
-$("#login-form").onsubmit=e=>{e.preventDefault();showLoginMessage("");busy(e.target,async()=>{const f=new FormData(e.target);const username=(f.get("username")||"").toString().trim();const password=(f.get("password")||"").toString();if(!username||!password){showLoginMessage("Please enter your username and password.");return;}setLoginLoading(true);try{const r=await api("/auth/login",{method:"POST",body:JSON.stringify({username,password})});token=r.access_token;tokenStore.set(token, $("#rememberMe").checked);e.target.reset();$("#login-modal").classList.remove("show");showLoginMessage("Login successful! Redirecting...","success");await init()}catch(x){console.error(x);showLoginMessage(x.message||"Invalid username or password.");toast(x.message||"Invalid username or password.")}finally{setLoginLoading(false)}})};
+$("#forgotPassword").addEventListener("click",()=>showLoginMessage("Contact your WashKing administrator for a temporary password. You must change it when you next sign in."));
+$("#login-form").onsubmit=e=>{e.preventDefault();showLoginMessage("");busy(e.target,async()=>{const f=new FormData(e.target);const username=(f.get("username")||"").toString().trim();const password=(f.get("password")||"").toString();if(!username||!password){showLoginMessage("Please enter your username and password.");return;}setLoginLoading(true);try{const r=await api("/auth/login",{method:"POST",body:JSON.stringify({username,password})});token=r.access_token;rememberLogin=$("#rememberMe").checked;tokenStore.set(token,rememberLogin);e.target.reset();$("#login-modal").classList.remove("show");showLoginMessage("Login successful! Redirecting...","success");await init()}catch(x){console.error(x);showLoginMessage(x.message||"Invalid username or password.");toast(x.message||"Invalid username or password.")}finally{setLoginLoading(false)}})};
+function openPasswordChange(forced=Boolean(currentUser?.must_change_password)){
+  passwordChangeForced=forced;
+  $("#password-change-title").textContent=forced?"Change your temporary password":"Change password";
+  $("#password-change-description").textContent=forced?"You must set a new password before using WASHKING. Use at least 8 characters.":"Use a unique password with at least 8 characters.";
+  $("#password-change-close").hidden=forced;
+  $("#password-change-form").reset();
+  $("#password-change-modal").classList.add("show");
+  $("#current-password").focus();
+}
+function closePasswordChange(){
+  if(passwordChangeForced)return;
+  $("#password-change-modal").classList.remove("show");
+  $("#password-change-form").reset();
+}
+$("#password-change-close").onclick=closePasswordChange;
+$("#password-change-modal").addEventListener("click",event=>{if(event.target===$("#password-change-modal"))closePasswordChange()});
+$("#password-change-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{
+  const f=new FormData(e.target),newPassword=f.get("new_password");
+  if(newPassword!==f.get("confirm_password")){toast("The new passwords do not match.");return}
+  try{
+    const result=await api("/auth/password/change",{method:"POST",body:JSON.stringify({
+      current_password:f.get("current_password"),new_password:newPassword
+    })});
+    token=result.access_token;currentUser=result.user;passwordChangeForced=false;tokenStore.set(token,rememberLogin);
+    $("#password-change-modal").classList.remove("show");e.target.reset();
+    await init();toast("Password updated successfully.");
+  }catch(error){toast(error.message)}
+})};
+function openPasswordReset(user){
+  passwordResetTarget=user;
+  $("#password-reset-target").textContent=user.username;
+  $("#password-reset-form").reset();
+  $("#password-reset-modal").classList.add("show");
+  $("#temporary-password").focus();
+}
+function closePasswordReset(){
+  $("#password-reset-modal").classList.remove("show");
+  $("#password-reset-form").reset();
+  passwordResetTarget=null;
+}
+$("#password-reset-close").onclick=closePasswordReset;
+$("#password-reset-cancel").onclick=closePasswordReset;
+$("#password-reset-modal").addEventListener("click",event=>{if(event.target===$("#password-reset-modal"))closePasswordReset()});
+$("#password-reset-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{
+  const f=new FormData(e.target),temporaryPassword=f.get("temporary_password");
+  if(temporaryPassword!==f.get("confirm_password")){toast("The temporary passwords do not match.");return}
+  if(!passwordResetTarget)return;
+  try{
+    await api(`/auth/users/${encodeURIComponent(passwordResetTarget.id)}/password-reset`,{
+      method:"POST",body:JSON.stringify({temporary_password:temporaryPassword})
+    });
+    closePasswordReset();await loadUsers();toast("Temporary password set. Share it securely with the account holder.");
+  }catch(error){toast(error.message)}
+})};
 function go(page){
+  const allowed={"customers":["administrator","field_officer"],"invoices":["administrator","field_officer","customer"],"create-invoice":["administrator"],"calculator":["administrator","field_officer"],"payments":["administrator","field_officer"],"expenses":["administrator","ceo"],"reports":["administrator","ceo"],"price-list":["administrator"],"staff":["administrator"],"invoice-detail":["administrator","field_officer","customer"],"customer-detail":["administrator"]};
+  if(allowed[page]&&!allowed[page].includes(currentUser?.role)){toast("This section is not available for your account.");return}
   document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
   $("#page-"+page).classList.add("active");
   document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.page===page));
-  const names={dashboard:"Dashboard",customers:"Customers",invoices:"Invoices","create-invoice":"New Invoice",calculator:"Payment Calculator","price-list":"Price List","invoice-detail":"Invoice Details","customer-detail":"Customer Details"};
+  const names={dashboard:"Dashboard",customers:"Customers",invoices:"Invoices","create-invoice":"New Invoice",calculator:"Payment Calculator",payments:"Payments",expenses:"Expenses",reports:"Financial Reports","price-list":"Price List",staff:"Staff Management","invoice-detail":"Invoice Details","customer-detail":"Customer Details"};
   $("#crumb").textContent="Workspace / "+(names[page]||page);
   if(page==="customers")renderCustomers();
   if(page==="invoices")renderInvoices();
@@ -1018,22 +1337,258 @@ function go(page){
   if(page==="create-invoice")invPrepare();
   if(page==="calculator"){populateCalcCustomers();if(!catalog.length)loadCatalog()}
   if(page==="price-list"){renderPriceList();loadCatalog()}
+  if(page==="staff")loadUsers();
+  if(page==="payments")loadPaymentSubmissions();
+  if(page==="expenses")loadExpenses();
+  if(page==="reports")loadRevenueReport();
 }
 document.querySelectorAll(".nav button[data-page]").forEach(b=>b.onclick=()=>go(b.dataset.page));
+function applyRoleUI(){
+  const role=currentUser?.role;
+  if(role!=="ceo")executiveRequestId++;
+  document.querySelectorAll("[data-roles]").forEach(el=>{el.hidden=!role||!el.dataset.roles.split(",").includes(role)});
+  if(AUTH_FROZEN)$("#password-change-btn").hidden=true;
+  $("#current-user").textContent=currentUser?`(${currentUser.username} · ${currentUser.role.replaceAll("_"," ")})`:"";
+  $("#dashboard-staff").hidden=role!=="administrator";
+  $("#dashboard-ceo").hidden=role!=="ceo";
+  $("#dashboard-field").hidden=role!=="field_officer";
+  $("#dashboard-customer").hidden=role!=="customer";
+  $("#dashboard-recent").hidden=role==="ceo";
+  $("#overdue-alert").hidden=role==="ceo";
+  $("#payment-form").closest(".card").hidden=role!=="administrator";
+  $("#payment-submission-card").hidden=role!=="field_officer";
+  $("#history-body").closest(".table-wrap").previousElementSibling.hidden=role!=="administrator";
+  $("#history-body").closest(".table-wrap").hidden=role!=="administrator";
+  $("#tier-form").closest(".card").hidden=role!=="administrator";
+  $(".danger-zone").hidden=role!=="administrator";
+  $("#customer-modal").querySelector("form").reset();
+  const roleLabel={administrator:"Administrator",ceo:"CEO",field_officer:"Field Officer",customer:"Customer"}[role]||"";
+  $("#dashboard-description").textContent=role==="ceo"?"Company-wide performance and financial overview.":role==="field_officer"?"Your field registrations and customer activity.":role==="customer"?"Your invoices, payments and outstanding balance.":"Manage customers, invoices, payments and staff.";
+  $("#greeting").textContent=role==="customer"&&currentCustomer?`Welcome, ${currentCustomer.name}.`:role==="ceo"?"CEO Dashboard":roleLabel?`${roleLabel} Dashboard`:"Welcome.";
+}
 
 async function loadDashboard(){
-  const h=new Date().getHours();$("#greeting").textContent=h<12?"Good morning.":h<17?"Good afternoon.":"Good evening.";
+  if(currentUser?.role==="ceo"){await loadExecutiveDashboard();return}
   try{
     const d=await api("/dashboard");
+    updateOverdueAlert(d);
+    if(currentUser?.role==="field_officer"){ $("#field-customers").textContent=d.total_customers;return }
+    if(currentUser?.role==="customer"){
+      $("#greeting").textContent=`Welcome, ${d.customer_name}.`;
+      $("#portal-name").textContent=`Signed in as ${currentUser.username}`;
+      $("#portal-invoices").textContent=d.total_invoices;
+      $("#portal-paid").textContent=money(d.total_received);
+      $("#portal-balance").textContent=money(d.outstanding);
+      return;
+    }
     $("#d-customers").textContent=d.total_customers;$("#d-fully").textContent=d.fully_paid;$("#d-partial").textContent=d.partially_paid;$("#d-none").textContent=d.no_payment;
     $("#d-invoiced").textContent=money(d.total_invoiced);$("#d-received").textContent=money(d.total_received);$("#d-outstanding").textContent=money(d.outstanding);
+    $("#d-expenses").textContent=money(d.total_expenses);$("#d-net-cash").textContent=money(d.net_cash);
+    $("#d-overdue-count").textContent=d.overdue_invoices;$("#d-overdue-balance").textContent=money(d.overdue_balance)+" overdue";
     $("#d-t1").textContent=d.tier_1;$("#d-t2").textContent=d.tier_2;$("#d-t3").textContent=d.tier_3;
     renderRecentInvoices();
   }catch(e){toast("Backend unavailable: "+e.message)}
 }
-async function loadAll(){
-  try{[customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);loadDashboard();renderCustomers();renderInvoices();populateInvoiceCustomers();populateCalcCustomers();toast("Data refreshed")}catch(e){toast("Could not refresh: "+e.message)}
+function shortMoney(value){
+  const amount=Number(value)||0,absolute=Math.abs(amount);
+  if(absolute>=1000000)return `GH₵${(amount/1000000).toFixed(1)}m`;
+  if(absolute>=1000)return `GH₵${(amount/1000).toFixed(1)}k`;
+  if(absolute<10)return `GH₵${amount.toFixed(2)}`;
+  return `GH₵${Math.round(amount)}`;
 }
+function executivePeriodLabel(value){
+  if(/^\d{4}-\d{2}$/.test(value)){
+    return new Date(`${value}-01T00:00:00Z`).toLocaleDateString(undefined,{month:"short",year:"2-digit",timeZone:"UTC"});
+  }
+  return value.slice(5);
+}
+function renderExecutiveRevenueChart(groups){
+  const host=$("#ceo-revenue-chart");
+  if(!groups.length){host.innerHTML='<div class="ceo-empty">No financial activity for this period.</div>';return}
+  const revenues=groups.map(group=>Number(group.revenue)||0);
+  const expenses=groups.map(group=>Number(group.expenses)||0);
+  if(!revenues.some(value=>value>0)&&!expenses.some(value=>value>0)){
+    host.innerHTML='<div class="ceo-empty">No verified revenue or recorded expenses in this period.</div>';return;
+  }
+  const max=Math.max(...revenues,...expenses,1),width=720,height=250,left=68,right=12,top=14,bottom=38;
+  const plotWidth=width-left-right,plotHeight=height-top-bottom;
+  const xAt=index=>left+(groups.length===1?plotWidth/2:index*plotWidth/(groups.length-1));
+  const yAt=value=>top+plotHeight-(value/max)*plotHeight;
+  const points=values=>values.map((value,index)=>`${index===0?"M":"L"}${xAt(index).toFixed(1)},${yAt(value).toFixed(1)}`).join(" ");
+  const ticks=Array.from({length:5},(_,index)=>max*(4-index)/4);
+  const grid=ticks.map(value=>{
+    const y=yAt(value);
+    return `<g><line class="ceo-chart-grid" x1="${left}" y1="${y}" x2="${width-right}" y2="${y}"></line><text class="ceo-chart-axis" x="${left-8}" y="${y+3}" text-anchor="end">${escapeHtml(shortMoney(value))}</text></g>`;
+  }).join("");
+  const labelStep=Math.max(1,Math.ceil(groups.length/6));
+  const labels=groups.map((group,index)=>{
+    if(index%labelStep!==0&&index!==groups.length-1)return "";
+    return `<text class="ceo-chart-axis" x="${xAt(index)}" y="${height-12}" text-anchor="middle">${escapeHtml(executivePeriodLabel(group.period))}</text>`;
+  }).join("");
+  const markers=groups.map((group,index)=>{
+    if(groups.length>14&&index%labelStep!==0&&index!==groups.length-1)return "";
+    return `<circle class="ceo-revenue-point" cx="${xAt(index)}" cy="${yAt(revenues[index])}" r="3.5"></circle><circle class="ceo-expense-point" cx="${xAt(index)}" cy="${yAt(expenses[index])}" r="3"></circle>`;
+  }).join("");
+  host.innerHTML=`<svg class="ceo-chart-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Verified revenue and recorded expenses by ${escapeHtml(groups[0]?.period?.length===7?"month":"interval")}">
+    <title>Verified revenue and expenses</title><desc>Revenue is shown in blue and expenses in orange. Values are in Ghana cedis.</desc>
+    ${grid}<path class="ceo-revenue-line" d="${points(revenues)}"></path><path class="ceo-expense-line" d="${points(expenses)}"></path>${markers}${labels}
+  </svg>`;
+}
+function renderExecutiveAcquisition(groups){
+  const host=$("#ceo-acquisition-chart"),total=groups.reduce((sum,group)=>sum+Number(group.customers||0),0);
+  if(!total){host.innerHTML='<div class="ceo-empty">No new customer profiles were registered in this period.</div>';return}
+  const max=Math.max(...groups.map(group=>Number(group.customers)||0),1),step=Math.max(1,Math.ceil(groups.length/6));
+  host.innerHTML=groups.map((group,index)=>{
+    if(index%step!==0&&index!==groups.length-1)return "";
+    const count=Number(group.customers)||0,width=Math.max(count?3:0,count/max*100);
+    return `<div class="ceo-bar-row"><span class="ceo-bar-label">${escapeHtml(executivePeriodLabel(group.period))}</span><div class="ceo-bar-track" role="progressbar" aria-label="${escapeHtml(executivePeriodLabel(group.period))} new customers" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${count}"><div class="ceo-bar-fill" style="width:${width}%"></div></div><span class="ceo-bar-value">${count}</span></div>`;
+  }).join("");
+}
+function renderExecutiveBars(target,rows){
+  const host=$(target),max=Math.max(...rows.map(row=>Number(row.value)||0),1);
+  host.innerHTML=rows.map(row=>{
+    const value=Number(row.value)||0,width=value?Math.max(3,value/max*100):0;
+    return `<div class="ceo-bar-row"><span class="ceo-bar-label" title="${escapeHtml(row.label)}">${escapeHtml(row.label)}</span><div class="ceo-bar-track" role="progressbar" aria-label="${escapeHtml(row.label)}" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${value}"><div class="ceo-bar-fill ${row.tone==="expense"?"expense":""}" style="width:${width}%"></div></div><span class="ceo-bar-value">${escapeHtml(row.display??value)}</span></div>`;
+  }).join("");
+}
+function renderExecutiveAlerts(d,report){
+  const alerts=[];
+  if(Number(d.overdue_invoices)>0){
+    alerts.push(`<div class="ceo-alert"><span class="ceo-alert-mark" aria-hidden="true"></span><div><strong>${d.overdue_invoices} overdue invoice${d.overdue_invoices===1?"":"s"}</strong><br>${money(d.overdue_balance)} remains outstanding.</div></div>`);
+  }
+  if(Number(report.pending_payment_submissions)>0){
+    alerts.push(`<div class="ceo-alert"><span class="ceo-alert-mark" aria-hidden="true"></span><div><strong>${report.pending_payment_submissions} payment submission${report.pending_payment_submissions===1?"":"s"} awaiting verification</strong><br>These do not count as collected revenue until verified.</div></div>`);
+  }
+  if(!alerts.length)alerts.push('<div class="ceo-alert"><span class="ceo-alert-mark ok" aria-hidden="true"></span><div>No overdue invoices or pending payment verifications.</div></div>');
+  $("#ceo-alerts").innerHTML=alerts.join("");
+}
+async function loadExecutiveDashboard(){
+  const requestId=++executiveRequestId;
+  try{
+    const period=$("#ceo-period").value||"monthly",query=new URLSearchParams({period});
+    if($("#ceo-start").value)query.set("start_date",$("#ceo-start").value);
+    if($("#ceo-end").value)query.set("end_date",$("#ceo-end").value);
+    const [d,report]=await Promise.all([api("/dashboard"),api("/reports/executive?"+query.toString())]);
+    if(requestId!==executiveRequestId||currentUser?.role!=="ceo")return;
+    $("#ceo-revenue").textContent=money(report.total_revenue);
+    $("#ceo-expenses").textContent=money(report.total_expenses);
+    $("#ceo-net-cash").textContent=money(report.net_cash);
+    $("#ceo-total-customers").textContent=d.total_customers;
+    $("#ceo-invoices-issued").textContent=report.invoices_issued;
+    $("#ceo-outstanding").textContent=money(d.outstanding);
+    $("#ceo-period-range").textContent=`${report.start_date} to ${report.end_date}`;
+    $("#ceo-revenue-range").textContent=`${report.start_date} to ${report.end_date} · Ghana cedis`;
+    $("#ceo-total-invoiced").textContent=money(d.total_invoiced);
+    $("#ceo-total-received").textContent=money(d.total_received);
+    $("#ceo-total-expenses").textContent=money(d.total_expenses);
+    $("#ceo-net-cash-to-date").textContent=money(d.net_cash);
+    $("#ceo-overdue-balance").textContent=money(d.overdue_balance);
+    $("#ceo-total-invoices").textContent=d.total_invoices;
+    renderExecutiveRevenueChart(report.groups);
+    renderExecutiveAcquisition(report.customer_acquisition);
+    renderExecutiveBars("#ceo-invoice-status",[
+      {label:"Fully paid",value:d.fully_paid},
+      {label:"Partially paid",value:d.partially_paid},
+      {label:"No payment yet",value:d.no_payment},
+    ]);
+    renderExecutiveBars("#ceo-customer-tiers",[
+      {label:"Tier 1 · upfront",value:d.tier_1},
+      {label:"Tier 2 · short wait",value:d.tier_2},
+      {label:"Tier 3 · installments",value:d.tier_3},
+    ]);
+    renderExecutiveBars("#ceo-top-lines",report.top_invoice_lines.map(item=>({
+      label:item.description,value:item.total,display:money(item.total),
+    })));
+    if(!report.top_invoice_lines.length)$("#ceo-top-lines").innerHTML='<div class="ceo-empty">No itemized invoice lines in this period.</div>';
+    renderExecutiveAlerts(d,report);
+  }catch(error){if(requestId===executiveRequestId)toast("Could not load executive dashboard: "+error.message)}
+}
+$("#ceo-period").addEventListener("change",loadExecutiveDashboard);
+function updateOverdueAlert(data){
+  const count=Number(data.overdue_invoices||0),balance=Number(data.overdue_balance||0);
+  $("#overdue-alert").hidden=count===0||currentUser?.role==="ceo";
+  $("#overdue-message").textContent=`${count} invoice${count===1?" is":"s are"} overdue with ${money(balance)} outstanding.`;
+}
+async function loadAll(){
+  try{
+    const role=currentUser?.role;
+    if(role==="administrator"){
+      [customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);
+    }else if(role==="field_officer"){
+      [customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);
+    }else if(role==="customer"){
+      [currentCustomer,invoices]=await Promise.all([api("/customers/me"),api("/invoices")]);customers=[];currentUser.customer_name=currentCustomer.name;
+    }else{
+      customers=[];invoices=[];
+    }
+    loadDashboard();renderCustomers();renderInvoices();
+    if(role==="administrator"||role==="field_officer"){populateInvoiceCustomers();populateCalcCustomers();await loadCatalog()}
+    if(role==="administrator")populateStaffCustomers();
+    toast("Data refreshed")
+  }catch(e){toast("Could not refresh: "+e.message)}
+}
+async function loadPaymentSubmissions(){
+  try{
+    const status=currentUser?.role==="administrator"?$("#payment-status").value:"";
+    const rows=await api("/invoices/payment-submissions"+(status?"?status="+encodeURIComponent(status):""));
+    const body=$("#submission-body");body.innerHTML="";$("#submission-empty").hidden=rows.length>0;
+    $("#payment-list-title").textContent=currentUser?.role==="field_officer"?"My payment submissions":"Payment submissions";
+    rows.forEach(item=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td><b>${escapeHtml(item.invoice_number)}</b></td><td>${escapeHtml(item.customer_name)}</td><td>${money(item.amount)}</td><td>${escapeHtml(item.payment_date)}</td><td>${escapeHtml([item.payment_method,item.reference].filter(Boolean).join(" · ")||"—")}</td><td>${escapeHtml(item.submitter_username||"—")}</td><td><span class="badge ${item.status==="verified"?"paid":item.status==="rejected"?"unpaid":"partial"}">${escapeHtml(item.status)}</span></td>`;
+      if(currentUser?.role==="administrator"){
+        const cell=document.createElement("td");
+        if(item.status==="pending"){
+          const verify=document.createElement("button");verify.className="btn small";verify.textContent="Verify";
+          verify.onclick=async()=>{verify.disabled=true;try{
+            const result=await api(`/invoices/payment-submissions/${encodeURIComponent(item.id)}/verify`,{method:"POST"});
+            const index=invoices.findIndex(invoice=>invoice.id===result.invoice.id);if(index>=0)invoices[index]=result.invoice;
+            renderInvoices();if(currentInvoiceId===result.invoice.id)await refreshInvoice();
+            await Promise.all([loadPaymentSubmissions(),loadDashboard()]);toast("Payment verified; invoice balance updated");
+          }catch(error){toast(error.message)}finally{verify.disabled=false}};
+          const reject=document.createElement("button");reject.className="btn danger small";reject.style.marginLeft="6px";reject.textContent="Reject";
+          reject.onclick=async()=>{if(!window.confirm("Reject this payment submission?"))return;reject.disabled=true;try{
+            await api(`/invoices/payment-submissions/${encodeURIComponent(item.id)}/reject`,{method:"POST",body:JSON.stringify({reason:"Rejected by administrator"})});
+            await loadPaymentSubmissions();toast("Payment submission rejected");
+          }catch(error){toast(error.message)}finally{reject.disabled=false}};
+          cell.append(verify,reject);
+        }
+        tr.appendChild(cell);
+      }
+      body.appendChild(tr);
+    });
+  }catch(error){toast("Could not load payment submissions: "+error.message)}
+}
+async function loadExpenses(){
+  try{
+    const expenses=await api("/expenses"),body=$("#expenses-body");body.innerHTML="";$("#expenses-empty").hidden=expenses.length>0;
+    expenses.forEach(item=>{const row=document.createElement("tr");row.innerHTML=`<td>${escapeHtml(item.expense_date)}</td><td>${escapeHtml(item.category)}</td><td>${escapeHtml(item.description)}</td><td><b>${money(item.amount)}</b></td><td>${escapeHtml(item.reference||"—")}</td><td>${escapeHtml(item.recorded_by)}</td>`;body.appendChild(row)});
+  }catch(error){toast("Could not load expenses: "+error.message)}
+}
+async function loadRevenueReport(){
+  try{
+    const form=$("#report-form"),values=new FormData(form),query=new URLSearchParams({period:String(values.get("period")||"daily")});
+    if(values.get("start_date"))query.set("start_date",String(values.get("start_date")));
+    if(values.get("end_date"))query.set("end_date",String(values.get("end_date")));
+    const report=await api("/reports/revenue?"+query.toString()),body=$("#report-body");body.innerHTML="";
+    $("#report-revenue").textContent=money(report.total_revenue);$("#report-expenses").textContent=money(report.total_expenses);$("#report-net").textContent=money(report.net_cash);
+    $("#report-period-label").textContent=`${report.start_date} to ${report.end_date} · ${report.payment_count} payments`;
+    $("#report-overdue").textContent=`Overdue: ${report.overdue_invoices} invoice${report.overdue_invoices===1?"":"s"} · ${money(report.overdue_balance)}`;
+    $("#report-empty").hidden=report.groups.length>0;
+    report.groups.forEach(group=>{const row=document.createElement("tr");row.innerHTML=`<td>${escapeHtml(group.period)}</td><td>${money(group.revenue)}</td><td>${group.payments}</td><td>${money(group.expenses)}</td><td>${group.expense_count}</td><td><b>${money(group.net_cash)}</b></td>`;body.appendChild(row)});
+  }catch(error){toast("Could not run report: "+error.message)}
+}
+$("#report-form").onsubmit=event=>{event.preventDefault();loadRevenueReport()};
+$("#expense-form").onsubmit=event=>{event.preventDefault();busy(event.target,async()=>{
+  const form=new FormData(event.target);
+  try{
+    await api("/expenses",{method:"POST",body:JSON.stringify({
+      expense_date:form.get("expense_date")||null,category:form.get("category"),description:form.get("description"),
+      amount:Number(form.get("amount")),reference:form.get("reference")||null,
+    })});
+    event.target.reset();await Promise.all([loadExpenses(),loadDashboard()]);toast("Expense recorded");
+  }catch(error){toast(error.message)}
+})};
 function renderRecentInvoices(){
   const body=$("#recent-invoices");body.innerHTML="";
   const recent=[...invoices].slice(0,5);if(!recent.length){body.innerHTML=`<tr><td colspan="5" class="empty">No invoices yet.</td></tr>`;return}
@@ -1044,13 +1599,13 @@ function renderCustomers(){
   const q=($("#customer-search")?.value||"").toLowerCase();const body=$("#customers-body");body.innerHTML="";
   const list=customers.filter(c=>(c.name+" "+(c.phone||"")).toLowerCase().includes(q));$("#customers-empty").style.display=list.length?"none":"block";
   list.forEach(c=>{const tr=document.createElement("tr");tr.className="clickable";tr.innerHTML=`<td><b>${escapeHtml(c.name)}</b></td><td>${escapeHtml(c.phone||"—")}</td><td>${tierBadge(c.tier)}</td><td>${escapeHtml(c.tier_reason||"—")}</td><td>${new Date(c.created_at).toLocaleDateString()}</td><td></td>`;
-    const btn=document.createElement("button");btn.className="btn danger small";btn.textContent="Remove";btn.onclick=ev=>{ev.stopPropagation();removeCustomer(c.id,c.name)};tr.lastElementChild.appendChild(btn);
-    tr.onclick=()=>openCustomer(c.id);body.appendChild(tr)})
+    if(currentUser?.role==="administrator"){const btn=document.createElement("button");btn.className="btn danger small";btn.textContent="Remove";btn.onclick=ev=>{ev.stopPropagation();openCustomerRemoval(c.id,c.name)};tr.lastElementChild.appendChild(btn);tr.onclick=()=>openCustomer(c.id)}
+    body.appendChild(tr)})
 }
 function populateInvoiceCustomers(){
   const s=$("#invoice-customer");const selected=s.value;s.innerHTML=customers.length?customers.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}${c.tier?" · Tier "+Number(c.tier):""}</option>`).join(""):`<option value="">No customers — add one first</option>`;
   if(customers.some(c=>c.id===selected))s.value=selected;
-  prefillDeposit();
+  if(s.value!==selected)prefillDeposit();
 }
 // Suggest the customer's agreed first deposit as the invoice's initial deposit.
 function prefillDeposit(){const c=customers.find(x=>x.id===$("#invoice-customer").value);$("#invoice-form").initial_deposit.value=c&&c.first_deposit_amount?c.first_deposit_amount:""}
@@ -1059,17 +1614,37 @@ function renderInvoices(){
   const q=($("#invoice-search")?.value||"").toLowerCase();const body=$("#invoices-body");body.innerHTML="";
   const names=Object.fromEntries(customers.map(c=>[c.id,c.name]));
   const list=invoices.filter(i=>(i.invoice_number+" "+(names[i.customer_id]||"")).toLowerCase().includes(q));$("#invoices-empty").style.display=list.length?"none":"block";
-  list.forEach(i=>{const tr=document.createElement("tr");tr.className="clickable";tr.innerHTML=`<td><b>${escapeHtml(i.invoice_number)}</b></td><td>${escapeHtml(names[i.customer_id]||"Unknown")}</td><td>${money(i.total_amount)}</td><td>${money(i.total_paid)}</td><td>${money(i.outstanding_balance)}</td><td>${escapeHtml(i.due_date||"—")}</td><td>${statusBadge(i.status)}</td>`;tr.onclick=()=>openInvoice(i.id);body.appendChild(tr)})
+  list.forEach(i=>{const tr=document.createElement("tr");tr.className="clickable";tr.innerHTML=`<td><b>${escapeHtml(i.invoice_number)}</b></td><td>${escapeHtml(names[i.customer_id]||currentCustomer?.name||"Customer")}</td><td>${money(i.total_amount)}</td><td>${money(i.total_paid)}</td><td>${money(i.outstanding_balance)}</td><td>${escapeHtml(i.due_date||"—")}</td><td>${statusBadge(i.status)}</td>`;tr.onclick=()=>openInvoice(i.id);body.appendChild(tr)})
 }
-async function removeCustomer(id,name){
-  if(!confirm(`Remove customer "${name}"? This should only be done if the customer has no invoices/payments.`)) return;
+function openCustomerRemoval(id,name){
+  customerRemoval={id,name};customerRemovalFocus=document.activeElement;
+  $("#customer-remove-name").textContent=name;
+  $("#customer-remove-modal").classList.add("show");
+  $("#customer-remove-confirm").focus();
+}
+function closeCustomerRemoval(){
+  $("#customer-remove-modal").classList.remove("show");
+  customerRemoval=null;
+  if(customerRemovalFocus?.isConnected)customerRemovalFocus.focus();
+  customerRemovalFocus=null;
+}
+async function removeCustomer(){
+  if(!customerRemoval)return;
+  const {id}=customerRemoval,button=$("#customer-remove-confirm");
+  button.disabled=true;
   try{
     await api(`/customers/${encodeURIComponent(id)}`,{method:"DELETE"});
+    closeCustomerRemoval();
     await loadAll();
     go("customers");
     toast("Customer removed");
-  }catch(e){toast(e.message)}
+  }catch(e){toast(e.message);closeCustomerRemoval()}
+  finally{button.disabled=false}
 }
+$("#customer-remove-confirm").onclick=removeCustomer;
+$("#customer-remove-cancel").onclick=closeCustomerRemoval;
+$("#customer-remove-modal").onclick=e=>{if(e.target.id==="customer-remove-modal")closeCustomerRemoval()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#customer-remove-modal").classList.contains("show"))closeCustomerRemoval()});
 async function openCustomer(id){currentCustomerId=id;go("customer-detail");await refreshCustomer()}
 async function refreshCustomer(){
   try{
@@ -1077,7 +1652,7 @@ async function refreshCustomer(){
     $("#cd-name").textContent=c.name;$("#cd-tier").innerHTML=tierBadge(c.tier);
     $("#cd-sub").textContent=`${c.phone||"No phone"} · Registered ${new Date(c.created_at).toLocaleDateString()}`;
     $("#cd-count").textContent=c.invoices.length;$("#cd-invoiced").textContent=money(c.total_invoiced);$("#cd-paid").textContent=money(c.total_paid);$("#cd-balance").textContent=money(c.outstanding_balance);
-    $("#cd-remove").onclick=()=>removeCustomer(c.id,c.name);
+    $("#cd-remove").onclick=()=>openCustomerRemoval(c.id,c.name);
     const f=$("#tier-form");f.querySelectorAll("input[name=tier]").forEach(r=>r.checked=Number(r.value)===c.tier);
     f.tier_reason.value=c.tier_reason||"";f.requested_deposit.value=c.requested_deposit??"";f.first_deposit_amount.value=c.first_deposit_amount??"";f.expected_payment_days.value=c.expected_payment_days??"";
     const ib=$("#cd-invoices-body");ib.innerHTML="";$("#cd-invoices-empty").style.display=c.invoices.length?"none":"block";
@@ -1091,14 +1666,14 @@ function openCustomerModal(){$("#customer-modal").classList.add("show")}
 function closeCustomerModal(){$("#customer-modal").classList.remove("show");$("#customer-form").reset()}
 $("#customer-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{await api("/customers",{method:"POST",body:JSON.stringify({name:f.get("name"),phone:f.get("phone")||null,tier:Number(f.get("tier")),tier_reason:f.get("tier_reason")||null,requested_deposit:num(f.get("requested_deposit")),first_deposit_amount:num(f.get("first_deposit_amount")),expected_payment_days:num(f.get("expected_payment_days"))})});closeCustomerModal();await loadAll();go("customers");toast("Customer added successfully")}catch(x){toast(x.message)}})};
 $("#invoice-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target),code=f.get("facility_type");try{
-  if(code){await api("/calculator/invoice",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),invoice_number:f.get("invoice_number"),facility_type:code,construction_cost:null,equipment:pickedEquipment($("#inv-equipment")),additional_cost:0,discount:Number(f.get("discount"))||0,amount_paid:Number(f.get("initial_deposit"))||0,due_date:f.get("due_date")||null,deposit_method:f.get("deposit_method")||null})})}
+  if(code){await api("/calculator/invoice",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),facility_type:code,construction_cost:num(f.get("construction_cost")),equipment:pickedEquipment($("#inv-equipment")),additional_cost:Number(f.get("additional_cost"))||0,discount:Number(f.get("discount"))||0,amount_paid:Number(f.get("initial_deposit"))||0,due_date:f.get("due_date")||null,deposit_method:f.get("deposit_method")||null})})}
   else{if(!Number(f.get("total_amount")))throw new Error("Select a facility from the price list or enter a total amount");
-    await api("/invoices",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),invoice_number:f.get("invoice_number"),total_amount:Number(f.get("total_amount")),due_date:f.get("due_date")||null,initial_deposit:num(f.get("initial_deposit")),deposit_method:f.get("deposit_method")||null})})}
+    await api("/invoices",{method:"POST",body:JSON.stringify({customer_id:f.get("customer_id"),total_amount:Number(f.get("total_amount")),due_date:f.get("due_date")||null,initial_deposit:num(f.get("initial_deposit")),deposit_method:f.get("deposit_method")||null})})}
   resetInvoiceForm();await loadAll();go("invoices");toast("Invoice created successfully")}catch(x){toast(x.message)}})};
-async function openInvoice(id){currentInvoiceId=id;go("invoice-detail");await refreshInvoice()}
+async function openInvoice(id){currentInvoiceId=id;currentInvoice=null;go("invoice-detail");await refreshInvoice()}
 async function refreshInvoice(){
   try{
-    const [i,p]=await Promise.all([api(`/invoices/${encodeURIComponent(currentInvoiceId)}`),api(`/invoices/${encodeURIComponent(currentInvoiceId)}/payments`)]);const c=customers.find(x=>x.id===i.customer_id);
+    const [i,p]=await Promise.all([api(`/invoices/${encodeURIComponent(currentInvoiceId)}`),api(`/invoices/${encodeURIComponent(currentInvoiceId)}/payments`)]);currentInvoice=i;const c=customers.find(x=>x.id===i.customer_id)||i.customer||currentCustomer;
     $("#detail-title").textContent="Invoice "+i.invoice_number;$("#detail-sub").textContent=`${c?.name||"Unknown customer"} · ${i.due_date?"Due "+i.due_date:"No due date"}`;$("#detail-status").innerHTML=statusBadge(i.status);
     $("#detail-total").textContent=money(i.total_amount);$("#detail-paid").textContent=money(i.total_paid);$("#detail-balance").textContent=money(i.outstanding_balance);
     const pct=i.total_amount?Math.min(100,(i.total_paid/i.total_amount)*100):0;$("#detail-progress").textContent=Math.round(pct)+"%";$("#detail-progress-bar").style.width=pct+"%";
@@ -1106,11 +1681,15 @@ async function refreshInvoice(){
     it.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${escapeHtml(x.description)}</td><td>${Number(x.quantity)}</td><td>${money(x.unit_price)}</td><td><b>${money(x.line_total)}</b></td>`;itb.appendChild(tr)});
     const b=$("#payments-body");b.innerHTML="";$("#payments-empty").style.display=p.length?"none":"block";
     p.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${escapeHtml(x.payment_date)}</td><td><b>${money(x.amount)}</b></td><td>${escapeHtml(x.payment_method||"—")}</td><td>${escapeHtml(x.reference||"—")}</td><td></td>`;const receiptButton=document.createElement("button");receiptButton.type="button";receiptButton.className="btn secondary small";receiptButton.textContent="Print receipt";receiptButton.onclick=()=>{try{printPaymentReceipt(i,x)}catch(error){toast(error.message)}};tr.lastElementChild.appendChild(receiptButton);b.appendChild(tr)})
-    const h=$("#history-body");h.innerHTML="";const history=i.history||[];$("#history-empty").style.display=history.length?"none":"block";
+    const h=$("#history-body");h.innerHTML="";const history=currentUser?.role==="administrator"?(i.history||[]):[];$("#history-empty").style.display=history.length?"none":"block";
     history.forEach(x=>{const tr=document.createElement("tr");const d=new Date(x.created_at).toLocaleString();tr.innerHTML=`<td>${d}</td><td><span class="badge blue">${escapeHtml((x.event_type||"").replaceAll("_"," "))}</span></td><td>${escapeHtml(x.description||"—")}</td><td>${x.amount!=null?money(x.amount):"—"}</td>`;h.appendChild(tr)})
   }catch(e){toast(e.message)}
 }
 $("#payment-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);const amount=Number(f.get("amount"));try{await api(`/invoices/${encodeURIComponent(currentInvoiceId)}/payments`,{method:"POST",body:JSON.stringify({amount,payment_date:f.get("payment_date")||null,payment_method:f.get("payment_method")||null,reference:f.get("reference")||null})});e.target.reset();await loadAll();await refreshInvoice();toast("Payment recorded")}catch(x){toast(x.message)}})};
+$("#payment-submission-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{
+  await api(`/invoices/${encodeURIComponent(currentInvoiceId)}/payment-submissions`,{method:"POST",body:JSON.stringify({amount:Number(f.get("amount")),payment_date:f.get("payment_date")||null,payment_method:f.get("payment_method")||null,reference:f.get("reference")||null})});
+  e.target.reset();await Promise.all([loadPaymentSubmissions(),refreshInvoice()]);toast("Payment submitted for administrator verification");
+}catch(error){toast(error.message)}})};
 const calcMoney=n=>"GH₵"+Number(n||0).toLocaleString("en-GH",{minimumFractionDigits:2,maximumFractionDigits:2});
 const CALC_NOTE="Enter the customer's details and calculate the payment.";
 let catalog=[], lastCalc=null;
@@ -1146,24 +1725,29 @@ function renderCalcCatalog(){
   fillFacility($("#inv-facility"),fac);equipmentRows($("#inv-equipment"),eq,invRecalc);invRecalc();
 }
 function invRecalc(){
-  const f=$("#invoice-form"),tot=f.elements.namedItem("total_amount"),hint=$("#inv-total-hint");
+  const f=$("#invoice-form"),tot=f.elements.namedItem("total_amount"),hint=$("#inv-total-hint"),costInput=f.elements.namedItem("construction_cost");
   const fac=catalog.find(i=>i.kind==="facility"&&i.code===$("#inv-facility").value);
   tot.readOnly=!!fac;tot.required=!fac;
   if(!fac){hint.textContent="Pick a facility to calculate this from the price list, or type an amount.";return}
+  const cost=Number(costInput.value)||Number(fac.price);
+  costInput.value=cost.toFixed(2);
   const eq=pickedEquipment($("#inv-equipment")).reduce((s,e)=>{const i=catalog.find(x=>x.kind==="equipment"&&x.code===e.code);return s+(i?i.price*e.quantity:0)},0);
+  const additional=Number(f.elements.namedItem("additional_cost").value)||0;
   const disc=Number(f.elements.namedItem("discount").value)||0;
-  tot.value=(Math.max(0,Math.round((fac.price+eq-disc)*100)/100)).toFixed(2);hint.textContent="Calculated from the price list. It updates as you select items.";
+  tot.value=(Math.max(0,Math.round((cost+eq+additional-disc)*100)/100)).toFixed(2);hint.textContent="Calculated from facility, equipment and additional costs, less discount.";
 }
 async function invPrepare(){
   if(!catalog.length)loadCatalog();
-  const n=$("#invoice-form").elements.namedItem("invoice_number");
-  if(!n.value){try{n.value=(await api("/calculator/next-invoice-number")).invoice_number}catch{}}
+  const n=$("#invoice-number-preview");
+  if(!n.value){try{n.value=(await api("/calculator/next-invoice-number")).invoice_number}catch{n.placeholder="Assigned automatically on save"}}
 }
 function resetInvoiceForm(){
-  $("#invoice-form").reset();document.querySelectorAll("#inv-equipment .equip-qty").forEach(q=>q.disabled=true);invRecalc();
+  $("#invoice-form").reset();document.querySelectorAll("#inv-equipment .equip-row").forEach(r=>{r.querySelector("input[type=checkbox]").checked=false;r.querySelector(".equip-qty").disabled=true});$("#invoice-number-preview").value="";invRecalc();invPrepare();
 }
-$("#inv-facility").onchange=invRecalc;
+$("#inv-facility").onchange=()=>{const item=catalog.find(i=>i.kind==="facility"&&i.code===$("#inv-facility").value);$("#invoice-form").elements.namedItem("construction_cost").value=item?Number(item.price).toFixed(2):"";invRecalc()};
 $("#invoice-form").elements.namedItem("discount").oninput=invRecalc;
+$("#invoice-form").elements.namedItem("construction_cost").oninput=invRecalc;
+$("#invoice-form").elements.namedItem("additional_cost").oninput=invRecalc;
 $("#calc-facility").onchange=e=>{const i=catalog.find(x=>x.kind==="facility"&&x.code===e.target.value);$("#calc-cost").value=i?i.price:""};
 $("#calc-customer").onchange=calcCustomerChanged;
 function calcPayload(){
@@ -1186,30 +1770,54 @@ function calcShow(r){
   if(ins){$("#calc-inst-label").textContent=`Installment plan (${ins.months} month${ins.months>1?"s":""})`;$("#calc-inst").textContent=ins.final_amount!==ins.monthly_amount?`${ins.months-1} × ${calcMoney(ins.monthly_amount)} + ${calcMoney(ins.final_amount)}`:`${ins.months} × ${calcMoney(ins.monthly_amount)}`}
   $("#calc-note").textContent=r.overpaid>0?`The customer has overpaid by ${calcMoney(r.overpaid)}.`:r.fully_paid?"The customer has no outstanding balance.":"This is the remaining amount the customer needs to pay.";
   $("#calc-meta").textContent=[r.customer_name,r.facility_name,new Date().toLocaleDateString()].filter(Boolean).join(" · ");
+  const canCreate=Boolean(r.customer_id)&&r.net_cost>0&&r.overpaid<=0;
+  $("#calc-inv-btn").disabled=!canCreate;
+  $("#calc-invoice-note").textContent=!r.customer_id?"Select a registered customer before creating an invoice.":r.net_cost<=0?"A zero-value calculation cannot be invoiced.":r.overpaid>0?"The amount already paid exceeds the invoice total; correct it before creating an invoice.":"Customer, facility, equipment, costs, discount and amount already paid will be carried into the standard invoice form.";
   $("#calc-actions").style.display="flex";
 }
 $("#calc-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{calcError("");
   try{calcShow(await api("/calculator/calculate",{method:"POST",body:JSON.stringify(calcPayload())}))}
   catch(x){calcError(x.message)}})};
+function invalidateCalculation(){
+  if(!lastCalc)return;
+  lastCalc=null;$("#calc-actions").style.display="none";$("#calc-invoice-box").style.display="none";
+  $("#calc-note").textContent="Inputs changed. Calculate again before creating an invoice.";
+}
+$("#calc-form").addEventListener("input",invalidateCalculation);
+$("#calc-form").addEventListener("change",invalidateCalculation);
 function resetCalculator(){
   $("#calc-form").reset();$("#calc-customer").value="";calcCustomerChanged();calcError("");lastCalc=null;
   document.querySelectorAll("#calc-equipment .equip-row").forEach(r=>r.querySelector(".equip-qty").disabled=true);
   $("#calc-lines").innerHTML="";["total","discount","net","paid","remaining"].forEach(k=>$("#calc-"+k).textContent="GH₵0.00");
   $("#calc-over-row").style.display="none";$("#calc-inst-row").style.display="none";$("#calc-actions").style.display="none";$("#calc-invoice-box").style.display="none";
-  $("#calc-inv-number").value="";$("#calc-inv-due").value="";$("#calc-inv-method").value="";
+  $("#calc-inv-due").value="";$("#calc-inv-method").value="";$("#calc-inv-btn").disabled=false;
+  $("#calc-invoice-note").textContent="Customer, facility, equipment, costs, discount and amount already paid will be carried into the standard invoice form.";
   $("#calc-meta").textContent="What the customer owes after subsidy and payments.";$("#calc-note").textContent=CALC_NOTE;
 }
-async function calcToggleInvoice(){
+function calcToggleInvoice(){
   const box=$("#calc-invoice-box");box.style.display=box.style.display==="none"?"block":"none";
-  if(box.style.display==="block"&&!$("#calc-inv-number").value){try{$("#calc-inv-number").value=(await api("/calculator/next-invoice-number")).invoice_number}catch{}}
 }
 async function createCalcInvoice(btn){
-  const p=calcPayload();if(!p.customer_id){toast("Select a customer first");return}
-  const number=$("#calc-inv-number").value.trim();if(!number){toast("Enter an invoice number");return}
-  if(btn.disabled)return;btn.disabled=true;
-  try{const inv=await api("/calculator/invoice",{method:"POST",body:JSON.stringify({...p,invoice_number:number,due_date:$("#calc-inv-due").value||null,deposit_method:$("#calc-inv-method").value||null})});
-    resetCalculator();await loadAll();await openInvoice(inv.id);toast("Invoice created successfully")}
-  catch(x){calcError(x.message);toast(x.message)}finally{btn.disabled=false}
+  if(btn.disabled||!lastCalc)return;
+  if(!lastCalc.customer_id){toast("Select a registered customer first");return}
+  if(lastCalc.overpaid>0||lastCalc.net_cost<=0){toast("Correct the calculation before creating an invoice");return}
+  go("create-invoice");
+  const f=$("#invoice-form");
+  f.elements.namedItem("customer_id").value=lastCalc.customer_id;
+  f.elements.namedItem("facility_type").value=lastCalc.facility_type;
+  f.elements.namedItem("construction_cost").value=Number(lastCalc.construction_cost).toFixed(2);
+  f.elements.namedItem("additional_cost").value=Number(lastCalc.additional_cost||0).toFixed(2);
+  f.elements.namedItem("discount").value=Number(lastCalc.discount||0).toFixed(2);
+  f.elements.namedItem("initial_deposit").value=lastCalc.amount_paid>0?Number(lastCalc.amount_paid).toFixed(2):"";
+  f.elements.namedItem("due_date").value=$("#calc-inv-due").value||"";
+  f.elements.namedItem("deposit_method").value=$("#calc-inv-method").value||"";
+  document.querySelectorAll("#inv-equipment .equip-row").forEach(r=>{const checkbox=r.querySelector("input[type=checkbox]");checkbox.checked=false;r.querySelector(".equip-qty").disabled=true});
+  (lastCalc.lines||[]).filter(line=>line.kind==="equipment").forEach(line=>{
+    const row=[...document.querySelectorAll("#inv-equipment .equip-row")].find(r=>r.dataset.code===line.code);
+    if(row){const checkbox=row.querySelector("input[type=checkbox]"),quantity=row.querySelector(".equip-qty");checkbox.checked=true;quantity.disabled=false;quantity.value=String(line.quantity)}
+  });
+  invRecalc();
+  toast("Calculation details copied into the invoice form");
 }
 function calcText(r){
   const L=["WASHKING - Payment breakdown",r.customer_name?"Customer: "+r.customer_name:null,"",...(r.lines||[]).map(l=>l.kind==="facility"?`${l.description}: ${calcMoney(l.line_total)}`:`${l.quantity} x ${l.description}: ${calcMoney(l.line_total)}`),
@@ -1225,19 +1833,62 @@ async function calcCopy(){
 }
 function renderPriceList(){
   const body=$("#catalog-body");if(!body)return;body.innerHTML="";$("#catalog-empty").style.display=catalog.length?"none":"block";
+  const unconfirmed=catalog.filter(item=>item.active&&!item.price_confirmed);
+  const warning=$("#price-warning");
+  warning.hidden=!unconfirmed.length;
+  warning.textContent=unconfirmed.length?`${unconfirmed.length} active price${unconfirmed.length===1?" is":"s are"} still unconfirmed. Save each real price to clear this warning.`:"";
   catalog.forEach(i=>{const tr=document.createElement("tr");
-    tr.innerHTML=`<td><b>${escapeHtml(i.name)}</b></td><td><span class="badge ${i.kind==="facility"?"tier1":"blue"}">${i.kind==="facility"?"Facility":"Equipment"}</span></td><td><input class="price-input" type="number" min="0" step="0.01" value="${Number(i.price)}"></td><td>${i.active?'<span class="badge paid">Active</span>':'<span class="badge unpaid">Hidden</span>'}</td><td></td>`;
+    tr.innerHTML=`<td><b>${escapeHtml(i.name)}</b></td><td><span class="badge ${i.kind==="facility"?"tier1":"blue"}">${i.kind==="facility"?"Facility":"Equipment"}</span></td><td><input class="price-input" type="number" min="0" step="0.01" value="${Number(i.price)}"></td><td>${i.active?'<span class="badge paid">Active</span>':'<span class="badge unpaid">Hidden</span>'} ${i.price_confirmed?'':'<span class="badge unpaid">Estimate</span>'}</td><td></td>`;
     const inp=tr.querySelector(".price-input"),cell=tr.lastElementChild;
-    const save=document.createElement("button");save.className="btn small";save.textContent="Save price";save.onclick=()=>updateCatalog(i.id,{price:Number(inp.value)},"Price saved");
+    const save=document.createElement("button");save.className="btn small";save.textContent=i.price_confirmed?"Save price":"Save & confirm";save.onclick=()=>updateCatalog(i.id,{price:Number(inp.value)},"Price saved");
     const tog=document.createElement("button");tog.className="btn secondary small";tog.style.marginLeft="6px";tog.textContent=i.active?"Hide":"Show";tog.onclick=()=>updateCatalog(i.id,{active:!i.active},i.active?"Item hidden":"Item shown");
     cell.append(save,tog);body.appendChild(tr)});
 }
 async function updateCatalog(id,data,msg){try{await api(`/catalog/${encodeURIComponent(id)}`,{method:"PATCH",body:JSON.stringify(data)});await loadCatalog();toast(msg)}catch(e){toast(e.message)}}
 $("#catalog-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{const f=new FormData(e.target);try{await api("/catalog",{method:"POST",body:JSON.stringify({kind:f.get("kind"),name:f.get("name"),price:Number(f.get("price"))})});e.target.reset();await loadCatalog();toast("Item added")}catch(x){toast(x.message)}})};
+function populateStaffCustomers(){
+  const select=$("#user-form").elements.namedItem("customer_id"),selected=select.value;
+  select.innerHTML=`<option value="">Select customer profile</option>`+customers.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}${c.phone?" · "+escapeHtml(c.phone):""}</option>`).join("");
+  if(customers.some(c=>c.id===selected))select.value=selected;
+}
+function setUserRoleFields(){
+  const isCustomer=$("#user-form").elements.namedItem("role").value==="customer";
+  $("#user-customer-field").hidden=!isCustomer;
+  $("#user-form").elements.namedItem("customer_id").required=isCustomer;
+}
+$("#user-form").elements.namedItem("role").onchange=setUserRoleFields;
+async function loadUsers(){
+  try{
+    const users=await api("/auth/users"),body=$("#users-body");body.innerHTML="";$("#users-empty").hidden=users.length>0;
+    const labels={administrator:"Administrator",ceo:"CEO",field_officer:"Field Officer",customer:"Customer"};
+    users.forEach(user=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td><b>${escapeHtml(user.username)}</b></td><td>${escapeHtml(labels[user.role]||user.role)}</td><td>${escapeHtml(user.customer_name||"—")}</td><td>${user.must_change_password?"Change required":"Current"}</td><td>${new Date(user.created_at).toLocaleDateString()}</td>`;
+      const action=document.createElement("td"),reset=document.createElement("button");
+      reset.type="button";reset.className="btn secondary small";reset.textContent="Set temporary password";
+      reset.disabled=user.id===currentUser?.id;
+      if(reset.disabled)reset.title="Use Change password to update your own password";
+      reset.onclick=()=>openPasswordReset(user);action.appendChild(reset);tr.appendChild(action);
+      body.appendChild(tr);
+    });
+  }catch(e){toast("Could not load accounts: "+e.message)}
+}
+$("#user-form").onsubmit=e=>{e.preventDefault();busy(e.target,async()=>{
+  const f=new FormData(e.target),role=f.get("role"),payload={username:f.get("username"),password:f.get("password"),role};
+  if(role==="customer")payload.customer_id=f.get("customer_id");
+  try{await api("/auth/users",{method:"POST",body:JSON.stringify(payload)});e.target.reset();setUserRoleFields();await loadUsers();toast("Account created. Share the initial password securely.")}
+  catch(error){toast(error.message)}
+})};
 async function init(){
-  if(AUTH_FROZEN)$("#logout-btn").style.display="none";
+  if(AUTH_FROZEN){$("#logout-btn").style.display="none";$("#password-change-btn").hidden=true}
   if(!token&&!AUTH_FROZEN){signedOut();return}
-  try{const me=await api("/auth/me");$("#current-user").textContent="("+me.username+")";[customers,invoices]=await Promise.all([api("/customers"),api("/invoices")]);populateInvoiceCustomers();renderCustomers();renderInvoices();loadDashboard();loadCatalog();populateCalcCustomers()}catch(e){if(token||AUTH_FROZEN)toast("Could not connect to the WASHKING API at "+API_BASE)}
+  try{
+    currentUser=await api("/auth/me");applyRoleUI();
+    if(currentUser.must_change_password){openPasswordChange(true);return}
+    await loadAll();
+    if(currentUser.role==="administrator"||currentUser.role==="field_officer")populateStaffCustomers();
+    setUserRoleFields();
+  }catch(e){if(token||AUTH_FROZEN)toast("Could not connect to the WASHKING API at "+API_BASE)}
 }
 init();
 </script>
