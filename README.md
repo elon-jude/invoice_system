@@ -141,7 +141,7 @@ Push the repository to GitHub and enable GitHub Pages for the repository root. `
 The checked-in frontend requires staff sign-in and calls the WASHKING FastAPI Cloud API by default. The `?sandbox=1` query is only for local feature exploration; it skips the login screen and points at `LOCAL_API`, so the backend must also be started with the isolated development sandbox.
 
 ### Backend
-This FastAPI Cloud app is configured with `backend/` as its runtime directory. Deploy from the repository root with `uv run --no-sync fastapi deploy --app-id <FASTAPI_CLOUD_APP_ID>` so the `backend` package is included. Its `cloud_app:app` entrypoint adds the repository root to the import path before loading the package-based app.
+This FastAPI Cloud app is configured with `backend/` as its runtime directory. It supports Python 3.11–3.14; the upper bound keeps the `uvloop` dependency on a published Linux wheel. Deploy from the repository root with `uv run --no-sync fastapi deploy --app-id <FASTAPI_CLOUD_APP_ID>` so the `backend` package is included. Its `cloud_app:app` entrypoint adds the repository root to the import path before loading the package-based app.
 
 Before going live, attach a managed PostgreSQL database (such as FastAPI Cloud's Neon or Supabase integration) and set `DATABASE_URL`, `JWT_SECRET`, `ADMIN_USERNAME` and `ADMIN_PASSWORD` in the deployment's environment. Do not run production on SQLite: cloud instances can restart or scale independently, so the file is not durable shared storage. Make sure `AUTH_DISABLED` is **not** set.
 
